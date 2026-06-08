@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>穆罕默德 — 伊斯兰教先知</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a6b3c;
+    --green-dark: #0f4a28;
+    --green-mid: #2d8a52;
+    --green-light: #e8f5ee;
+    --green-pale: #f4faf6;
+    --gold: #c9a84c;
+    --gold-light: #f5ecd0;
+    --text: #1a2e1e;
+    --text-mid: #3a5a42;
+    --text-soft: #5a7a62;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Serif SC', Georgia, serif;
+    background: var(--green-pale);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* Hero */
+  .hero {
+    background: var(--green-dark);
+    color: white;
+    text-align: center;
+    padding: 4rem 2rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.015) 40px,
+      rgba(255,255,255,0.015) 80px
+    );
+  }
+  .hero-arabic {
+    font-size: 3rem;
+    letter-spacing: 8px;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+  .hero-en {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 5px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.65);
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(201,168,76,0.3);
+    padding-top: 1.5rem;
+    position: relative;
+  }
+  .meta-item { text-align: center; }
+  .meta-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+    font-family: 'Cinzel', serif;
+  }
+  .meta-value { font-size: 0.95rem; color: rgba(255,255,255,0.9); }
+
+  /* Content */
+  .content { max-width: 740px; margin: 0 auto; padding: 3rem 1.5rem; }
+  .ornament {
+    text-align: center;
+    color: var(--gold);
+    font-size: 1.1rem;
+    letter-spacing: 10px;
+    margin: 2rem 0;
+  }
+  .section { margin-bottom: 2.5rem; }
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--green-mid);
+    border-left: 3px solid var(--green);
+    padding-left: 10px;
+    margin-bottom: 1rem;
+  }
+  .section-text {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--text);
+  }
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(26,107,60,0.15);
+    margin: 2.5rem 0;
+  }
+
+  /* Quote */
+  .quote {
+    border-left: 4px solid var(--green);
+    background: var(--green-light);
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1.5rem 0;
+  }
+  .quote p { font-style: italic; color: var(--green-dark); line-height: 1.8; }
+
+  /* Timeline */
+  .timeline { list-style: none; position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--green), transparent);
+  }
+  .timeline li { position: relative; margin-bottom: 1.3rem; padding-left: 1rem; }
+  .timeline li::before {
+    content: '';
+    position: absolute;
+    left: -1.2rem; top: 8px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--green);
+    border: 2px solid var(--green-pale);
+    box-shadow: 0 0 0 1px var(--green);
+  }
+  .year {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 3px;
+  }
+  .event { font-size: 0.93rem; color: var(--text); line-height: 1.65; }
+
+  /* Pillars */
+  .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-top: 1rem; }
+  .pillar {
+    background: white;
+    border: 1px solid rgba(26,107,60,0.15);
+    border-top: 3px solid var(--green);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .pillar-num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+  .pillar-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+  }
+  .pillar-ar { font-size: 0.95rem; color: var(--gold); margin-bottom: 4px; }
+  .pillar-desc { font-size: 0.73rem; color: var(--text-soft); line-height: 1.5; }
+
+  /* Footer */
+  footer {
+    background: var(--green-dark);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.85rem;
+  }
+  footer .footer-arabic { color: var(--gold); font-size: 1.1rem; margin-bottom: 0.5rem; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-arabic">مُحَمَّد</div>
+  <div class="hero-en">Prophet of Islam · The Final Messenger</div>
+  <h1 class="hero-title">穆罕默德</h1>
+  <p class="hero-subtitle">伊斯兰教先知 · 真主最后的使者</p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="meta-label">出生</span>
+      <span class="meta-value">约公元 570 年</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">逝世</span>
+      <span class="meta-value">公元 632 年</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">出生地</span>
+      <span class="meta-value">麦加，阿拉伯半岛</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">享年</span>
+      <span class="meta-value">63 岁</span>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+  <div class="section">
+    <div class="section-label">人物简介</div>
+    <p class="section-text">
+      穆罕默德，全名穆罕默德·本·阿卜杜拉·本·哈希姆，出生于阿拉伯半岛麦加城古莱氏部落。他是伊斯兰教的奠基者与传播者，被穆斯林尊称为"先知"与"穆圣"——真主（安拉）派遣人类的最后一位使者。他幼年丧父丧母，由祖父及叔父抚养成人，以诚实慷慨著称，人称"艾敏"（الأمين），意为"忠实可信之人"。
+    </p>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <div class="section-label">生平大事年表</div>
+    <ul class="timeline">
+      <li>
+        <span class="year">约 570 年</span>
+        <span class="event">出生于麦加，父亲阿卜杜拉在其出生前已离世，母亲阿米纳于其六岁时去世，由祖父与叔父阿布·塔里布抚养长大</span>
+      </li>
+      <li>
+        <span class="year">约 595 年</span>
+        <span class="event">25岁时与富商寡妇赫蒂彻（海迪彻）结婚，她对穆罕默德忠诚支持，是他最亲密的伙伴与最坚定的信仰支持者</span>
+      </li>
+      <li>
+        <span class="year">610 年</span>
+        <span class="event">在麦加附近希拉山洞冥想时，首次接受天使吉卜利勒（加百列）传达的安拉启示，《古兰经》的天启由此开始</span>
+      </li>
+      <li>
+        <span class="year">613 年</span>
+        <span class="event">开始公开传教，宣扬一神论，呼吁人们信仰安拉，遭到麦加权贵的强烈反对与迫害</span>
+      </li>
+      <li>
+        <span class="year">622 年</span>
+        <span class="event">被迫率信众迁徙至麦地那，史称"希吉拉"（Hijra），伊斯兰历元年由此而定，这是伊斯兰历史的重要转折点</span>
+      </li>
+      <li>
+        <span class="year">624–630 年</span>
+        <span class="event">率领穆斯林历经白德尔、吴侯德、壕沟等多次战役，逐步统一阿拉伯半岛各部落</span>
+      </li>
+      <li>
+        <span class="year">630 年</span>
+        <span class="event">率军和平光复麦加，宣布大赦，天房（卡巴天房）被净化并定为伊斯兰圣地</span>
+      </li>
+      <li>
+        <span class="year">632 年</span>
+        <span class="event">完成"辞别朝觐"后，于麦地那辞世，安葬于先知清真寺内，享年63岁</span>
+      </li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <div class="section-label">先知的启示与《古兰经》</div>
+    <p class="section-text">
+      穆罕默德自40岁起，在长达23年的岁月里持续接受安拉的启示。这些启示经信众记录与整理，汇集成为伊斯兰教最神圣的经典——《古兰经》。穆斯林相信，《古兰经》是安拉直接降示于人类的语言，穆罕默德只是其忠实的传达者，而非作者。他的言行举止也被记录为"圣训"（哈迪斯），成为穆斯林信仰与生活的重要准则。
+    </p>
+    <div class="quote">
+      <p>穆罕默德以真主使者的名义，传授一部诵读的经典，使阿拉伯人从部落走向民族和国家，把伊斯兰教传播到世界各地。他的言行至今仍在影响亿万穆斯林的生活。</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <div class="section-label">伊斯兰五功</div>
+    <p class="section-text" style="margin-bottom:1rem;">穆罕默德所建立的伊斯兰信仰体系，以"五功"为核心实践，规范穆斯林的宗教生活：</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-num">一</div>
+        <div class="pillar-ar">الشهادة</div>
+        <div class="pillar-name">念功</div>
+        <div class="pillar-desc">宣誓信仰安拉，承认穆罕默德为其使者</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">二</div>
+        <div class="pillar-ar">الصلاة</div>
+        <div class="pillar-name">拜功</div>
+        <div class="pillar-desc">每日五次朝向麦加方向礼拜</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">三</div>
+        <div class="pillar-ar">الزكاة</div>
+        <div class="pillar-name">课功</div>
+        <div class="pillar-desc">按规定比例捐出财产，济贫助弱</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">四</div>
+        <div class="pillar-ar">الصوم</div>
+        <div class="pillar-name">斋功</div>
+        <div class="pillar-desc">斋月期间白天封斋，净化身心</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">五</div>
+        <div class="pillar-ar">الحج</div>
+        <div class="pillar-name">朝功</div>
+        <div class="pillar-desc">有能力者一生至少赴麦加朝圣一次</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <div class="section-label">历史影响</div>
+    <p class="section-text">
+      穆罕默德去世时，伊斯兰教已统一了阿拉伯半岛绝大部分地区，并为此后伊斯兰文明的广泛传播奠定了基础。历史学家普遍称颂他为人类文明史上伟大的思想家、政治家、军事家与宗教改革家。时至今日，全球穆斯林人口逾18亿，伊斯兰教已成为世界第二大宗教，穆罕默德的精神遗产依然深刻影响着人类文明的走向。
+    </p>
+  </div>
+
+  <div class="ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+</div>
+
+<footer>
+  <div class="footer-arabic">صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ</div>
+  <p>愿主赐福于他，并使其平安</p>
+</footer>
+
+</body>
+</html>

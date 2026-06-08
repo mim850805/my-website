@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家谱系统 · شجرة النسب — 历史之光</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green:#0F5132;--green-mid:#1a6b3c;--green-light:#e8f2ec;--green-pale:#f0f7f2;
+  --gold:#D4AF37;--gold-light:#f7f0d4;--gold-dark:#a07c10;
+  --cream:#F8F5EE;--cream-dark:#ede8dc;
+  --text:#1c2b20;--text-mid:#3a5242;--text-soft:#6b826e;--white:#ffffff;
+  --red:#8B1A1A;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Serif SC',Georgia,serif;background:var(--cream);color:var(--text);}
+[data-lang="ar"] .zh{display:none!important;}
+[data-lang="ar"] .ar{display:block!important;}
+[data-lang="zh"] .ar{display:none!important;}
+[data-lang="zh"] .zh{display:block!important;}
+.ar.inline,[data-lang="zh"] .ar.inline{display:none!important;}
+[data-lang="ar"] .ar.inline{display:inline!important;}
+[data-lang="zh"] .zh.inline{display:inline!important;}
+[data-lang="ar"] .zh.inline{display:none!important;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--green);border-bottom:2px solid var(--gold);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;}
+.nav-logo{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold);letter-spacing:2px;text-decoration:none;display:flex;align-items:center;gap:10px;}
+.nav-logo .ar-logo{font-family:'Noto Naskh Arabic',serif;font-size:1.2rem;}
+.nav-links{display:flex;list-style:none;}
+.nav-links a{display:block;padding:0 .9rem;height:60px;line-height:60px;color:rgba(255,255,255,.82);text-decoration:none;font-size:.82rem;transition:color .2s;font-family:'Noto Serif SC',serif;}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);}
+.lang-switcher{display:flex;gap:4px;}
+.lang-btn{padding:4px 10px;border-radius:4px;font-size:.78rem;cursor:pointer;border:1px solid rgba(212,175,55,.5);background:transparent;color:rgba(255,255,255,.7);transition:all .2s;font-family:'Noto Serif SC',serif;}
+.lang-btn.active{background:var(--gold);color:var(--green);font-weight:600;}
+.lang-btn:hover:not(.active){border-color:var(--gold);color:var(--gold);}
+
+/* PAGE HEADER */
+.page-header{background:var(--green);padding:3rem 2rem 2.5rem;text-align:center;position:relative;overflow:hidden;}
+.page-header::before{content:'';position:absolute;inset:0;opacity:.05;background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(212,175,55,1) 39px,rgba(212,175,55,1) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(212,175,55,1) 39px,rgba(212,175,55,1) 40px);}
+.ph-eyebrow{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:4px;text-transform:uppercase;color:rgba(212,175,55,.65);margin-bottom:8px;position:relative;}
+.page-header h1{font-size:2rem;color:white;font-weight:600;margin-bottom:5px;position:relative;}
+.page-header h1.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;}
+.ph-sub{color:rgba(255,255,255,.5);font-size:.88rem;position:relative;}
+.ph-sub.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;}
+
+/* LEGEND */
+.legend{max-width:1100px;margin:1.5rem auto 0;padding:0 2rem;display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:.75rem;color:var(--text-soft);}
+.legend-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;}
+.legend-line{width:28px;height:2px;flex-shrink:0;}
+
+/* TABS */
+.tabs{max-width:1100px;margin:1.5rem auto 0;padding:0 2rem;display:flex;gap:8px;flex-wrap:wrap;}
+.tab-btn{padding:6px 18px;border-radius:6px;font-size:.8rem;cursor:pointer;border:1px solid var(--cream-dark);background:var(--white);color:var(--text-mid);font-family:'Noto Serif SC',serif;transition:all .2s;}
+.tab-btn:hover{border-color:var(--green);color:var(--green);}
+.tab-btn.active{background:var(--green);color:white;border-color:var(--green);}
+.tab-btn.ar{font-family:'Noto Naskh Arabic',serif;font-size:.92rem;}
+
+/* TREE CONTAINER */
+.tree-wrap{max-width:1100px;margin:0 auto;padding:2rem;}
+.tree-view{display:none;}
+.tree-view.active{display:block;}
+
+/* SVG TREE */
+.svg-scroll{overflow-x:auto;overflow-y:auto;padding:1rem 0 2rem;cursor:grab;}
+.svg-scroll:active{cursor:grabbing;}
+.tree-svg{display:block;margin:0 auto;}
+
+/* NODE STYLES (applied via JS) */
+.node-prophet rect{fill:#0F5132;stroke:#D4AF37;stroke-width:2;}
+.node-prophet text{fill:white;}
+.node-caliph rect{fill:#1a5c3a;stroke:#D4AF37;stroke-width:1.5;}
+.node-caliph text{fill:white;}
+.node-wife rect{fill:#5c3a1a;stroke:#D4AF37;stroke-width:1.5;}
+.node-wife text{fill:white;}
+.node-child rect{fill:#1a3a5c;stroke:#6aabdd;stroke-width:1.5;}
+.node-child text{fill:white;}
+.node-companion rect{fill:#3a1a5c;stroke:#a06add;stroke-width:1.5;}
+.node-companion text{fill:white;}
+.node-default rect{fill:#2a3a2a;stroke:#6b826e;stroke-width:1;}
+.node-default text{fill:rgba(255,255,255,.85);}
+
+.tree-node{cursor:pointer;transition:opacity .15s;}
+.tree-node:hover{opacity:.85;}
+.tree-node rect{rx:8;ry:8;}
+
+/* CONNECTOR */
+.connector{stroke:#c9a84c;stroke-width:1.5;fill:none;opacity:.5;}
+.marriage-line{stroke:#D4AF37;stroke-width:2;stroke-dasharray:5,3;fill:none;opacity:.7;}
+
+/* DETAIL PANEL */
+.detail-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.55);align-items:flex-start;justify-content:flex-end;}
+.detail-overlay.open{display:flex;}
+.detail-panel{width:min(520px,100vw);height:100vh;background:var(--cream);overflow-y:auto;box-shadow:-8px 0 40px rgba(0,0,0,.2);animation:slideIn .25s ease;}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.dp-hero{background:var(--green);padding:2rem;position:relative;}
+.dp-close{position:absolute;top:1rem;right:1rem;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.12);border:none;color:white;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.dp-close:hover{background:rgba(255,255,255,.22);}
+.dp-avatar{width:64px;height:64px;border-radius:50%;background:rgba(212,175,55,.2);border:3px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Noto Naskh Arabic',serif;font-size:1.6rem;color:var(--gold);font-weight:700;margin-bottom:1rem;}
+.dp-name-zh{font-size:1.4rem;color:white;font-weight:600;margin-bottom:3px;}
+.dp-name-ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;font-size:1.1rem;color:rgba(212,175,55,.85);margin-bottom:6px;}
+.dp-role{font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:2px;color:rgba(212,175,55,.6);}
+.dp-body{padding:1.75rem;}
+.dp-section{margin-bottom:1.5rem;}
+.dp-section-title{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dark);border-left:3px solid var(--green);padding-left:8px;margin-bottom:.7rem;}
+.dp-section-title.ar{font-family:'Noto Naskh Arabic',serif;border-left:none;border-right:3px solid var(--green);padding-left:0;padding-right:8px;direction:rtl;font-size:.82rem;letter-spacing:0;}
+.dp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.85rem;}
+.dp-stat{background:var(--white);border:1px solid var(--cream-dark);border-radius:7px;padding:.65rem .9rem;}
+.dp-stat-label{font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-soft);font-family:'Cinzel',serif;display:block;margin-bottom:2px;}
+.dp-stat-value{font-size:.82rem;color:var(--text);font-weight:500;}
+.dp-text{font-size:.86rem;color:var(--text-mid);line-height:1.85;}
+.dp-text.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;font-size:.94rem;line-height:2;}
+.dp-quote{border-left:3px solid var(--green);background:var(--green-light);padding:.8rem 1.1rem;border-radius:0 8px 8px 0;font-style:italic;font-size:.83rem;color:var(--green-mid);line-height:1.75;}
+.dp-quote.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;border-left:none;border-right:3px solid var(--green);border-radius:8px 0 0 8px;font-size:.9rem;}
+.dp-relations{display:flex;flex-wrap:wrap;gap:7px;}
+.dp-rel-tag{padding:3px 12px;border-radius:20px;font-size:.72rem;background:var(--green-light);color:var(--green-mid);border:1px solid rgba(15,81,50,.15);cursor:pointer;transition:background .2s;}
+.dp-rel-tag:hover{background:var(--green);color:white;}
+.dp-rel-tag.ar{font-family:'Noto Naskh Arabic',serif;font-size:.85rem;}
+
+footer{background:var(--green);border-top:2px solid var(--gold);padding:2.5rem 2rem;text-align:center;}
+.footer-logo{font-family:'Noto Naskh Arabic',serif;font-size:1.8rem;color:var(--gold);margin-bottom:4px;}
+.footer-links{display:flex;justify-content:center;gap:1.5rem;margin:1rem 0;flex-wrap:wrap;}
+.footer-links a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.8rem;transition:color .2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-copy{font-size:.7rem;color:rgba(255,255,255,.22);font-family:'Cinzel',serif;letter-spacing:1px;}
+</style>
+</head>
+<body data-lang="zh">
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span class="ar-logo">نور</span>
+    <span style="color:rgba(255,255,255,.4);">|</span>
+    <span>历史之光</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#timeline"><span class="zh inline">时间轴</span><span class="ar inline">الجدول</span></a></li>
+    <li><a href="figures.html"><span class="zh inline">人物</span><span class="ar inline">الشخصيات</span></a></li>
+    <li><a href="battles.html"><span class="zh inline">战役</span><span class="ar inline">المعارك</span></a></li>
+    <li><a href="family-tree.html" class="active"><span class="zh inline">家谱</span><span class="ar inline">شجرة النسب</span></a></li>
+    <li><a href="muhammad.html"><span class="zh inline">先知</span><span class="ar inline">محمد ﷺ</span></a></li>
+  </ul>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('zh',event)">中文</button>
+    <button class="lang-btn" onclick="setLang('ar',event)">العربية</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="ph-eyebrow">Family Tree · شجرة النسب</div>
+  <h1 class="zh">先知家谱系统</h1>
+  <h1 class="ar">شجرة نسب النبي ﷺ</h1>
+  <p class="ph-sub zh">点击任意人物查看详情 · 可拖动与缩放</p>
+  <p class="ph-sub ar">انقر على أي شخصية لعرض التفاصيل · قابل للسحب والتكبير</p>
+</div>
+
+<div class="legend">
+  <span style="font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:2px;color:var(--text-soft);text-transform:uppercase;">图例 ·</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#0F5132;border:2px solid #D4AF37;"></span><span class="zh inline">先知</span><span class="ar inline">النبي</span></span>
+  <span class="legend-item"><span class="legend-dot" style="background:#5c3a1a;border:2px solid #D4AF37;"></span><span class="zh inline">妻子</span><span class="ar inline">الزوجات</span></span>
+  <span class="legend-item"><span class="legend-dot" style="background:#1a3a5c;border:2px solid #6aabdd;"></span><span class="zh inline">子女</span><span class="ar inline">الأبناء</span></span>
+  <span class="legend-item"><span class="legend-dot" style="background:#1a5c3a;border:2px solid #D4AF37;"></span><span class="zh inline">哈里发</span><span class="ar inline">الخلفاء</span></span>
+  <span class="legend-item"><span class="legend-dot" style="background:#3a1a5c;border:2px solid #a06add;"></span><span class="zh inline">圣门弟子</span><span class="ar inline">الصحابة</span></span>
+  <span class="legend-item"><span class="legend-line" style="background:#D4AF37;opacity:.7;"></span><span class="zh inline">婚姻关系</span><span class="ar inline">زواج</span></span>
+  <span class="legend-item"><span class="legend-line" style="background:#c9a84c;opacity:.5;"></span><span class="zh inline">血缘关系</span><span class="ar inline">نسب</span></span>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTree('prophet',this)"><span class="zh inline">先知家族</span><span class="ar inline">آل النبي ﷺ</span></button>
+  <button class="tab-btn" onclick="showTree('hashim',this)"><span class="zh inline">哈希姆家族</span><span class="ar inline">بنو هاشم</span></button>
+  <button class="tab-btn" onclick="showTree('caliphs',this)"><span class="zh inline">四大哈里发关系</span><span class="ar inline">الخلفاء الراشدون</span></button>
+</div>
+
+<div class="tree-wrap">
+
+  <!-- TREE 1: PROPHET FAMILY -->
+  <div class="tree-view active" id="tree-prophet">
+    <div class="svg-scroll" id="scroll-prophet">
+      <svg class="tree-svg" id="svg-prophet" width="1000" height="620" viewBox="0 0 1000 620"></svg>
+    </div>
+  </div>
+
+  <!-- TREE 2: HASHIM -->
+  <div class="tree-view" id="tree-hashim">
+    <div class="svg-scroll" id="scroll-hashim">
+      <svg class="tree-svg" id="svg-hashim" width="900" height="500" viewBox="0 0 900 500"></svg>
+    </div>
+  </div>
+
+  <!-- TREE 3: CALIPHS -->
+  <div class="tree-view" id="tree-caliphs">
+    <div class="svg-scroll" id="scroll-caliphs">
+      <svg class="tree-svg" id="svg-caliphs" width="960" height="480" viewBox="0 0 960 480"></svg>
+    </div>
+  </div>
+
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetailOutside(event)">
+  <div class="detail-panel" id="detailPanel">
+    <div class="dp-hero">
+      <button class="dp-close" onclick="closeDetail()">✕</button>
+      <div class="dp-avatar" id="dpAvatar"></div>
+      <div class="dp-name-zh" id="dpNameZh"></div>
+      <div class="dp-name-ar" id="dpNameAr"></div>
+      <div class="dp-role" id="dpRole"></div>
+    </div>
+    <div class="dp-body" id="dpBody"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">نور التاريخ</div>
+  <div class="footer-links">
+    <a href="index.html"><span class="zh inline">首页</span><span class="ar inline">الرئيسية</span></a>
+    <a href="figures.html"><span class="zh inline">人物</span><span class="ar inline">الشخصيات</span></a>
+    <a href="battles.html"><span class="zh inline">战役</span><span class="ar inline">المعارك</span></a>
+    <a href="family-tree.html"><span class="zh inline">家谱</span><span class="ar inline">شجرة النسب</span></a>
+  </div>
+  <div class="footer-copy">FOR EDUCATIONAL PURPOSES · 仅供学习参考</div>
+</footer>
+
+<script>
+const LANG = {current:'zh'};
+function setLang(lang,e){
+  LANG.current=lang;
+  document.body.setAttribute('data-lang',lang);
+  document.documentElement.setAttribute('lang',lang);
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  renderAll();
+}
+function showTree(id,btn){
+  document.querySelectorAll('.tree-view').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tree-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ── PERSON DATA ── */
+const PEOPLE = {
+  muhammad:{
+    avatar:'م',nameZh:'穆罕默德 ﷺ',nameAr:'محمد ﷺ',role:'PROPHET · 先知',
+    statsZh:[['生卒','570–632 CE'],['出生地','麦加'],['部落','古莱氏·哈希姆']],
+    statsAr:[['الحياة','570–632م'],['المولد','مكة'],['القبيلة','قريش · هاشم']],
+    descZh:'伊斯兰教先知，真主最后的使者。40岁接受启示，23年传播伊斯兰，统一阿拉伯半岛，建立了影响世界的伊斯兰文明。',
+    descAr:'نبي الإسلام وخاتم الرسل. تلقى الوحي في الأربعين، وأمضى ثلاثة وعشرين عاماً يدعو إلى الإسلام حتى وحّد الجزيرة.',
+    relationsZh:['妻：赫蒂彻','妻：阿伊莎','女：法蒂玛','女：宰纳卜','女：鲁盖叶','女：乌姆·库勒苏姆','子：卡西姆','子：阿卜杜拉','子：易卜拉欣','堂弟：阿里'],
+    relationsAr:['زوجة: خديجة','زوجة: عائشة','بنت: فاطمة','بنت: زينب','بنت: رقية','بنت: أم كلثوم','ابن: القاسم','ابن: عبدالله','ابن: إبراهيم','ابن عم: علي']
+  },
+  khadijah:{
+    avatar:'خ',nameZh:'赫蒂彻',nameAr:'خديجة بنت خويلد',role:'1ST WIFE · 首任妻子',
+    statsZh:[['生卒','555–619 CE'],['出身','麦加，古莱氏'],['称号','信众之母']],
+    statsAr:[['الحياة','555–619م'],['الأصل','مكة، قريش'],['اللقب','أم المؤمنين']],
+    descZh:'先知第一任妻子，首位穆斯林。麦加富商，将全部财富奉献给伊斯兰，是先知在最艰难时期最坚定的支持者。',
+    descAr:'أول زوجات النبي ﷺ وأول المسلمين. تاجرة ثرية أنفقت كل ثروتها في سبيل الإسلام وكانت السند الأقوى للنبي.',
+    relationsZh:['丈夫：穆罕默德 ﷺ','女儿：宰纳卜、鲁盖叶、乌姆·库勒苏姆、法蒂玛','儿子：卡西姆、阿卜杜拉'],
+    relationsAr:['الزوج: محمد ﷺ','البنات: زينب، رقية، أم كلثوم، فاطمة','الأبناء: القاسم، عبدالله']
+  },
+  aisha:{
+    avatar:'ع',nameZh:'阿伊莎',nameAr:'عائشة بنت أبي بكر',role:'WIFE · SCHOLAR · 学者',
+    statsZh:[['生卒','614–678 CE'],['父亲','阿布·伯克尔'],['圣训','传述约2210段']],
+    statsAr:[['الحياة','614–678م'],['الأب','أبو بكر الصديق'],['الأحاديث','~2210 حديث']],
+    descZh:'先知晚年妻子，阿布·伯克尔之女。伊斯兰最重要的女性学者，传述大量圣训，对伊斯兰法学有深远影响。',
+    descAr:'زوجة النبي ﷺ وابنة أبي بكر. من أعظم العالمات في الإسلام، روت آلاف الأحاديث وأثّرت في الفقه الإسلامي.',
+    relationsZh:['丈夫：穆罕默德 ﷺ','父亲：阿布·伯克尔（第一任哈里发）'],
+    relationsAr:['الزوج: محمد ﷺ','الأب: أبو بكر الصديق (أول خليفة)']
+  },
+  fatimah:{
+    avatar:'ف',nameZh:'法蒂玛·扎赫拉',nameAr:'فاطمة الزهراء',role:'DAUGHTER · 先知之女',
+    statsZh:[['生卒','605–632 CE'],['丈夫','阿里·本·阿比·塔利卜'],['称号','光辉者']],
+    statsAr:[['الحياة','605–632م'],['الزوج','علي بن أبي طالب'],['اللقب','الزهراء']],
+    descZh:'先知最小的女儿，嫁给阿里，育有哈桑和侯赛因。她是先知血脉的延续，在什叶派和逊尼派中均享极高敬重。',
+    descAr:'صغرى بنات النبي ﷺ، زوجة علي وأم الحسن والحسين. مكانتها رفيعة عند السنة والشيعة.',
+    relationsZh:['父亲：穆罕默德 ﷺ','母亲：赫蒂彻','丈夫：阿里·本·阿比·塔利卜','子：哈桑、侯赛因','女：宰纳卜、乌姆·库勒苏姆'],
+    relationsAr:['الأب: محمد ﷺ','الأم: خديجة','الزوج: علي بن أبي طالب','الأبناء: الحسن، الحسين','البنات: زينب، أم كلثوم']
+  },
+  ali:{
+    avatar:'ع',nameZh:'阿里·本·阿比·塔利卜',nameAr:'علي بن أبي طالب',role:'4TH CALIPH · 第四任哈里发',
+    statsZh:[['生卒','601–661 CE'],['执政','656–661 CE'],['称号','信仰之门']],
+    statsAr:[['الحياة','601–661م'],['الخلافة','656–661م'],['اللقب','باب العلم']],
+    descZh:'先知堂弟与女婿，第四任哈里发，什叶派第一任伊玛目。以学识、武勇、口才著称，其言论集《修辞之道》流传至今。',
+    descAr:'ابن عم النبي ﷺ وصهره، رابع الخلفاء وأول أئمة الشيعة. اشتُهر بعلمه وشجاعته، وخطبه في نهج البلاغة خالدة.',
+    relationsZh:['妻子：法蒂玛（先知之女）','子：哈桑、侯赛因','父亲：阿布·塔利布（先知叔父）','堂兄：穆罕默德 ﷺ'],
+    relationsAr:['الزوجة: فاطمة الزهراء','الأبناء: الحسن، الحسين','الأب: أبو طالب (عم النبي)','ابن عمه: محمد ﷺ']
+  },
+  hasan:{
+    avatar:'ح',nameZh:'哈桑·本·阿里',nameAr:'الحسن بن علي',role:'GRANDSON · 先知之孙',
+    statsZh:[['生卒','625–670 CE'],['父亲','阿里（第四任哈里发）'],['称号','先知的爱孙']],
+    statsAr:[['الحياة','625–670م'],['الأب','علي بن أبي طالب'],['اللقب','سبط النبي']],
+    descZh:'先知长孙，阿里与法蒂玛之子。曾短暂继承父亲成为哈里发，后为和平而让位给穆阿维叶，被称为"调解者"。',
+    descAr:'حفيد النبي ﷺ الأكبر، ابن علي وفاطمة. تولّى الخلافة فترة قصيرة ثم تنازل عنها لمعاوية حقناً للدماء فلُقّب بالمصلح.',
+    relationsZh:['父亲：阿里·本·阿比·塔利卜','母亲：法蒂玛·扎赫拉','外祖父：穆罕默德 ﷺ','弟弟：侯赛因'],
+    relationsAr:['الأب: علي بن أبي طالب','الأم: فاطمة الزهراء','الجد: محمد ﷺ','الأخ: الحسين']
+  },
+  husayn:{
+    avatar:'ح',nameZh:'侯赛因·本·阿里',nameAr:'الحسين بن علي',role:'GRANDSON · 先知之孙',
+    statsZh:[['生卒','626–680 CE'],['殉难地','卡尔巴拉'],['纪念','阿舒拉节']],
+    statsAr:[['الحياة','626–680م'],['مكان الاستشهاد','كربلاء'],['إحياء الذكرى','عاشوراء']],
+    descZh:'先知次孙，阿里与法蒂玛之子。在卡尔巴拉战役中被倭马亚军队杀害，其殉难事件成为什叶派信仰的核心。每年阿舒拉节（伊历10月10日）全球穆斯林纪念这一日。',
+    descAr:'حفيد النبي ﷺ الأصغر، ابن علي وفاطمة. استُشهد في كربلاء على يد جيش أموي، وأصبح استشهاده ركيزة العقيدة الشيعية. يحيي المسلمون ذكراه كل عام في عاشوراء.',
+    relationsZh:['父亲：阿里·本·阿比·塔利卜','母亲：法蒂玛·扎赫拉','外祖父：穆罕默德 ﷺ','兄长：哈桑'],
+    relationsAr:['الأب: علي بن أبي طالب','الأم: فاطمة الزهراء','الجد: محمد ﷺ','الأخ: الحسن']
+  },
+  zaynab:{
+    avatar:'ز',nameZh:'宰纳卜',nameAr:'زينب بنت محمد',role:'DAUGHTER · 先知之女',
+    statsZh:[['生卒','599–629 CE'],['母亲','赫蒂彻'],['丈夫','阿布·阿拉斯']],
+    statsAr:[['الحياة','599–629م'],['الأم','خديجة'],['الزوج','أبو العاص بن الربيع']],
+    descZh:'先知长女，与非穆斯林阿布·阿拉斯结婚。白德尔战役后丈夫被俘，后来皈依伊斯兰，两人重聚，她在29岁时早逝。',
+    descAr:'أكبر بنات النبي ﷺ. تزوجت من أبي العاص غير المسلم، وبعد أسره في بدر أسلم لاحقاً وأعادها إليه النبي، وتوفيت شابة.',
+    relationsZh:['父亲：穆罕默德 ﷺ','母亲：赫蒂彻','丈夫：阿布·阿拉斯'],
+    relationsAr:['الأب: محمد ﷺ','الأم: خديجة','الزوج: أبو العاص بن الربيع']
+  },
+  ruqayyah:{
+    avatar:'ر',nameZh:'鲁盖叶',nameAr:'رقية بنت محمد',role:'DAUGHTER · 先知之女',
+    statsZh:[['生卒','601–624 CE'],['丈夫','奥斯曼（第三任哈里发）'],['离世','白德尔战役期间']],
+    statsAr:[['الحياة','601–624م'],['الزوج','عثمان بن عفان'],['الوفاة','أثناء غزوة بدر']],
+    descZh:'先知次女，嫁给奥斯曼·本·阿凡（后来成为第三任哈里发）。在白德尔战役期间病逝，奥斯曼因守护她而未能参加白德尔战役。',
+    descAr:'ثانية بنات النبي ﷺ. تزوجت عثمان بن عفان الذي تخلّف عن غزوة بدر لتمريضها وتوفيت إبان المعركة.',
+    relationsZh:['父亲：穆罕默德 ﷺ','母亲：赫蒂彻','丈夫：奥斯曼·本·阿凡'],
+    relationsAr:['الأب: محمد ﷺ','الأم: خديجة','الزوج: عثمان بن عفان']
+  },
+  umm_kulthum:{
+    avatar:'أ',nameZh:'乌姆·库勒苏姆',nameAr:'أم كلثوم بنت محمد',role:'DAUGHTER · 先知之女',
+    statsZh:[['生卒','603–631 CE'],['丈夫','奥斯曼（鲁盖叶去世后）'],['称号','先知三女']],
+    statsAr:[['الحياة','603–631م'],['الزوج','عثمان بن عفان (بعد رقية)'],['اللقب','بنت النبي']],
+    descZh:'先知三女，鲁盖叶去世后嫁给奥斯曼，这也是奥斯曼被称为"两光之主"（娶两位先知之女）的原因。先知在世时便已离世。',
+    descAr:'ثالثة بنات النبي ﷺ. تزوجت عثمان بعد وفاة رقية فلُقّب بذي النورين. توفيت في حياة النبي ﷺ.',
+    relationsZh:['父亲：穆罕默德 ﷺ','母亲：赫蒂彻','丈夫：奥斯曼·本·阿凡'],
+    relationsAr:['الأب: محمد ﷺ','الأم: خديجة','الزوج: عثمان بن عفان']
+  },
+  abubakr:{
+    avatar:'أ',nameZh:'阿布·伯克尔',nameAr:'أبو بكر الصديق',role:'1ST CALIPH · 第一任哈里发',
+    statsZh:[['生卒','573–634 CE'],['执政','632–634 CE'],['称号','西迪克']],
+    statsAr:[['الحياة','573–634م'],['الخلافة','632–634م'],['اللقب','الصديق']],
+    descZh:'先知最亲密的挚友，第一任哈里发。其女阿伊莎嫁给先知，使他成为先知的岳父。平定叛乱，开启伊斯兰帝国扩张。',
+    descAr:'أوثق أصحاب النبي ﷺ وأول الخلفاء. ابنته عائشة زوجة النبي فهو حموه. أخمد الردة وأطلق الفتوحات.',
+    relationsZh:['挚友：穆罕默德 ﷺ','女儿：阿伊莎（先知之妻）','岳父身份：先知岳父'],
+    relationsAr:['الصديق: محمد ﷺ','الابنة: عائشة (زوجة النبي)','صهر: حمو النبي ﷺ']
+  },
+  umar:{
+    avatar:'ع',nameZh:'欧麦尔·本·赫塔卜',nameAr:'عمر بن الخطاب',role:'2ND CALIPH · 第二任哈里发',
+    statsZh:[['生卒','584–644 CE'],['执政','634–644 CE'],['称号','法鲁克']],
+    statsAr:[['الحياة','584–644م'],['الخلافة','634–644م'],['اللقب','الفاروق']],
+    descZh:'第二任哈里发，伊斯兰帝国真正奠基者。征服波斯、叙利亚、埃及，建立行政体系，以公正严明著称。',
+    descAr:'ثاني الخلفاء والمؤسس الحقيقي للدولة الإسلامية. فتح فارس والشام ومصر وأرسى النظام الإداري.',
+    relationsZh:['先知：穆罕默德 ﷺ','继承者：阿布·伯克尔之后继任','前任：阿布·伯克尔','继任：奥斯曼·本·阿凡'],
+    relationsAr:['النبي: محمد ﷺ','من قبله: أبو بكر الصديق','من بعده: عثمان بن عفان']
+  },
+  uthman:{
+    avatar:'ع',nameZh:'奥斯曼·本·阿凡',nameAr:'عثمان بن عفان',role:'3RD CALIPH · 第三任哈里发',
+    statsZh:[['生卒','579–656 CE'],['执政','644–656 CE'],['称号','两光之主']],
+    statsAr:[['الحياة','579–656م'],['الخلافة','644–656م'],['اللقب','ذو النورين']],
+    descZh:'第三任哈里发，娶先知两位女儿，主持编订标准版《古兰经》。执政后期遭刺杀，成为第一位被杀的哈里发。',
+    descAr:'ثالث الخلفاء، تزوج ابنتَي النبي فلُقّب ذا النورين. جمع القرآن الكريم في مصحف موحد، واغتيل في أواخر خلافته.',
+    relationsZh:['妻子1：鲁盖叶（先知之女）','妻子2：乌姆·库勒苏姆（先知之女）','先知岳父身份：娶先知两女儿'],
+    relationsAr:['الزوجة 1: رقية بنت النبي','الزوجة 2: أم كلثوم بنت النبي','صهر النبي ﷺ من ابنتين']
+  },
+  abutalib:{
+    avatar:'ط',nameZh:'阿布·塔利布',nameAr:'أبو طالب بن عبد المطلب',role:'UNCLE · 先知叔父',
+    statsZh:[['生卒','539–619 CE'],['关系','先知叔父，抚养先知'],['子女','阿里（第四任哈里发）']],
+    statsAr:[['الحياة','539–619م'],['الصلة','عم النبي ﷺ وكافله'],['الابن','علي بن أبي طالب']],
+    descZh:'先知叔父，在先知祖父去世后抚养先知长大。他虽然终身保护先知，却未曾皈依伊斯兰。其子阿里是第四任哈里发。',
+    descAr:'عم النبي ﷺ وكافله بعد وفاة جده. حمى النبي طوال حياته دون أن يُسلم. ابنه علي هو رابع الخلفاء الراشدين.',
+    relationsZh:['侄子：穆罕默德 ﷺ','儿子：阿里·本·阿比·塔利卜','父亲：阿卜杜勒·穆塔里卜'],
+    relationsAr:['الابن عم: محمد ﷺ','الابن: علي بن أبي طالب','الأب: عبد المطلب']
+  },
+  abdulmuttalib:{
+    avatar:'م',nameZh:'阿卜杜勒·穆塔里卜',nameAr:'عبد المطلب بن هاشم',role:'GRANDFATHER · 先知祖父',
+    statsZh:[['生卒','497–578 CE'],['地位','麦加古莱氏领袖'],['抚养','先知6岁时抚养他']],
+    statsAr:[['الحياة','497–578م'],['المكانة','سيد قريش'],['الكفالة','كفل النبي في السادسة']],
+    descZh:'先知祖父，麦加古莱氏部落的领袖，负责管理卡巴天房的供水事务。先知父亲去世后，他抚养先知至8岁，后交由叔父阿布·塔利布。',
+    descAr:'جد النبي ﷺ وسيد قريش، كان يتولى سقاية الحجاج. كفل النبي بعد وفاة أبيه حتى بلغ الثامنة ثم كفله ابنه أبو طالب.',
+    relationsZh:['孙子：穆罕默德 ﷺ','儿子：阿卜杜拉（先知之父）','儿子：阿布·塔利布（先知叔父）'],
+    relationsAr:['الحفيد: محمد ﷺ','الابن: عبدالله (أبو النبي)','الابن: أبو طالب (عم النبي)']
+  }
+};
+
+/* ── SVG RENDERER ── */
+function makeNode(svg, id, x, y, w, h, type, labelZh, labelAr){
+  const colors = {
+    prophet:{fill:'#0F5132',stroke:'#D4AF37',sw:2.5},
+    wife:{fill:'#5c3a1a',stroke:'#D4AF37',sw:1.5},
+    child:{fill:'#1a3a5c',stroke:'#6aabdd',sw:1.5},
+    caliph:{fill:'#1a5c3a',stroke:'#D4AF37',sw:1.5},
+    companion:{fill:'#3a1a5c',stroke:'#a06add',sw:1.5},
+    ancestor:{fill:'#2a2a1a',stroke:'#c9a84c',sw:1}
+  };
+  const c = colors[type]||colors.ancestor;
+  const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.setAttribute('class','tree-node');
+  g.setAttribute('data-id',id);
+  g.onclick = ()=>openDetail(id);
+
+  const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+  rect.setAttribute('x',x); rect.setAttribute('y',y);
+  rect.setAttribute('width',w); rect.setAttribute('height',h);
+  rect.setAttribute('rx',8); rect.setAttribute('ry',8);
+  rect.setAttribute('fill',c.fill);
+  rect.setAttribute('stroke',c.stroke);
+  rect.setAttribute('stroke-width',c.sw);
+
+  const label = LANG.current==='ar'? labelAr : labelZh;
+  const lines = label.split('\n');
+  const texts = lines.map((line,i)=>{
+    const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x', x+w/2);
+    t.setAttribute('y', y + h/2 + (i - (lines.length-1)/2)*16);
+    t.setAttribute('text-anchor','middle');
+    t.setAttribute('dominant-baseline','middle');
+    t.setAttribute('fill','white');
+    t.setAttribute('font-size', lines.length>1 ? '11' : '12');
+    t.setAttribute('font-family', LANG.current==='ar' ? "'Noto Naskh Arabic', serif" : "'Noto Serif SC', serif");
+    t.textContent = line;
+    return t;
+  });
+
+  g.appendChild(rect);
+  texts.forEach(t=>g.appendChild(t));
+  svg.appendChild(g);
+}
+
+function makeLine(svg, x1,y1,x2,y2, dashed){
+  const path = document.createElementNS('http://www.w3.org/2000/svg','line');
+  path.setAttribute('x1',x1); path.setAttribute('y1',y1);
+  path.setAttribute('x2',x2); path.setAttribute('y2',y2);
+  path.setAttribute('stroke', dashed ? '#D4AF37' : '#c9a84c');
+  path.setAttribute('stroke-width', dashed ? 2 : 1.5);
+  if(dashed) path.setAttribute('stroke-dasharray','5,3');
+  path.setAttribute('opacity', dashed ? 0.7 : 0.5);
+  svg.appendChild(path);
+}
+
+function makePath(svg, d, dashed){
+  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d',d);
+  path.setAttribute('stroke', dashed ? '#D4AF37' : '#c9a84c');
+  path.setAttribute('stroke-width', dashed ? 2 : 1.5);
+  path.setAttribute('fill','none');
+  if(dashed) path.setAttribute('stroke-dasharray','5,3');
+  path.setAttribute('opacity', dashed ? 0.7 : 0.5);
+  svg.appendChild(path);
+}
+
+function clearSvg(svg){ while(svg.firstChild) svg.removeChild(svg.firstChild); }
+
+/* ── TREE 1: PROPHET FAMILY ── */
+function renderProphetTree(){
+  const svg = document.getElementById('svg-prophet');
+  clearSvg(svg);
+  const W=110, H=52, pad=8;
+  // Row 0: grandfather
+  makeNode(svg,'abdulmuttalib',425,20,W,H,'ancestor','阿卜杜勒\n·穆塔里卜','عبد المطلب');
+  // Row 1: abutalib + abdullah (father)
+  makeNode(svg,'abutalib',250,110,W,H,'ancestor','阿布·塔利布\n叔父','أبو طالب');
+  const abdullahLabel = LANG.current==='ar'?'عبدالله\nأبو النبي':'阿卜杜拉\n先知之父';
+  const aN = document.createElementNS('http://www.w3.org/2000/svg','g');
+  const aR = document.createElementNS('http://www.w3.org/2000/svg','rect');
+  aR.setAttribute('x',600);aR.setAttribute('y',110);aR.setAttribute('width',W);aR.setAttribute('height',H);aR.setAttribute('rx',8);aR.setAttribute('fill','#2a2a1a');aR.setAttribute('stroke','#c9a84c');aR.setAttribute('stroke-width',1);
+  const aT1 = document.createElementNS('http://www.w3.org/2000/svg','text');
+  aT1.setAttribute('x',655);aT1.setAttribute('y',128);aT1.setAttribute('text-anchor','middle');aT1.setAttribute('fill','rgba(255,255,255,.75)');aT1.setAttribute('font-size',11);aT1.setAttribute('font-family',"'Noto Serif SC',serif");aT1.textContent=LANG.current==='ar'?'عبدالله':'阿卜杜拉';
+  const aT2 = document.createElementNS('http://www.w3.org/2000/svg','text');
+  aT2.setAttribute('x',655);aT2.setAttribute('y',146);aT2.setAttribute('text-anchor','middle');aT2.setAttribute('fill','rgba(255,255,255,.5)');aT2.setAttribute('font-size',10);aT2.setAttribute('font-family',"'Noto Serif SC',serif");aT2.textContent=LANG.current==='ar'?'(أبو النبي)':'先知之父';
+  aN.appendChild(aR);aN.appendChild(aT1);aN.appendChild(aT2);svg.appendChild(aN);
+
+  // Lines grandfather → abutalib, abdullah
+  makePath(svg,`M ${480} ${70} L ${480} ${90} L ${305} ${90} L ${305} ${110}`);
+  makePath(svg,`M ${480} ${90} L ${655} ${90} L ${655} ${110}`);
+
+  // Row 2: Muhammad + Khadijah (marriage) + Aisha
+  makeNode(svg,'muhammad',380,220,W+20,H,'prophet','穆罕默德 ﷺ','محمد ﷺ');
+  makeLine(svg,500,246,555,246,true); // marriage line
+  makeNode(svg,'khadijah',555,220,W,H,'wife','赫蒂彻\n首任妻子','خديجة');
+  makeLine(svg,700,246,755,246,true);
+  makeNode(svg,'aisha',755,220,W,H,'wife','阿伊莎\n学者妻子','عائشة');
+
+  // abutalib → ali (vertical then horizontal)
+  makePath(svg,`M ${305} ${162} L ${305} ${200} L ${175} ${200} L ${175} ${310} L ${200} ${310}`);
+
+  // Lines
+  makePath(svg,`M ${655} ${162} L ${655} ${190} L ${490} ${190} L ${490} ${220}`);// father → muhammad
+  makePath(svg,`M ${305} ${162} L ${305} ${190}`);// abutalib down
+
+  // Row 3: children (from khadijah mostly) + ali
+  // zaynab, ruqayyah, umm_kulthum, fatimah, boys (qasim,abdullah)
+  const children = [
+    {id:'zaynab',x:30,lzh:'宰纳卜',lar:'زينب'},
+    {id:'ruqayyah',x:155,lzh:'鲁盖叶',lar:'رقية'},
+    {id:'umm_kulthum',x:280,lzh:'乌姆·\n库勒苏姆',lar:'أم\nكلثوم'},
+    {id:'fatimah',x:400,lzh:'法蒂玛\n扎赫拉',lar:'فاطمة\nالزهراء'},
+  ];
+  // parent connection point
+  makePath(svg,`M ${490} ${272} L ${490} ${298} L ${100} ${298} L ${100} ${310}`);
+  makePath(svg,`M ${100} ${298} L ${217} ${298} L ${217} ${310}`);
+  makePath(svg,`M ${100} ${298} L ${335} ${298} L ${335} ${310}`);
+  makePath(svg,`M ${100} ${298} L ${455} ${298} L ${455} ${310}`);
+  children.forEach(c=>{
+    makeNode(svg,c.id,c.x,310,W+5,H,'child',c.lzh,c.lar);
+  });
+
+  // Ali node
+  makeNode(svg,'ali',200,310,W,H,'caliph','阿里\n第四哈里发','علي\nالخليفة الرابع');
+
+  // Ali marriage to Fatimah
+  makeLine(svg,310,336,400,336,true);
+
+  // Row 4: hasan, husayn (from ali+fatimah)
+  makePath(svg,`M ${455} ${362} L ${455} ${400} L ${490} ${400} L ${490} ${420}`);
+  makePath(svg,`M ${455} ${400} L ${580} ${400} L ${580} ${420}`);
+  makeNode(svg,'hasan',435,420,W,H,'child','哈桑\n先知之孙','الحسن\nسبط النبي');
+  makeNode(svg,'husayn',525,420,W,H,'child','侯赛因\n先知之孙','الحسين\nسبط النبي');
+
+  // Ruqayyah/UmmKulthum → Uthman (note)
+  const noteText = document.createElementNS('http://www.w3.org/2000/svg','text');
+  noteText.setAttribute('x',217); noteText.setAttribute('y',390);
+  noteText.setAttribute('text-anchor','middle');
+  noteText.setAttribute('fill','rgba(212,175,55,.6)');
+  noteText.setAttribute('font-size',9.5);
+  noteText.setAttribute('font-family',"'Noto Serif SC',serif");
+  noteText.textContent = LANG.current==='ar'?'↑ تزوجت عثمان':'↑ 嫁奥斯曼（第三哈里发）';
+  svg.appendChild(noteText);
+  const noteText2 = document.createElementNS('http://www.w3.org/2000/svg','text');
+  noteText2.setAttribute('x',335); noteText2.setAttribute('y',390);
+  noteText2.setAttribute('text-anchor','middle');
+  noteText2.setAttribute('fill','rgba(212,175,55,.6)');
+  noteText2.setAttribute('font-size',9.5);
+  noteText2.setAttribute('font-family',"'Noto Serif SC',serif");
+  noteText2.textContent = LANG.current==='ar'?'↑ تزوجت عثمان أيضاً':'↑ 亦嫁奥斯曼';
+  svg.appendChild(noteText2);
+}
+
+/* ── TREE 2: HASHIM ── */
+function renderHashimTree(){
+  const svg = document.getElementById('svg-hashim');
+  clearSvg(svg);
+  const W=120,H=52;
+  makeNode(svg,'abdulmuttalib',380,30,W,H,'ancestor','阿卜杜勒·穆塔里卜\n哈希姆家族领袖','عبد المطلب\nسيد بني هاشم');
+  // sons
+  const sons=[
+    {id:'abutalib',x:60,lzh:'阿布·塔利布',lar:'أبو طالب'},
+    {id:null,x:220,lzh:'阿卜杜拉\n（先知之父）',lar:'عبدالله\n(أبو النبي)'},
+    {id:null,x:380,lzh:'阿巴斯\n（阿拔斯王朝祖先）',lar:'العباس\n(جد العباسيين)'},
+    {id:null,x:560,lzh:'哈姆扎\n（先知叔父·英雄）',lar:'حمزة\n(عم النبي)'},
+  ];
+  sons.forEach((s,i)=>{
+    const midX = 440;
+    makePath(svg,`M ${midX} ${82} L ${midX} ${105} L ${s.x+60} ${105} L ${s.x+60} ${115}`);
+    if(s.id) makeNode(svg,s.id,s.x,115,W,H,'ancestor',s.lzh,s.lar);
+    else{
+      const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+      const r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+      r.setAttribute('x',s.x);r.setAttribute('y',115);r.setAttribute('width',W);r.setAttribute('height',H);r.setAttribute('rx',8);r.setAttribute('fill','#2a2a1a');r.setAttribute('stroke','#c9a84c');r.setAttribute('stroke-width',1);
+      const ls=s.lzh.split('\n');
+      ls.forEach((l,j)=>{
+        const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+        t.setAttribute('x',s.x+60);t.setAttribute('y',115+H/2+(j-(ls.length-1)/2)*16);
+        t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
+        t.setAttribute('fill','rgba(255,255,255,.75)');t.setAttribute('font-size',10.5);
+        t.setAttribute('font-family',LANG.current==='ar'?"'Noto Naskh Arabic',serif":"'Noto Serif SC',serif");
+        t.textContent=LANG.current==='ar'?s.lar.split('\n')[j]||'':l;
+        g.appendChild(t);
+      });
+      g.appendChild(r);ls.forEach((l,j)=>{
+        const t2=document.createElementNS('http://www.w3.org/2000/svg','text');
+        t2.setAttribute('x',s.x+60);t2.setAttribute('y',115+H/2+(j-(ls.length-1)/2)*16);
+        t2.setAttribute('text-anchor','middle');t2.setAttribute('dominant-baseline','middle');
+        t2.setAttribute('fill','rgba(255,255,255,.75)');t2.setAttribute('font-size',10.5);
+        t2.setAttribute('font-family',LANG.current==='ar'?"'Noto Naskh Arabic',serif":"'Noto Serif SC',serif");
+        const lines2=LANG.current==='ar'?s.lar.split('\n'):s.lzh.split('\n');
+        t2.textContent=lines2[j]||'';
+        g.appendChild(t2);
+      });
+      svg.appendChild(g);
+    }
+  });
+  // abutalib → ali
+  makePath(svg,`M ${120} ${167} L ${120} ${220} L ${180} ${220} L ${180} ${260}`);
+  makeNode(svg,'ali',120,260,W,H,'caliph','阿里\n第四哈里发','علي\nالخليفة الرابع');
+  // abdullah → muhammad
+  makePath(svg,`M ${280} ${167} L ${280} ${220} L ${380} ${220} L ${380} ${260}`);
+  makeNode(svg,'muhammad',320,260,130,H,'prophet','穆罕默德 ﷺ','محمد ﷺ');
+  // arrows to children row
+  makePath(svg,`M ${385} ${312} L ${385} ${360} L ${200} ${360} L ${200} ${380}`);
+  makePath(svg,`M ${385} ${360} L ${385} ${380}`);
+  makeNode(svg,'fatimah',140,380,W,H,'child','法蒂玛','فاطمة');
+  makeNode(svg,'hasan',325,380,W,H,'child','哈桑','الحسن');
+  makeNode(svg,'husayn',510,380,W,H,'child','侯赛因','الحسين');
+  makePath(svg,`M ${385} ${360} L ${570} ${360} L ${570} ${380}`);
+  // marriage ali+fatimah
+  makeLine(svg,260,406,325,406,true);
+}
+
+/* ── TREE 3: CALIPHS ── */
+function renderCaliphsTree(){
+  const svg = document.getElementById('svg-caliphs');
+  clearSvg(svg);
+  const W=130,H=56;
+  // Prophet center
+  makeNode(svg,'muhammad',395,30,W+10,H,'prophet','穆罕默德 ﷺ','محمد ﷺ');
+  // Title
+  const title=document.createElementNS('http://www.w3.org/2000/svg','text');
+  title.setAttribute('x',480);title.setAttribute('y',18);title.setAttribute('text-anchor','middle');
+  title.setAttribute('fill','rgba(212,175,55,.55)');title.setAttribute('font-size',10);
+  title.setAttribute('font-family',"'Cinzel',serif");title.setAttribute('letter-spacing',2);
+  title.textContent='FOUR RIGHTLY-GUIDED CALIPHS · 四大正统哈里发';
+  svg.appendChild(title);
+
+  // Lines to caliphs
+  const cPos=[{id:'abubakr',x:60},{id:'umar',x:230},{id:'uthman',x:530},{id:'ali',x:720}];
+  cPos.forEach(c=>{
+    makePath(svg,`M ${450} ${86} L ${450} ${120} L ${c.x+65} ${120} L ${c.x+65} ${140}`);
+  });
+  makeNode(svg,'abubakr',cPos[0].x,140,W,H,'caliph',LANG.current==='ar'?'أبو بكر\nالخليفة الأول':'阿布·伯克尔\n第一任哈里发','أبو بكر\nالخليفة الأول');
+  makeNode(svg,'umar',cPos[1].x,140,W,H,'caliph',LANG.current==='ar'?'عمر الفاروق\nالخليفة الثاني':'欧麦尔\n第二任哈里发','عمر الفاروق\nالخليفة الثاني');
+  makeNode(svg,'uthman',cPos[2].x,140,W,H,'caliph',LANG.current==='ar'?'عثمان\nالخليفة الثالث':'奥斯曼\n第三任哈里发','عثمان\nالخليفة الثالث');
+  makeNode(svg,'ali',cPos[3].x,140,W,H,'caliph',LANG.current==='ar'?'علي\nالخليفة الرابع':'阿里\n第四任哈里发','علي\nالخليفة الرابع');
+
+  // Relation notes
+  const notes=[
+    {x:125,y:230,zh:'女儿阿伊莎嫁先知\n→ 先知岳父',ar:'ابنته عائشة\nزوجة النبي'},
+    {x:295,y:230,zh:'早期皈依者\n先知挚友',ar:'صحابي مبكر\nصديق النبي'},
+    {x:595,y:230,zh:'娶先知两位女儿\n→ 两光之主',ar:'تزوج ابنتَي النبي\nذو النورين'},
+    {x:785,y:230,zh:'先知堂弟兼女婿\n→ 娶法蒂玛',ar:'ابن عم النبي\nتزوج فاطمة'},
+  ];
+  notes.forEach(n=>{
+    const lines=(LANG.current==='ar'?n.ar:n.zh).split('\n');
+    lines.forEach((l,i)=>{
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',n.x);t.setAttribute('y',n.y+i*15);t.setAttribute('text-anchor','middle');
+      t.setAttribute('fill','rgba(212,175,55,.65)');
+      t.setAttribute('font-size',9.5);
+      t.setAttribute('font-family',LANG.current==='ar'?"'Noto Naskh Arabic',serif":"'Noto Serif SC',serif");
+      t.textContent=l;svg.appendChild(t);
+    });
+  });
+
+  // Connection arrows between caliphs (succession)
+  for(let i=0;i<3;i++){
+    const x1=cPos[i].x+W+4, y=168, x2=cPos[i+1].x-4;
+    const arrow=document.createElementNS('http://www.w3.org/2000/svg','line');
+    arrow.setAttribute('x1',x1);arrow.setAttribute('y1',y);arrow.setAttribute('x2',x2);arrow.setAttribute('y2',y);
+    arrow.setAttribute('stroke','#c9a84c');arrow.setAttribute('stroke-width',1.5);arrow.setAttribute('opacity',.4);
+    arrow.setAttribute('marker-end','url(#arrow)');
+    svg.appendChild(arrow);
+    const arrowLabel=document.createElementNS('http://www.w3.org/2000/svg','text');
+    arrowLabel.setAttribute('x',(x1+x2)/2);arrowLabel.setAttribute('y',y-5);arrowLabel.setAttribute('text-anchor','middle');
+    arrowLabel.setAttribute('fill','rgba(201,168,76,.4)');arrowLabel.setAttribute('font-size',8.5);
+    arrowLabel.setAttribute('font-family',"'Cinzel',serif");
+    arrowLabel.textContent='→';svg.appendChild(arrowLabel);
+  }
+
+  // Add aisha connection
+  makeNode(svg,'aisha',60,320,W,H,'wife',LANG.current==='ar'?'عائشة\nزوجة النبي':'阿伊莎\n先知之妻','عائشة\nزوجة النبي');
+  makeLine(svg,125,196,125,320,true);
+
+  // Fatimah+Ali+children
+  makeNode(svg,'fatimah',480,320,W,H,'child',LANG.current==='ar'?'فاطمة الزهراء\nبنت النبي':'法蒂玛·扎赫拉\n先知之女','فاطمة الزهراء\nبنت النبي');
+  makeLine(svg,785,196,785,290,false);
+  makeLine(svg,545,320,720,310,true);
+  makeNode(svg,'hasan',480,420,W,H,'child',LANG.current==='ar'?'الحسن\nسبط النبي':'哈桑\n先知之孙','الحسن\nسبط النبي');
+  makeNode(svg,'husayn',640,420,W,H,'child',LANG.current==='ar'?'الحسين\nسبط النبي':'侯赛因\n先知之孙','الحسين\nسبط النبي');
+  makePath(svg,`M ${545} ${376} L ${545} ${398} L ${545} ${420}`);
+  makePath(svg,`M ${545} ${398} L ${705} ${398} L ${705} ${420}`);
+
+  // Uthman → ruqayyah/umm_kulthum note
+  const uNote=document.createElementNS('http://www.w3.org/2000/svg','text');
+  uNote.setAttribute('x',595);uNote.setAttribute('y',260);uNote.setAttribute('text-anchor','middle');
+  uNote.setAttribute('fill','rgba(212,175,55,.5)');uNote.setAttribute('font-size',9);
+  uNote.setAttribute('font-family',LANG.current==='ar'?"'Noto Naskh Arabic',serif":"'Noto Serif SC',serif");
+  uNote.textContent=LANG.current==='ar'?'رقية ↑ ثم أم كلثوم ↑':'先知之女鲁盖叶↑ 乌姆·库勒苏姆↑';
+  svg.appendChild(uNote);
+}
+
+function renderAll(){
+  renderProphetTree();
+  renderHashimTree();
+  renderCaliphsTree();
+}
+renderAll();
+
+/* ── DETAIL PANEL ── */
+function openDetail(id){
+  const d=PEOPLE[id]; if(!d) return;
+  const lang=LANG.current; const isAr=lang==='ar';
+  const ar=isAr?' ar':'';
+  document.getElementById('dpAvatar').textContent=d.avatar;
+  document.getElementById('dpNameZh').textContent=d.nameZh;
+  document.getElementById('dpNameAr').textContent=d.nameAr;
+  document.getElementById('dpRole').textContent=d.role;
+  const stats=isAr?d.statsAr:d.statsZh;
+  const desc=isAr?d.descAr:d.descZh;
+  const rels=isAr?d.relationsAr:d.relationsZh;
+  let html=`
+    <div class="dp-section">
+      <div class="dp-section-title${ar}">${isAr?'المعلومات':'基本信息'}</div>
+      <div class="dp-grid">${stats.map(([l,v])=>`<div class="dp-stat"><span class="dp-stat-label">${l}</span><span class="dp-stat-value">${v}</span></div>`).join('')}</div>
+      <p class="dp-text${ar}">${desc}</p>
+    </div>
+    <div class="dp-section">
+      <div class="dp-section-title${ar}">${isAr?'صلات القرابة':'家族关系'}</div>
+      <div class="dp-relations">${rels.map(r=>`<span class="dp-rel-tag${ar}">${r}</span>`).join('')}</div>
+    </div>`;
+  document.getElementById('dpBody').innerHTML=html;
+  document.getElementById('detailOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeDetail(){
+  document.getElementById('detailOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeDetailOutside(e){
+  if(e.target===document.getElementById('detailOverlay')) closeDetail();
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail();});
+
+// drag to scroll
+['prophet','hashim','caliphs'].forEach(id=>{
+  const el=document.getElementById('scroll-'+id);
+  let isDown=false,sx,sl;
+  el.addEventListener('mousedown',e=>{isDown=true;sx=e.pageX-el.offsetLeft;sl=el.scrollLeft;});
+  el.addEventListener('mouseleave',()=>isDown=false);
+  el.addEventListener('mouseup',()=>isDown=false);
+  el.addEventListener('mousemove',e=>{if(!isDown)return;e.preventDefault();el.scrollLeft=sl-(e.pageX-el.offsetLeft-sx)*1.5;});
+});
+</script>
+</body>
+</html>

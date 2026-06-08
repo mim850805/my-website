@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>战役详解 · المعارك الإسلامية — 历史之光</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #0F5132; --green-mid: #1a6b3c; --green-light: #e8f2ec; --green-pale: #f0f7f2;
+  --gold: #D4AF37; --gold-light: #f7f0d4; --gold-dark: #a07c10;
+  --red: #8B1A1A; --red-light: #fdf0f0;
+  --cream: #F8F5EE; --cream-dark: #ede8dc;
+  --text: #1c2b20; --text-mid: #3a5242; --text-soft: #6b826e; --white: #ffffff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Noto Serif SC', Georgia, serif; background: var(--cream); color: var(--text); }
+[data-lang="ar"] .zh { display: none !important; }
+[data-lang="ar"] .ar { display: block !important; }
+[data-lang="zh"] .ar { display: none !important; }
+[data-lang="zh"] .zh { display: block !important; }
+.ar.inline,[data-lang="zh"] .ar.inline { display: none !important; }
+[data-lang="ar"] .ar.inline { display: inline !important; }
+[data-lang="zh"] .zh.inline { display: inline !important; }
+[data-lang="ar"] .zh.inline { display: none !important; }
+
+nav { position: sticky; top: 0; z-index: 100; background: var(--green); border-bottom: 2px solid var(--gold); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.nav-logo { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold); letter-spacing: 2px; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.nav-logo .ar-logo { font-family: 'Noto Naskh Arabic', serif; font-size: 1.2rem; }
+.nav-links { display: flex; list-style: none; }
+.nav-links a { display: block; padding: 0 1rem; height: 60px; line-height: 60px; color: rgba(255,255,255,0.82); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; font-family: 'Noto Serif SC', serif; }
+.nav-links a:hover, .nav-links a.active { color: var(--gold); }
+.lang-switcher { display: flex; gap: 4px; }
+.lang-btn { padding: 4px 10px; border-radius: 4px; font-size: 0.78rem; cursor: pointer; border: 1px solid rgba(212,175,55,0.5); background: transparent; color: rgba(255,255,255,0.7); transition: all 0.2s; font-family: 'Noto Serif SC', serif; }
+.lang-btn.active { background: var(--gold); color: var(--green); font-weight: 600; }
+.lang-btn:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
+
+.page-header { background: var(--green); padding: 3.5rem 2rem 3rem; text-align: center; position: relative; overflow: hidden; }
+.page-header::before { content: ''; position: absolute; inset: 0; opacity: 0.05; background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(212,175,55,1) 39px, rgba(212,175,55,1) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(212,175,55,1) 39px, rgba(212,175,55,1) 40px); }
+.page-header-eyebrow { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase; color: rgba(212,175,55,0.65); margin-bottom: 8px; position: relative; }
+.page-header h1 { font-size: 2.2rem; color: white; font-weight: 600; margin-bottom: 6px; position: relative; }
+.page-header h1.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; font-size: 2rem; }
+.page-header-sub { color: rgba(255,255,255,0.5); font-size: 0.9rem; position: relative; }
+.page-header-sub.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; }
+
+/* BATTLE CARDS */
+.main { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; }
+.battle-section { margin-bottom: 3.5rem; border-radius: 14px; overflow: hidden; background: var(--white); border: 1px solid var(--cream-dark); }
+.battle-header { background: var(--green); padding: 1.75rem 2rem; display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.battle-header-left { }
+.battle-num { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 3px; color: rgba(212,175,55,0.6); margin-bottom: 6px; }
+.battle-title-zh { font-size: 1.6rem; color: white; font-weight: 600; margin-bottom: 4px; }
+.battle-title-ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; font-size: 1.4rem; color: rgba(212,175,55,0.85); }
+.battle-header-right { text-align: right; }
+.battle-outcome { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 0.72rem; font-family: 'Cinzel', serif; letter-spacing: 1px; margin-bottom: 6px; }
+.outcome-win { background: rgba(212,175,55,0.2); color: var(--gold); border: 1px solid rgba(212,175,55,0.4); }
+.outcome-loss { background: rgba(139,26,26,0.2); color: #f4a0a0; border: 1px solid rgba(139,26,26,0.4); }
+.outcome-peace { background: rgba(15,81,50,0.3); color: #7ee0aa; border: 1px solid rgba(15,81,50,0.5); }
+.battle-date { font-family: 'Cinzel', serif; font-size: 0.75rem; color: rgba(255,255,255,0.45); }
+
+.battle-body { padding: 2rem; }
+.battle-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 2rem; }
+.battle-stat { background: var(--cream); border: 1px solid var(--cream-dark); border-radius: 8px; padding: 0.85rem 1rem; }
+.battle-stat-label { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-soft); display: block; margin-bottom: 4px; }
+.battle-stat-label.ar { font-family: 'Noto Naskh Arabic', serif; letter-spacing: 0; font-size: 0.75rem; direction: rtl; }
+.battle-stat-value { font-size: 0.88rem; color: var(--text); font-weight: 500; }
+.battle-stat-value.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; font-size: 0.95rem; }
+
+.battle-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+@media(max-width: 640px) { .battle-cols { grid-template-columns: 1fr; } }
+.battle-col-title { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold-dark); border-left: 3px solid var(--green); padding-left: 8px; margin-bottom: 0.85rem; }
+.battle-col-title.ar { font-family: 'Noto Naskh Arabic', serif; border-left: none; border-right: 3px solid var(--green); padding-left: 0; padding-right: 8px; direction: rtl; letter-spacing: 0; font-size: 0.85rem; }
+.battle-text { font-size: 0.87rem; line-height: 1.85; color: var(--text-mid); }
+.battle-text.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; font-size: 0.95rem; line-height: 2; }
+
+/* FORCES */
+.forces { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: center; margin-bottom: 2rem; }
+.force-box { background: var(--cream); border: 1px solid var(--cream-dark); border-radius: 10px; padding: 1.1rem; }
+.force-box.muslims { border-top: 3px solid var(--green); }
+.force-box.enemies { border-top: 3px solid var(--red); }
+.force-label { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-soft); margin-bottom: 6px; display: block; }
+.force-label.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; letter-spacing: 0; font-size: 0.75rem; }
+.force-name { font-size: 0.9rem; font-weight: 600; color: var(--green); margin-bottom: 4px; }
+.force-name.enemies-text { color: var(--red); }
+.force-name.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; font-size: 1rem; }
+.force-count { font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--text); font-weight: 500; }
+.force-detail { font-size: 0.75rem; color: var(--text-soft); margin-top: 2px; }
+.force-detail.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; }
+.vs-badge { font-family: 'Cinzel', serif; font-size: 0.8rem; color: var(--text-soft); font-weight: 500; text-align: center; }
+
+/* SIGNIFICANCE */
+.significance { background: var(--green-light); border-left: 4px solid var(--green); border-radius: 0 10px 10px 0; padding: 1.1rem 1.5rem; }
+.significance.ar { border-left: none; border-right: 4px solid var(--green); border-radius: 10px 0 0 10px; }
+.sig-title { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 2px; color: var(--green-mid); margin-bottom: 6px; text-transform: uppercase; }
+.sig-title.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; letter-spacing: 0; font-size: 0.8rem; }
+.sig-text { font-size: 0.85rem; color: var(--green-mid); line-height: 1.8; }
+.sig-text.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; font-size: 0.93rem; line-height: 2; }
+
+/* MAP PLACEHOLDER */
+.map-area { background: var(--cream); border: 1px dashed var(--cream-dark); border-radius: 10px; padding: 2rem; text-align: center; margin-bottom: 2rem; }
+.map-icon { font-size: 2rem; margin-bottom: 8px; color: var(--text-soft); }
+.map-label { font-size: 0.78rem; color: var(--text-soft); font-family: 'Cinzel', serif; letter-spacing: 1px; }
+
+footer { background: var(--green); border-top: 2px solid var(--gold); padding: 2.5rem 2rem; text-align: center; }
+.footer-logo { font-family: 'Noto Naskh Arabic', serif; font-size: 1.8rem; color: var(--gold); margin-bottom: 4px; }
+.footer-links { display: flex; justify-content: center; gap: 1.5rem; margin: 1rem 0; flex-wrap: wrap; }
+.footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+.footer-copy { font-size: 0.7rem; color: rgba(255,255,255,0.22); font-family: 'Cinzel', serif; letter-spacing: 1px; }
+</style>
+</head>
+<body data-lang="zh">
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span class="ar-logo">نور</span>
+    <span style="color:rgba(255,255,255,0.4);">|</span>
+    <span>历史之光</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#timeline"><span class="zh inline">时间轴</span><span class="ar inline">الجدول</span></a></li>
+    <li><a href="figures.html"><span class="zh inline">人物</span><span class="ar inline">الشخصيات</span></a></li>
+    <li><a href="battles.html" class="active"><span class="zh inline">战役</span><span class="ar inline">المعارك</span></a></li>
+    <li><a href="muhammad.html"><span class="zh inline">穆罕默德</span><span class="ar inline">محمد ﷺ</span></a></li>
+  </ul>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('zh',event)">中文</button>
+    <button class="lang-btn" onclick="setLang('ar',event)">العربية</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-eyebrow">Major Battles · المعارك الكبرى</div>
+  <h1 class="zh">重要战役详解</h1>
+  <h1 class="ar">تفاصيل المعارك الإسلامية الكبرى</h1>
+  <p class="page-header-sub zh">先知时代的关键军事事件 · 地图、兵力、战略与历史影响</p>
+  <p class="page-header-sub ar">المعارك المحورية في عهد النبي ﷺ · الخرائط والقوات والاستراتيجيات والأثر التاريخي</p>
+</div>
+
+<div class="main">
+
+  <!-- BATTLE 1: BADR -->
+  <div class="battle-section">
+    <div class="battle-header">
+      <div class="battle-header-left">
+        <div class="battle-num">BATTLE 01 · غزوة</div>
+        <div class="battle-title-zh zh">白德尔战役</div>
+        <div class="battle-title-ar ar">غزوة بدر الكبرى</div>
+      </div>
+      <div class="battle-header-right">
+        <div><span class="battle-outcome outcome-win zh">穆斯林大胜</span><span class="battle-outcome outcome-win ar">انتصار المسلمين</span></div>
+        <div class="battle-date">624 CE · 2 AH · 莱麦丹月17日</div>
+      </div>
+    </div>
+    <div class="battle-body">
+      <div class="battle-stats">
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">战场位置</span><span class="battle-stat-label ar">موقع المعركة</span>
+          <div class="battle-stat-value zh">白德尔井，麦地那西南约130公里</div>
+          <div class="battle-stat-value ar">آبار بدر، جنوب غرب المدينة</div>
+        </div>
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">战役时长</span><span class="battle-stat-label ar">مدة المعركة</span>
+          <div class="battle-stat-value zh">一天之内结束</div>
+          <div class="battle-stat-value ar">انتهت في يوم واحد</div>
+        </div>
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">穆斯林伤亡</span><span class="battle-stat-label ar">خسائر المسلمين</span>
+          <div class="battle-stat-value zh">14人阵亡</div>
+          <div class="battle-stat-value ar">14 شهيداً</div>
+        </div>
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">对方伤亡</span><span class="battle-stat-label ar">خسائر قريش</span>
+          <div class="battle-stat-value zh">70人阵亡，70人被俘</div>
+          <div class="battle-stat-value ar">70 قتيلاً و70 أسيراً</div>
+        </div>
+      </div>
+      <div class="forces">
+        <div class="force-box muslims">
+          <span class="force-label zh">穆斯林军队</span><span class="force-label ar">جيش المسلمين</span>
+          <div class="force-name zh">穆罕默德先知率领</div><div class="force-name ar">بقيادة النبي محمد ﷺ</div>
+          <div class="force-count">313</div>
+          <div class="force-detail zh">86名迁士 + 227名辅士，骆驼70匹，战马2匹</div>
+          <div class="force-detail ar">86 مهاجراً + 227 أنصارياً، 70 بعيراً، فرسان 2</div>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="force-box enemies">
+          <span class="force-label zh">麦加古莱氏族</span><span class="force-label ar">جيش قريش</span>
+          <div class="force-name enemies-text zh">阿布·苏菲扬率领商队，阿布·贾哈勒率军队</div>
+          <div class="force-name enemies-text ar">بقيادة أبي جهل (عقبة بن ربيعة)</div>
+          <div class="force-count">950+</div>
+          <div class="force-detail zh">约950至1000人，战马600匹，骆驼数百</div>
+          <div class="force-detail ar">نحو 950–1000 مقاتل، 600 فارس، مئات الإبل</div>
+        </div>
+      </div>
+      <div class="battle-cols">
+        <div>
+          <div class="battle-col-title zh">战役经过</div>
+          <div class="battle-col-title ar">سير المعركة</div>
+          <p class="battle-text zh">穆斯林获悉阿布·苏菲扬商队返回麦加的消息后，出发拦截。但麦加军队先行得知，派兵保护商队，实际上演变为一场大规模军事对抗。穆斯林占据了白德尔水井，控制了水源。战斗以单挑开始，随后全面交战，穆斯林以少胜多，阿布·贾哈勒等麦加领袖战死。</p>
+          <p class="battle-text ar">علم المسلمون بعودة قافلة أبي سفيان من الشام فخرجوا لاعتراضها، غير أن قريشاً أرسلت جيشاً لحمايتها فتحوّل الأمر إلى مواجهة عسكرية. سيطر المسلمون على آبار بدر. بدأت المعركة بالمبارزة ثم اشتبك الجيشان فانتصر المسلمون وقُتل أبو جهل وقادة قريش.</p>
+        </div>
+        <div>
+          <div class="battle-col-title zh">战略意义</div>
+          <div class="battle-col-title ar">الأهمية الاستراتيجية</div>
+          <p class="battle-text zh">白德尔战役是伊斯兰历史上第一场重大军事胜利，彻底改变了穆斯林共同体的心理状态。以寡敌众的胜利被穆斯林视为神助的印证。麦加在此役失去了大批核心领袖，权力结构受到重创。《古兰经》将此战称为"分辨日"（يوم الفرقان）。</p>
+          <p class="battle-text ar">غزوة بدر أول نصر عسكري كبير في الإسلام، غيّرت معنويات المسلمين جذرياً. رأى المسلمون في الانتصار بهذا التفاوت العددي آيةً إلهية. خسرت قريش كبار قادتها مما أضعف بنيتها. سمّى القرآن الكريم هذه المعركة "يوم الفرقان".</p>
+        </div>
+      </div>
+      <div class="significance zh">
+        <div class="sig-title">历史影响 · Historical Impact</div>
+        <p class="sig-text">白德尔战役奠定了伊斯兰共同体的军事信心，证明了信念与纪律可以胜过数量优势。被俘的麦加人以教导穆斯林读写为赎金，间接推动了伊斯兰教育的发展。此后穆斯林在阿拉伯半岛的影响力迅速上升，使麦加意识到必须彻底解决"穆斯林问题"——这直接导致了一年后吴侯德战役的爆发。</p>
+      </div>
+      <div class="significance ar">
+        <div class="sig-title ar">الأثر التاريخي</div>
+        <p class="sig-text ar">رسّخت بدر الثقة العسكرية لدى المسلمين وأثبتت أن الإيمان والانضباط يتغلبان على التفوق العددي. فدى أسرى قريش أنفسهم بتعليم المسلمين القراءة والكتابة مما عزّز التعليم في المجتمع الإسلامي. تصاعد نفوذ المسلمين في الجزيرة بعدها فأدركت قريش ضرورة الحسم، وهو ما أفضى إلى غزوة أحد بعد عام.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BATTLE 2: UHUD -->
+  <div class="battle-section">
+    <div class="battle-header">
+      <div class="battle-header-left">
+        <div class="battle-num">BATTLE 02 · غزوة</div>
+        <div class="battle-title-zh zh">吴侯德战役</div>
+        <div class="battle-title-ar ar">غزوة أحد</div>
+      </div>
+      <div class="battle-header-right">
+        <div><span class="battle-outcome outcome-loss zh">穆斯林受挫</span><span class="battle-outcome outcome-loss ar">نكسة المسلمين</span></div>
+        <div class="battle-date">625 CE · 3 AH · 沙瓦勒月</div>
+      </div>
+    </div>
+    <div class="battle-body">
+      <div class="battle-stats">
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">战场位置</span><span class="battle-stat-label ar">موقع المعركة</span>
+          <div class="battle-stat-value zh">吴侯德山麓，麦地那北部约5公里</div>
+          <div class="battle-stat-value ar">سفح جبل أحد، شمال المدينة</div>
+        </div>
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">战役起因</span><span class="battle-stat-label ar">سبب المعركة</span>
+          <div class="battle-stat-value zh">麦加为报白德尔之仇</div>
+          <div class="battle-stat-value ar">انتقام قريش لهزيمة بدر</div>
+        </div>
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">穆斯林伤亡</span><span class="battle-stat-label ar">خسائر المسلمين</span>
+          <div class="battle-stat-value zh">70人阵亡，先知受轻伤</div>
+          <div class="battle-stat-value ar">70 شهيداً، وجُرح النبي ﷺ</div>
+        </div>
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">关键教训</span><span class="battle-stat-label ar">الدرس المستفاد</span>
+          <div class="battle-stat-value zh">服从命令，不违令追击</div>
+          <div class="battle-stat-value ar">طاعة الأوامر وعدم ترك المواقع</div>
+        </div>
+      </div>
+      <div class="forces">
+        <div class="force-box muslims">
+          <span class="force-label zh">穆斯林军队</span><span class="force-label ar">جيش المسلمين</span>
+          <div class="force-name zh">先知穆罕默德率领</div><div class="force-name ar">بقيادة النبي محمد ﷺ</div>
+          <div class="force-count">700</div>
+          <div class="force-detail zh">约700人（出发时1000人，途中300人叛离）</div>
+          <div class="force-detail ar">700 مقاتل (خرجوا 1000 وانسحب 300 في الطريق)</div>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="force-box enemies">
+          <span class="force-label zh">麦加联军</span><span class="force-label ar">جيش قريش</span>
+          <div class="force-name enemies-text zh">阿布·苏菲扬率领</div>
+          <div class="force-name enemies-text ar">بقيادة أبي سفيان</div>
+          <div class="force-count">3,000</div>
+          <div class="force-detail zh">3000人，700名铠甲士兵，200骑兵</div>
+          <div class="force-detail ar">3000 مقاتل، 700 دارع، 200 فارس</div>
+        </div>
+      </div>
+      <div class="battle-cols">
+        <div>
+          <div class="battle-col-title zh">战役转折点</div>
+          <div class="battle-col-title ar">نقطة التحول</div>
+          <p class="battle-text zh">先知在山口部署了50名弓箭手守卫侧翼，严令不得离开。战役初期穆斯林大占优势，麦加军溃退。弓箭手见状以为胜利在望，大多下山捡拾战利品，仅剩少数人坚守。麦加骑兵将领哈立德·本·瓦利德（后来成为穆斯林名将）趁机从侧翼包抄，穆斯林阵营瞬间崩溃。</p>
+          <p class="battle-text ar">أمر النبي ﷺ خمسين رامياً بحراسة الممر وحُظر عليهم المغادرة. في البداية تقدّم المسلمون وانهزمت قريش. ظنّ الرماة أن المعركة انتهت فنزلوا لجمع الغنائم. عندئذٍ التفّ خالد بن الوليد (الذي أسلم لاحقاً) بفرسانه من الجانب فانقلبت المعركة ضد المسلمين.</p>
+        </div>
+        <div>
+          <div class="battle-col-title zh">先知遇险</div>
+          <div class="battle-col-title ar">إصابة النبي ﷺ</div>
+          <p class="battle-text zh">在混战中，先知被石块击中面部，牙齿破损，头盔内铁环嵌入面颊，倒地。麦加一方散布先知已死的谣言，穆斯林军心大乱。但先知迅速恢复，向信众展示自己仍活着，才重新稳住阵脚。圣门弟子穆斯阿布等70人为保护先知而牺牲。</p>
+          <p class="battle-text ar">في خضم المعركة أُصيب النبي ﷺ في وجهه وكُسرت رباعيته وغاصت حلقات الخوذة في خده فسقط. أشاع المشركون خبر مقتله فاضطربت صفوف المسلمين. لكن النبي ﷺ نهض سريعاً وأثبت للصحابة أنه حي فاستعادوا تماسكهم، وكان مصعب وسبعون من الصحابة قد استُشهدوا في الدفاع عنه.</p>
+        </div>
+      </div>
+      <div class="significance zh">
+        <div class="sig-title">历史影响 · Historical Impact</div>
+        <p class="sig-text">吴侯德战役是伊斯兰历史上重要的"挫折教育"。《古兰经》以多段经文分析此役，强调服从命令、戒除贪念的重要性。先知叔父哈姆扎在此役牺牲，成为伊斯兰殉道精神的重要象征。此役虽然受挫，但并未从根本上削弱穆斯林的力量，两年后的壕沟之战证明了这一点。</p>
+      </div>
+      <div class="significance ar">
+        <div class="sig-title ar">الأثر التاريخي</div>
+        <p class="sig-text ar">أحد درس بليغ في الطاعة وترك الدنيا، تناوله القرآن الكريم بآيات عديدة. استُشهد عمّ النبي ﷺ حمزة فصار رمزاً خالداً للتضحية. لم تقضِ النكسة على قوة المسلمين، وأثبتت غزوة الخندق بعد عامين صحة ذلك.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BATTLE 3: KHANDAQ -->
+  <div class="battle-section">
+    <div class="battle-header">
+      <div class="battle-header-left">
+        <div class="battle-num">BATTLE 03 · غزوة</div>
+        <div class="battle-title-zh zh">壕沟之战（联军之战）</div>
+        <div class="battle-title-ar ar">غزوة الخندق (الأحزاب)</div>
+      </div>
+      <div class="battle-header-right">
+        <div><span class="battle-outcome outcome-win zh">穆斯林守城成功</span><span class="battle-outcome outcome-win ar">دفاع ناجح</span></div>
+        <div class="battle-date">627 CE · 5 AH · 杜阿尔德月</div>
+      </div>
+    </div>
+    <div class="battle-body">
+      <div class="battle-stats">
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">战场位置</span><span class="battle-stat-label ar">موقع المعركة</span>
+          <div class="battle-stat-value zh">麦地那北部城外</div>
+          <div class="battle-stat-value ar">شمال المدينة المنورة</div>
+        </div>
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">关键策略</span><span class="battle-stat-label ar">الاستراتيجية المحورية</span>
+          <div class="battle-stat-value zh">挖掘壕沟（萨尔曼建议）</div>
+          <div class="battle-stat-value ar">حفر الخندق (مقترح سلمان)</div>
+        </div>
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">围困时长</span><span class="battle-stat-label ar">مدة الحصار</span>
+          <div class="battle-stat-value zh">约27天</div>
+          <div class="battle-stat-value ar">نحو 27 يوماً</div>
+        </div>
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">穆斯林伤亡</span><span class="battle-stat-label ar">خسائر المسلمين</span>
+          <div class="battle-stat-value zh">5人阵亡（极少）</div>
+          <div class="battle-stat-value ar">5 شهداء فقط</div>
+        </div>
+      </div>
+      <div class="forces">
+        <div class="force-box muslims">
+          <span class="force-label zh">穆斯林守城方</span><span class="force-label ar">المدافعون المسلمون</span>
+          <div class="force-name zh">先知穆罕默德率领</div><div class="force-name ar">بقيادة النبي محمد ﷺ</div>
+          <div class="force-count">3,000</div>
+          <div class="force-detail zh">麦地那穆斯林，挖掘壕沟长约5.5公里</div>
+          <div class="force-detail ar">مسلمو المدينة، حفروا خندقاً بطول 5.5 كم</div>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="force-box enemies">
+          <span class="force-label zh">各部落联军</span><span class="force-label ar">جيش الأحزاب</span>
+          <div class="force-name enemies-text zh">麦加 + 各阿拉伯部落联盟</div>
+          <div class="force-name enemies-text ar">قريش + القبائل العربية</div>
+          <div class="force-count">10,000</div>
+          <div class="force-detail zh">史上针对穆斯林规模最大的联合进攻</div>
+          <div class="force-detail ar">أضخم هجوم مشترك ضد المسلمين في التاريخ</div>
+        </div>
+      </div>
+      <div class="battle-cols">
+        <div>
+          <div class="battle-col-title zh">壕沟战术</div>
+          <div class="battle-col-title ar">تكتيك الخندق</div>
+          <p class="battle-text zh">萨尔曼·法里斯提出了源自波斯的壕沟防御战术——在城市北部（唯一无天然屏障的方向）挖掘一条长壕。穆斯林用约六天时间完成挖掘，先知亲自参与劳动。联军骑兵无法越过壕沟，只能在对岸对峙。这是阿拉伯战争史上第一次使用壕沟战术。</p>
+          <p class="battle-text ar">اقترح سلمان الفارسي حفر خندق في شمال المدينة الجهة الوحيدة المكشوفة. أنجز المسلمون الحفر في نحو ستة أيام بمشاركة النبي ﷺ بنفسه. عجز فرسان الأحزاب عن عبور الخندق واضطروا للتراجع. كان ذلك أول استخدام للخندق في حروب العرب.</p>
+        </div>
+        <div>
+          <div class="battle-col-title zh">联军撤退原因</div>
+          <div class="battle-col-title ar">أسباب انسحاب الأحزاب</div>
+          <p class="battle-text zh">三重因素迫使联军撤退：一是壕沟使骑兵优势荡然无存；二是穆斯林外交使者努埃姆离间了联军各部落之间的信任；三是阿拉伯半岛突降猛烈风暴，摧毁了联军营地，《古兰经》将此风暴称为"看不见的军队"（جنوداً لم تروها）。</p>
+          <p class="battle-text ar">ثلاثة عوامل أجبرت الأحزاب على الانسحاب: الخندق الذي أبطل تفوّق الفرسان، والدور الدبلوماسي لنعيم بن مسعود الذي زرع الشك بين القبائل، وعاصفة عاتية دمّرت معسكراتهم سمّاها القرآن الكريم "جنوداً لم تروها".</p>
+        </div>
+      </div>
+      <div class="significance zh">
+        <div class="sig-title">历史影响 · Historical Impact</div>
+        <p class="sig-text">壕沟之战是伊斯兰历史的决定性转折点。先知在胜利后说："从今以后，是我们主动进攻麦加，而不是他们来攻打我们。"此战宣告了麦加试图通过军事手段消灭穆斯林共同体计划的彻底失败，伊斯兰的战略态势从防御全面转向进攻，三年后的麦加光复成为必然。</p>
+      </div>
+      <div class="significance ar">
+        <div class="sig-title ar">الأثر التاريخي</div>
+        <p class="sig-text ar">كانت الخندق نقطة تحوّل حاسمة. قال النبي ﷺ بعدها: "الآن نغزوهم ولا يغزوننا". أفشل هذا الانتصار الخطة القرشية للقضاء على المسلمين عسكرياً، وتحوّلت الاستراتيجية الإسلامية من الدفاع إلى الهجوم، مما مهّد لفتح مكة بعد ثلاث سنوات.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BATTLE 4: CONQUEST OF MECCA -->
+  <div class="battle-section">
+    <div class="battle-header">
+      <div class="battle-header-left">
+        <div class="battle-num">BATTLE 04 · فتح</div>
+        <div class="battle-title-zh zh">征服麦加（麦加光复）</div>
+        <div class="battle-title-ar ar">فتح مكة المكرمة</div>
+      </div>
+      <div class="battle-header-right">
+        <div><span class="battle-outcome outcome-peace zh">和平光复</span><span class="battle-outcome outcome-peace ar">فتح سلمي</span></div>
+        <div class="battle-date">630 CE · 8 AH · 莱麦丹月20日</div>
+      </div>
+    </div>
+    <div class="battle-body">
+      <div class="battle-stats">
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">穆斯林兵力</span><span class="battle-stat-label ar">قوة المسلمين</span>
+          <div class="battle-stat-value zh">约10,000人</div>
+          <div class="battle-stat-value ar">نحو 10,000 مقاتل</div>
+        </div>
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">实际战斗</span><span class="battle-stat-label ar">القتال الفعلي</span>
+          <div class="battle-stat-value zh">极少，几乎和平入城</div>
+          <div class="battle-stat-value ar">ضئيل جداً، دخول سلمي</div>
+        </div>
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">先知宣布</span><span class="battle-stat-label ar">إعلان النبي ﷺ</span>
+          <div class="battle-stat-value zh">大赦天下，一律不究</div>
+          <div class="battle-stat-value ar">العفو العام للجميع</div>
+        </div>
+        <div class="battle-stat">
+          <span class="battle-stat-label zh">历史意义</span><span class="battle-stat-label ar">الأهمية</span>
+          <div class="battle-stat-value zh">伊斯兰历史最重要时刻</div>
+          <div class="battle-stat-value ar">من أعظم لحظات التاريخ الإسلامي</div>
+        </div>
+      </div>
+      <div class="battle-cols">
+        <div>
+          <div class="battle-col-title zh">背景与起因</div>
+          <div class="battle-col-title ar">الخلفية والأسباب</div>
+          <p class="battle-text zh">628年，穆斯林与麦加签订了《侯代比亚和约》，约定10年停战。但麦加盟友巴努·贝克尔部落袭击了穆斯林盟友胡扎尔部落，违反了和约。先知以此为由，秘密准备了一支万人大军，在莱麦丹月出发，行动保密至极，连部分高层都不知道目的地。</p>
+          <p class="battle-text ar">عام 628م وقّع المسلمون صلح الحديبية مع قريش لعشر سنوات. لكن بني بكر حلفاء قريش غدروا بخزاعة حلفاء المسلمين ناقضين العهد. اتخذ النبي ﷺ ذلك مسوّغاً لتجهيز جيش من عشرة آلاف في سرية تامة، وزحف في رمضان دون أن يعلم كثيرون وجهته.</p>
+        </div>
+        <div>
+          <div class="battle-col-title zh">入城与大赦</div>
+          <div class="battle-col-title ar">الدخول والعفو العام</div>
+          <p class="battle-text zh">麦加领袖阿布·苏菲扬在城外亲眼见到万人大军后，选择皈依伊斯兰。先知宣布：凡进入阿布·苏菲扬家者安全，凡关门在家者安全，凡进入卡巴天房者安全。入城后，先知环绕卡巴天房七圈，用拐杖将360尊偶像逐一推倒，高诵："真理来临，谬误消逝。"</p>
+          <p class="battle-text ar">أسلم أبو سفيان حين رأى الجيش الهائل على أبواب مكة. أعلن النبي ﷺ: "من دخل دار أبي سفيان فهو آمن، ومن أغلق داره فهو آمن، ومن دخل المسجد فهو آمن". بعد دخوله طاف النبي بالكعبة سبعاً وأزال 360 صنماً بقضيبه قائلاً: "جاء الحق وزهق الباطل".</p>
+        </div>
+      </div>
+      <div class="significance zh">
+        <div class="sig-title">历史影响 · Historical Impact</div>
+        <p class="sig-text">麦加光复是伊斯兰历史上最重要的事件之一。先知对曾迫害自己和信众多年的人宣布全体大赦，这一历史性的宽容姿态被许多历史学家视为古代史上最伟大的政治智慧之一。大批麦加人在光复后皈依伊斯兰，伊斯兰教从此在阿拉伯半岛取得了不可撼动的主导地位。比拉勒在卡巴天房顶部的宣礼，象征着伊斯兰平等精神的最高彰显。</p>
+      </div>
+      <div class="significance ar">
+        <div class="sig-title ar">الأثر التاريخي</div>
+        <p class="sig-text ar">فتح مكة من أعظم أحداث التاريخ الإسلامي. إعلان النبي ﷺ العفو العام عمّن آذوه وآذوا أصحابه سنوات طويلة يُعدّ من أرقى مواقف الحلم في تاريخ البشرية. أسلم أهل مكة دفعة واحدة وترسّخت هيمنة الإسلام على جزيرة العرب. وأذان بلال فوق الكعبة تجسيد خالد لمبدأ المساواة الإسلامية.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">نور التاريخ</div>
+  <div class="footer-links">
+    <a href="index.html"><span class="zh inline">首页</span><span class="ar inline">الرئيسية</span></a>
+    <a href="figures.html"><span class="zh inline">人物</span><span class="ar inline">الشخصيات</span></a>
+    <a href="battles.html"><span class="zh inline">战役</span><span class="ar inline">المعارك</span></a>
+    <a href="muhammad.html"><span class="zh inline">先知</span><span class="ar inline">النبي</span></a>
+  </div>
+  <div class="footer-copy">FOR EDUCATIONAL PURPOSES · 仅供学习参考</div>
+</footer>
+
+<script>
+function setLang(lang, e) {
+  document.body.setAttribute('data-lang', lang);
+  document.documentElement.setAttribute('lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+}
+</script>
+</body>
+</html>

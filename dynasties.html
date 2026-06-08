@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>王朝系统 · الأسرات الحاكمة — 历史之光</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#0F5132;--green-mid:#1a6b3c;--green-light:#e8f2ec;
+  --gold:#D4AF37;--gold-dark:#a07c10;--gold-light:#f7f0d4;
+  --cream:#F8F5EE;--cream-dark:#ede8dc;
+  --text:#1c2b20;--text-mid:#3a5242;--text-soft:#6b826e;--white:#ffffff;
+  --rashidun:#0F5132;--umayyad:#5c3a0a;--abbasid:#1a2e5c;--ottoman:#5c1a1a;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Serif SC',Georgia,serif;background:var(--cream);color:var(--text);}
+[data-lang="ar"] .zh{display:none!important;}
+[data-lang="ar"] .ar{display:block!important;}
+[data-lang="zh"] .ar{display:none!important;}
+[data-lang="zh"] .zh{display:block!important;}
+.ar.inline,[data-lang="zh"] .ar.inline{display:none!important;}
+[data-lang="ar"] .ar.inline{display:inline!important;}
+[data-lang="zh"] .zh.inline{display:inline!important;}
+[data-lang="ar"] .zh.inline{display:none!important;}
+
+nav{position:sticky;top:0;z-index:100;background:var(--green);border-bottom:2px solid var(--gold);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;}
+.nav-logo{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold);letter-spacing:2px;text-decoration:none;display:flex;align-items:center;gap:10px;}
+.nav-logo .arl{font-family:'Noto Naskh Arabic',serif;font-size:1.2rem;}
+.nav-links{display:flex;list-style:none;}
+.nav-links a{display:block;padding:0 .85rem;height:60px;line-height:60px;color:rgba(255,255,255,.82);text-decoration:none;font-size:.8rem;transition:color .2s;font-family:'Noto Serif SC',serif;}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);}
+.lang-switcher{display:flex;gap:4px;}
+.lang-btn{padding:4px 10px;border-radius:4px;font-size:.78rem;cursor:pointer;border:1px solid rgba(212,175,55,.5);background:transparent;color:rgba(255,255,255,.7);transition:all .2s;font-family:'Noto Serif SC',serif;}
+.lang-btn.active{background:var(--gold);color:var(--green);font-weight:600;}
+.lang-btn:hover:not(.active){border-color:var(--gold);color:var(--gold);}
+
+/* PAGE HEADER */
+.page-header{background:var(--green);padding:3rem 2rem 2.5rem;text-align:center;position:relative;overflow:hidden;}
+.page-header::before{content:'';position:absolute;inset:0;opacity:.05;background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(212,175,55,1) 39px,rgba(212,175,55,1) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(212,175,55,1) 39px,rgba(212,175,55,1) 40px);}
+.ph-eyebrow{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:4px;text-transform:uppercase;color:rgba(212,175,55,.65);margin-bottom:8px;position:relative;}
+.page-header h1{font-size:2rem;color:white;font-weight:600;margin-bottom:5px;position:relative;}
+.page-header h1.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;}
+.ph-sub{color:rgba(255,255,255,.5);font-size:.88rem;position:relative;}
+.ph-sub.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;}
+
+/* TIMELINE BAR */
+.timeline-bar-wrap{background:var(--green);padding:0 2rem 2.5rem;}
+.timeline-bar{max-width:1100px;margin:0 auto;position:relative;}
+.tbar-label{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:3px;color:rgba(212,175,55,.5);text-transform:uppercase;margin-bottom:1rem;}
+.tbar-track{display:flex;height:48px;border-radius:8px;overflow:hidden;border:1px solid rgba(212,175,55,.2);}
+.tbar-seg{display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;transition:opacity .2s;overflow:hidden;}
+.tbar-seg:hover{opacity:.85;}
+.tbar-seg-label{font-size:.72rem;color:rgba(255,255,255,.85);font-family:'Cinzel',serif;letter-spacing:.5px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;padding:0 6px;text-align:center;}
+.tbar-seg-label.ar{font-family:'Noto Naskh Arabic',serif;font-size:.85rem;letter-spacing:0;}
+.tbar-years{display:flex;justify-content:space-between;margin-top:6px;}
+.tbar-year{font-family:'Cinzel',serif;font-size:.62rem;color:rgba(255,255,255,.35);}
+
+/* DYNASTY TABS */
+.dynasty-tabs{background:var(--cream-dark);border-bottom:1px solid var(--cream-dark);padding:1.25rem 2rem;display:flex;gap:10px;flex-wrap:wrap;max-width:1100px;margin:0 auto;}
+.dynasty-tab{padding:8px 20px;border-radius:8px;font-size:.82rem;cursor:pointer;border:2px solid transparent;background:var(--white);color:var(--text-mid);font-family:'Noto Serif SC',serif;transition:all .2s;display:flex;align-items:center;gap:8px;}
+.dynasty-tab:hover{border-color:var(--green);}
+.dynasty-tab.active{color:white;border-color:transparent;}
+.dynasty-tab .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.dynasty-tab.ar-tab{font-family:'Noto Naskh Arabic',serif;font-size:.95rem;}
+.tab-rashidun.active{background:var(--rashidun);}
+.tab-umayyad.active{background:var(--umayyad);}
+.tab-abbasid.active{background:var(--abbasid);}
+.tab-ottoman.active{background:var(--ottoman);}
+
+/* MAIN */
+.main{max-width:1100px;margin:0 auto;padding:2.5rem 2rem;}
+.dynasty-view{display:none;}
+.dynasty-view.active{display:block;}
+
+/* DYNASTY HERO CARD */
+.dynasty-hero{border-radius:14px;overflow:hidden;margin-bottom:2rem;}
+.dh-top{padding:2rem;color:white;position:relative;overflow:hidden;}
+.dh-top::before{content:'';position:absolute;inset:0;opacity:.06;background-image:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,255,255,.8) 20px,rgba(255,255,255,.8) 21px);}
+.dh-eyebrow{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:rgba(212,175,55,.65);margin-bottom:.5rem;position:relative;}
+.dh-name-zh{font-size:2rem;font-weight:600;color:white;margin-bottom:3px;position:relative;}
+.dh-name-ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;font-size:1.7rem;color:rgba(212,175,55,.85);margin-bottom:.75rem;position:relative;}
+.dh-tagline{font-size:.9rem;color:rgba(255,255,255,.6);position:relative;font-style:italic;}
+.dh-tagline.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;}
+.dh-stats{display:flex;gap:2rem;margin-top:1.5rem;flex-wrap:wrap;position:relative;}
+.dh-stat{}
+.dh-stat-label{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:rgba(212,175,55,.6);display:block;margin-bottom:3px;}
+.dh-stat-label.ar{font-family:'Noto Naskh Arabic',serif;letter-spacing:0;font-size:.78rem;direction:rtl;}
+.dh-stat-value{font-size:.92rem;color:white;font-weight:500;}
+.dh-stat-value.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;}
+
+/* BODY SECTIONS */
+.dynasty-body{background:var(--white);border:1px solid var(--cream-dark);border-top:none;border-radius:0 0 14px 14px;padding:2rem;}
+.section-label{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dark);border-left:3px solid var(--green);padding-left:8px;margin-bottom:.9rem;}
+.section-label.ar{font-family:'Noto Naskh Arabic',serif;border-left:none;border-right:3px solid var(--green);padding-left:0;padding-right:8px;direction:rtl;letter-spacing:0;font-size:.82rem;}
+.body-text{font-size:.88rem;line-height:1.9;color:var(--text-mid);}
+.body-text.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;font-size:.96rem;line-height:2.1;}
+.divider{border:none;border-top:1px solid var(--cream-dark);margin:1.75rem 0;}
+
+/* TWO COL */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+@media(max-width:640px){.two-col{grid-template-columns:1fr;}}
+
+/* RULERS TABLE */
+.rulers-section{margin-bottom:2rem;}
+.rulers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:.75rem;}
+.ruler-card{background:var(--cream);border:1px solid var(--cream-dark);border-radius:8px;padding:.85rem 1rem;display:flex;align-items:center;gap:10px;}
+.ruler-num{font-family:'Cinzel',serif;font-size:.75rem;color:var(--gold-dark);min-width:22px;}
+.ruler-info{}
+.ruler-name{font-size:.85rem;font-weight:500;color:var(--text);margin-bottom:2px;}
+.ruler-name.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;font-size:.95rem;}
+.ruler-years{font-size:.7rem;color:var(--text-soft);font-family:'Cinzel',serif;}
+
+/* EVENTS LIST */
+.events-list{list-style:none;}
+.events-list li{display:flex;gap:14px;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--cream-dark);align-items:flex-start;}
+.events-list li:last-child{border-bottom:none;}
+.ev-year{font-family:'Cinzel',serif;font-size:.72rem;color:var(--gold-dark);min-width:60px;padding-top:2px;white-space:nowrap;}
+.ev-content{}
+.ev-title{font-size:.88rem;font-weight:500;color:var(--text);margin-bottom:2px;}
+.ev-title.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;font-size:.95rem;}
+.ev-desc{font-size:.8rem;color:var(--text-soft);line-height:1.65;}
+.ev-desc.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;font-size:.88rem;line-height:1.9;}
+
+/* ACHIEVEMENTS */
+.achievements{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-top:.75rem;}
+.ach-card{background:var(--cream);border:1px solid var(--cream-dark);border-radius:8px;padding:1rem;}
+.ach-icon{font-size:1.4rem;margin-bottom:6px;}
+.ach-title{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:4px;}
+.ach-title.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;font-size:.9rem;}
+.ach-desc{font-size:.76rem;color:var(--text-soft);line-height:1.6;}
+.ach-desc.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;font-size:.84rem;line-height:1.8;}
+
+/* QUOTE */
+.dyn-quote{border-left:4px solid var(--green);background:var(--green-light);padding:.9rem 1.25rem;border-radius:0 8px 8px 0;font-style:italic;font-size:.85rem;color:var(--green-mid);line-height:1.8;margin-top:1rem;}
+.dyn-quote.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl;border-left:none;border-right:4px solid var(--green);border-radius:8px 0 0 8px;font-size:.93rem;line-height:2;}
+
+footer{background:var(--green);border-top:2px solid var(--gold);padding:2.5rem 2rem;text-align:center;}
+.footer-logo{font-family:'Noto Naskh Arabic',serif;font-size:1.8rem;color:var(--gold);margin-bottom:4px;}
+.footer-links{display:flex;justify-content:center;gap:1.5rem;margin:1rem 0;flex-wrap:wrap;}
+.footer-links a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.8rem;transition:color .2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-copy{font-size:.7rem;color:rgba(255,255,255,.22);font-family:'Cinzel',serif;letter-spacing:1px;}
+</style>
+</head>
+<body data-lang="zh">
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span class="arl">نور</span>
+    <span style="color:rgba(255,255,255,.4);">|</span>
+    <span>历史之光</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#timeline"><span class="zh inline">时间轴</span><span class="ar inline">الجدول</span></a></li>
+    <li><a href="figures.html"><span class="zh inline">人物</span><span class="ar inline">الشخصيات</span></a></li>
+    <li><a href="battles.html"><span class="zh inline">战役</span><span class="ar inline">المعارك</span></a></li>
+    <li><a href="family-tree.html"><span class="zh inline">家谱</span><span class="ar inline">شجرة النسب</span></a></li>
+    <li><a href="dynasties.html" class="active"><span class="zh inline">王朝</span><span class="ar inline">الأسرات</span></a></li>
+    <li><a href="muhammad.html"><span class="zh inline">先知</span><span class="ar inline">النبي</span></a></li>
+  </ul>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('zh',event)">中文</button>
+    <button class="lang-btn" onclick="setLang('ar',event)">العربية</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="ph-eyebrow">Islamic Dynasties · الأسرات الإسلامية</div>
+  <h1 class="zh">伊斯兰王朝系统</h1>
+  <h1 class="ar">الأسرات الحاكمة في التاريخ الإسلامي</h1>
+  <p class="ph-sub zh">从正统哈里发到奥斯曼帝国 · 1300年伊斯兰政治史</p>
+  <p class="ph-sub ar">من الخلفاء الراشدين إلى الدولة العثمانية · 1300 عام من التاريخ السياسي الإسلامي</p>
+</div>
+
+<!-- VISUAL TIMELINE BAR -->
+<div class="timeline-bar-wrap">
+  <div class="timeline-bar">
+    <div class="tbar-label zh">历史时间轴（按比例）· 点击色块跳转</div>
+    <div class="tbar-label ar" style="font-family:'Noto Naskh Arabic',serif;direction:rtl;">الجدول الزمني (بالنسبة) · انقر للانتقال</div>
+    <div class="tbar-track">
+      <div class="tbar-seg" style="background:#0F5132;width:2.2%;" onclick="switchDynasty('rashidun')">
+        <span class="tbar-seg-label zh">正统</span><span class="tbar-seg-label ar">راشدون</span>
+      </div>
+      <div class="tbar-seg" style="background:#7a4f0f;width:7.1%;" onclick="switchDynasty('umayyad')">
+        <span class="tbar-seg-label zh">倭马亚</span><span class="tbar-seg-label ar">أموية</span>
+      </div>
+      <div class="tbar-seg" style="background:#1e3a7a;width:38.5%;" onclick="switchDynasty('abbasid')">
+        <span class="tbar-seg-label zh">阿拔斯王朝（508年）</span><span class="tbar-seg-label ar">العباسيون (508 سنة)</span>
+      </div>
+      <div class="tbar-seg" style="background:#7a1a1a;width:47.7%;" onclick="switchDynasty('ottoman')">
+        <span class="tbar-seg-label zh">奥斯曼帝国（623年）</span><span class="tbar-seg-label ar">العثمانيون (623 سنة)</span>
+      </div>
+      <div class="tbar-seg" style="background:#2a2a2a;width:4.5%;cursor:default;">
+        <span class="tbar-seg-label" style="font-size:.65rem;opacity:.5;">现代</span>
+      </div>
+    </div>
+    <div class="tbar-years">
+      <span class="tbar-year">632</span>
+      <span class="tbar-year">661</span>
+      <span class="tbar-year">750</span>
+      <span class="tbar-year">1000</span>
+      <span class="tbar-year">1258</span>
+      <span class="tbar-year">1300</span>
+      <span class="tbar-year">1600</span>
+      <span class="tbar-year">1924</span>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div style="background:var(--cream-dark);padding:1.25rem 2rem;border-bottom:1px solid var(--cream-dark);">
+  <div class="dynasty-tabs" style="padding:0;background:transparent;">
+    <button class="dynasty-tab tab-rashidun active" id="tab-rashidun" onclick="switchDynasty('rashidun')">
+      <span class="dot" style="background:#0F5132;"></span>
+      <span class="zh inline">正统哈里发时期</span><span class="ar inline">الخلفاء الراشدون</span>
+      <span style="font-family:'Cinzel',serif;font-size:.65rem;opacity:.6;margin-left:4px;">632–661</span>
+    </button>
+    <button class="dynasty-tab tab-umayyad" id="tab-umayyad" onclick="switchDynasty('umayyad')">
+      <span class="dot" style="background:#7a4f0f;"></span>
+      <span class="zh inline">倭马亚王朝</span><span class="ar inline">الدولة الأموية</span>
+      <span style="font-family:'Cinzel',serif;font-size:.65rem;opacity:.6;margin-left:4px;">661–750</span>
+    </button>
+    <button class="dynasty-tab tab-abbasid" id="tab-abbasid" onclick="switchDynasty('abbasid')">
+      <span class="dot" style="background:#1e3a7a;"></span>
+      <span class="zh inline">阿拔斯王朝</span><span class="ar inline">الدولة العباسية</span>
+      <span style="font-family:'Cinzel',serif;font-size:.65rem;opacity:.6;margin-left:4px;">750–1258</span>
+    </button>
+    <button class="dynasty-tab tab-ottoman" id="tab-ottoman" onclick="switchDynasty('ottoman')">
+      <span class="dot" style="background:#7a1a1a;"></span>
+      <span class="zh inline">奥斯曼帝国</span><span class="ar inline">الدولة العثمانية</span>
+      <span style="font-family:'Cinzel',serif;font-size:.65rem;opacity:.6;margin-left:4px;">1299–1924</span>
+    </button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ══════════════════════════════ RASHIDUN ══════════════════════════════ -->
+  <div class="dynasty-view active" id="view-rashidun">
+    <div class="dynasty-hero">
+      <div class="dh-top" style="background:var(--rashidun);">
+        <div class="dh-eyebrow">RIGHTLY-GUIDED CALIPHATE · 正统哈里发国</div>
+        <div class="dh-name-zh zh">正统哈里发时期</div>
+        <div class="dh-name-ar ar">عصر الخلفاء الراشدين</div>
+        <div class="dh-tagline zh">伊斯兰历史的黄金起点 · 先知精神的直接延续</div>
+        <div class="dh-tagline ar">البداية الذهبية للتاريخ الإسلامي · الامتداد المباشر للروح النبوية</div>
+        <div class="dh-stats">
+          <div class="dh-stat"><span class="dh-stat-label zh">时间</span><span class="dh-stat-label ar">الفترة</span><span class="dh-stat-value">632 – 661 CE</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">时长</span><span class="dh-stat-label ar">المدة</span><span class="dh-stat-value zh">29年</span><span class="dh-stat-value ar">29 عاماً</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">首都</span><span class="dh-stat-label ar">العاصمة</span><span class="dh-stat-value zh">麦地那</span><span class="dh-stat-value ar">المدينة المنورة</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">哈里发数</span><span class="dh-stat-label ar">عدد الخلفاء</span><span class="dh-stat-value">4</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">版图扩张</span><span class="dh-stat-label ar">التوسع</span><span class="dh-stat-value zh">波斯、叙利亚、埃及</span><span class="dh-stat-value ar">فارس، الشام، مصر</span></div>
+        </div>
+      </div>
+      <div class="dynasty-body">
+        <div class="two-col">
+          <div>
+            <div class="section-label zh">历史概述</div>
+            <div class="section-label ar">نبذة تاريخية</div>
+            <p class="body-text zh">正统哈里发时期是伊斯兰历史上最接近先知理想的政治时代，四位哈里发均为先知最亲密的圣门弟子，以协商（舒拉）选举产生。这一时期伊斯兰帝国迅速扩张，在不到30年间征服了阿拉伯半岛、波斯萨珊王朝、拜占庭控制的叙利亚和埃及。这四位哈里发被后世逊尼派穆斯林视为政治与道德的最高典范。</p>
+            <p class="body-text ar">عصر الخلفاء الراشدين أقرب العصور إلى المثل الإسلامي الأعلى، إذ كان الخلفاء الأربعة من أوثق صحابة النبي ﷺ وانتُخبوا بالشورى. توسّعت الدولة بسرعة مذهلة واقتطعت الجزيرة العربية وفارس وبلاد الشام ومصر في أقل من ثلاثين عاماً. يعدّهم أهل السنة النموذج الأرفع في السياسة والأخلاق.</p>
+          </div>
+          <div>
+            <div class="section-label zh">政治特点</div>
+            <div class="section-label ar">السمات السياسية</div>
+            <div class="achievements">
+              <div class="ach-card">
+                <div class="ach-icon">🤝</div>
+                <div class="ach-title zh">协商制度</div><div class="ach-title ar">نظام الشورى</div>
+                <div class="ach-desc zh">哈里发由协商选举产生，非世袭，体现伊斯兰民主精神</div>
+                <div class="ach-desc ar">الخليفة يُنتخب بالشورى لا بالوراثة، تجسيداً للديمقراطية الإسلامية</div>
+              </div>
+              <div class="ach-card">
+                <div class="ach-icon">⚖️</div>
+                <div class="ach-title zh">公正治理</div><div class="ach-title ar">العدل في الحكم</div>
+                <div class="ach-desc zh">哈里发生活简朴，欧麦尔亲自巡视市场，检举不公</div>
+                <div class="ach-desc ar">عاش الخلفاء في زهد وكان عمر يتفقد الأسواق بنفسه</div>
+              </div>
+              <div class="ach-card">
+                <div class="ach-icon">📖</div>
+                <div class="ach-title zh">古兰经编订</div><div class="ach-title ar">جمع القرآن</div>
+                <div class="ach-desc zh">阿布·伯克尔首次整理，奥斯曼编订标准版并分发各地</div>
+                <div class="ach-desc ar">جمعه أبو بكر وأصدر عثمان نسخة موحدة ووزّعها</div>
+              </div>
+              <div class="ach-card">
+                <div class="ach-icon">🏛️</div>
+                <div class="ach-title zh">行政体系</div><div class="ach-title ar">النظام الإداري</div>
+                <div class="ach-desc zh">欧麦尔建立省份制、军营城市（米斯尔）、国库和历法</div>
+                <div class="ach-desc ar">أسس عمر الولايات والأمصار وبيت المال والتقويم الهجري</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="rulers-section">
+          <div class="section-label zh">四大哈里发</div>
+          <div class="section-label ar">الخلفاء الأربعة</div>
+          <div class="rulers-grid">
+            <div class="ruler-card"><span class="ruler-num">I</span><div class="ruler-info"><div class="ruler-name zh">阿布·伯克尔·西迪克</div><div class="ruler-name ar">أبو بكر الصديق</div><div class="ruler-years">632 – 634 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">II</span><div class="ruler-info"><div class="ruler-name zh">欧麦尔·本·赫塔卜</div><div class="ruler-name ar">عمر بن الخطاب</div><div class="ruler-years">634 – 644 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">III</span><div class="ruler-info"><div class="ruler-name zh">奥斯曼·本·阿凡</div><div class="ruler-name ar">عثمان بن عفان</div><div class="ruler-years">644 – 656 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">IV</span><div class="ruler-info"><div class="ruler-name zh">阿里·本·阿比·塔利卜</div><div class="ruler-name ar">علي بن أبي طالب</div><div class="ruler-years">656 – 661 CE</div></div></div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="section-label zh">重大历史事件</div>
+        <div class="section-label ar">أبرز الأحداث</div>
+        <ul class="events-list">
+          <li><span class="ev-year">632–633</span><div class="ev-content"><div class="ev-title zh">里达战争 · 阿布·伯克尔平叛</div><div class="ev-title ar">حروب الردة · أبو بكر يوحّد الجزيرة</div><div class="ev-desc zh">先知去世后多个部落宣布叛离，阿布·伯克尔以军事行动迅速平定，维护了伊斯兰共同体的统一</div><div class="ev-desc ar">بعد وفاة النبي ارتد بعض القبائل فأخمد أبو بكر الفتنة عسكرياً وحافظ على وحدة الأمة</div></div></li>
+          <li><span class="ev-year">636</span><div class="ev-content"><div class="ev-title zh">卡迪西亚战役 · 波斯萨珊王朝覆灭</div><div class="ev-title ar">معركة القادسية · انهيار الدولة الساسانية</div><div class="ev-desc zh">穆斯林军队在卡迪西亚击败波斯大军，波斯萨珊帝国随之土崩瓦解，伊斯兰势力进入两河流域</div><div class="ev-desc ar">هزم المسلمون الجيش الفارسي في القادسية فانهار الإمبراطور الساساني وامتدّ الإسلام إلى بلاد الرافدين</div></div></li>
+          <li><span class="ev-year">637</span><div class="ev-content"><div class="ev-title zh">征服耶路撒冷 · 欧麦尔约章</div><div class="ev-title ar">فتح القدس · العهدة العمرية</div><div class="ev-desc zh">欧麦尔和平进入耶路撒冷，拒绝在圣墓教堂内礼拜以免其被改建为清真寺，颁布欧麦尔约章保障宗教自由</div><div class="ev-desc ar">دخل عمر القدس سلماً ورفض الصلاة في كنيسة القيامة حمايةً لها، وأصدر العهدة العمرية ضماناً للحرية الدينية</div></div></li>
+          <li><span class="ev-year">650</span><div class="ev-content"><div class="ev-title zh">标准版《古兰经》颁布</div><div class="ev-title ar">إصدار المصحف العثماني</div><div class="ev-desc zh">奥斯曼主持编订并分发标准版《古兰经》至各省，统一了伊斯兰世界的经典文本，其他版本予以销毁</div><div class="ev-desc ar">أصدر عثمان المصحف الموحد ووزّعه على الأمصار وأحرق النسخ المختلفة لتوحيد النص القرآني</div></div></li>
+          <li><span class="ev-year">656–661</span><div class="ev-content"><div class="ev-title zh">第一次内战（大分裂）</div><div class="ev-title ar">الفتنة الكبرى</div><div class="ev-desc zh">奥斯曼遇刺后，伊斯兰爆发第一次内战。阿里与阿伊莎的骆驼之战、与穆阿维叶的锡芬战役，最终导致伊斯兰教逊尼派与什叶派的历史分裂</div><div class="ev-desc ar">بعد مقتل عثمان اندلعت الفتنة الكبرى: معركة الجمل بين علي وعائشة، وصفين بينه وبين معاوية، مما أفضى إلى الانقسام التاريخي بين السنة والشيعة</div></div></li>
+        </ul>
+        <div class="dyn-quote zh">先知曾说："以我的圣门弟子为法，他们是你们的引导。"正统哈里发时期是这句话最直接的历史体现，被后世视为伊斯兰政治的黄金时代。</div>
+        <div class="dyn-quote ar">قال النبي ﷺ: "عليكم بسنتي وسنة الخلفاء الراشدين المهديين من بعدي". عصرهم هو التجسيد المباشر لهذه الوصية، وظل مرجعاً للمثل الإسلامي الأعلى.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ UMAYYAD ══════════════════════════════ -->
+  <div class="dynasty-view" id="view-umayyad">
+    <div class="dynasty-hero">
+      <div class="dh-top" style="background:#5c3a0a;">
+        <div class="dh-eyebrow">UMAYYAD CALIPHATE · 倭马亚哈里发国</div>
+        <div class="dh-name-zh zh">倭马亚王朝</div>
+        <div class="dh-name-ar ar">الدولة الأموية</div>
+        <div class="dh-tagline zh">伊斯兰帝国的第一个世袭王朝 · 大马士革时代</div>
+        <div class="dh-tagline ar">أول سلالة وراثية في الإسلام · عصر دمشق</div>
+        <div class="dh-stats">
+          <div class="dh-stat"><span class="dh-stat-label zh">时间</span><span class="dh-stat-label ar">الفترة</span><span class="dh-stat-value">661 – 750 CE</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">时长</span><span class="dh-stat-label ar">المدة</span><span class="dh-stat-value zh">89年</span><span class="dh-stat-value ar">89 عاماً</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">首都</span><span class="dh-stat-label ar">العاصمة</span><span class="dh-stat-value zh">大马士革</span><span class="dh-stat-value ar">دمشق</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">哈里发数</span><span class="dh-stat-label ar">عدد الخلفاء</span><span class="dh-stat-value">14</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">最大版图</span><span class="dh-stat-label ar">أقصى امتداد</span><span class="dh-stat-value zh">伊比利亚至印度河</span><span class="dh-stat-value ar">إسبانيا إلى السند</span></div>
+        </div>
+      </div>
+      <div class="dynasty-body">
+        <div class="two-col">
+          <div>
+            <div class="section-label zh">历史概述</div>
+            <div class="section-label ar">نبذة تاريخية</div>
+            <p class="body-text zh">倭马亚王朝由穆阿维叶一世建立，将伊斯兰哈里发制度由协商选举转变为世袭君主制，首都迁至大马士革。这一时期伊斯兰帝国版图达到历史上最大规模之一——西至伊比利亚半岛（711年征服西班牙），东至印度河流域。但这一王朝也因阿里之死和卡尔巴拉事件而在伊斯兰内部留下了无法愈合的裂痕。</p>
+            <p class="body-text ar">أسس معاوية بن أبي سفيان الدولة الأموية محوّلاً الخلافة من الشورى إلى الوراثة، ونقل العاصمة إلى دمشق. بلغت الدولة في هذا العصر أوسع امتداد لها تقريباً؛ غرباً إلى الأندلس (فتحت 711م) وشرقاً إلى السند. غير أن مقتل علي وأحداث كربلاء خلّفت جرحاً غائراً في الجسد الإسلامي.</p>
+          </div>
+          <div>
+            <div class="section-label zh">主要成就</div>
+            <div class="section-label ar">أبرز الإنجازات</div>
+            <div class="achievements">
+              <div class="ach-card">
+                <div class="ach-icon">🌍</div>
+                <div class="ach-title zh">最大版图</div><div class="ach-title ar">أوسع رقعة</div>
+                <div class="ach-desc zh">帝国从伊比利亚半岛延伸至印度河，横跨三大洲</div>
+                <div class="ach-desc ar">امتدت من الأندلس إلى نهر السند عبر ثلاث قارات</div>
+              </div>
+              <div class="ach-card">
+                <div class="ach-icon">🕌</div>
+                <div class="ach-title zh">岩石圆顶清真寺</div><div class="ach-title ar">قبة الصخرة</div>
+                <div class="ach-desc zh">688年建于耶路撒冷，是伊斯兰建筑的标志性杰作</div>
+                <div class="ach-desc ar">بُنيت في القدس 688م، وهي آية في الهندسة الإسلامية</div>
+              </div>
+              <div class="ach-card">
+                <div class="ach-icon">💰</div>
+                <div class="ach-title zh">阿拉伯货币</div><div class="ach-title ar">العملة العربية</div>
+                <div class="ach-desc zh">阿卜杜勒·马利克发行第一套纯伊斯兰风格金银币</div>
+                <div class="ach-desc ar">أصدر عبد الملك أول عملة إسلامية خالصة ذهباً وفضة</div>
+              </div>
+              <div class="ach-card">
+                <div class="ach-icon">📜</div>
+                <div class="ach-title zh">阿拉伯化政策</div><div class="ach-title ar">سياسة التعريب</div>
+                <div class="ach-desc zh">将政府行政语言统一为阿拉伯语，奠定文明传播基础</div>
+                <div class="ach-desc ar">توحيد لغة الإدارة الحكومية بالعربية مما نشر الحضارة</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="rulers-section">
+          <div class="section-label zh">主要统治者</div>
+          <div class="section-label ar">أبرز الخلفاء</div>
+          <div class="rulers-grid">
+            <div class="ruler-card"><span class="ruler-num">I</span><div class="ruler-info"><div class="ruler-name zh">穆阿维叶一世（奠基者）</div><div class="ruler-name ar">معاوية بن أبي سفيان</div><div class="ruler-years">661 – 680 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">V</span><div class="ruler-info"><div class="ruler-name zh">阿卜杜勒·马利克</div><div class="ruler-name ar">عبد الملك بن مروان</div><div class="ruler-years">685 – 705 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">VI</span><div class="ruler-info"><div class="ruler-name zh">瓦利德一世（建筑繁盛）</div><div class="ruler-name ar">الوليد بن عبد الملك</div><div class="ruler-years">705 – 715 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">VIII</span><div class="ruler-info"><div class="ruler-name zh">欧麦尔二世（改革者）</div><div class="ruler-name ar">عمر بن عبد العزيز</div><div class="ruler-years">717 – 720 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">XIV</span><div class="ruler-info"><div class="ruler-name zh">马尔万二世（末代）</div><div class="ruler-name ar">مروان بن محمد</div><div class="ruler-years">744 – 750 CE</div></div></div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="section-label zh">重大历史事件</div>
+        <div class="section-label ar">أبرز الأحداث</div>
+        <ul class="events-list">
+          <li><span class="ev-year">680</span><div class="ev-content"><div class="ev-title zh">卡尔巴拉事件 · 侯赛因殉难</div><div class="ev-title ar">مأساة كربلاء · استشهاد الحسين</div><div class="ev-desc zh">先知之孙侯赛因拒绝效忠倭马亚，在卡尔巴拉以72人对抗数千人的军队，全部壮烈牺牲。这一事件成为什叶派信仰的核心，每年阿舒拉节纪念</div><div class="ev-desc ar">رفض الحسين مبايعة يزيد فواجه بكربلاء جيشاً بثلاثة وسبعين من أهله وأصحابه فاستُشهدوا جميعاً. يظل هذا الحدث ركيزة العقيدة الشيعية وإحياء ذكراه في عاشوراء</div></div></li>
+          <li><span class="ev-year">711</span><div class="ev-content"><div class="ev-title zh">征服伊比利亚 · 塔里克越海进军</div><div class="ev-title ar">فتح الأندلس · طارق بن زياد</div><div class="ev-desc zh">塔里克·本·齐亚德率7000人横渡直布罗陀海峡，征服了西哥特王国，伊斯兰文明进入欧洲，此后统治伊比利亚近800年</div><div class="ev-desc ar">عبر طارق بن زياد المضيق بسبعة آلاف مقاتل وأسقط مملكة القوط، فدخل الإسلام أوروبا وحكم الأندلس قرابة ثمانية قرون</div></div></li>
+          <li><span class="ev-year">717–720</span><div class="ev-content"><div class="ev-title zh">欧麦尔二世改革 · "圣洁哈里发"</div><div class="ev-title ar">إصلاحات عمر بن عبد العزيز</div><div class="ev-desc zh">被称为"第五位正统哈里发"，恢复了协商精神，废除歧视性政策，减轻税负，是倭马亚王朝最受尊敬的统治者</div><div class="ev-desc ar">لُقّب بالخليفة الراشد الخامس، أعاد روح الشورى وألغى السياسات التمييزية وخفّف الضرائب، وهو أكثر خلفاء الأمويين احتراماً</div></div></li>
+          <li><span class="ev-year">732</span><div class="ev-content"><div class="ev-title zh">图尔战役 · 伊斯兰西进受阻</div><div class="ev-title ar">معركة بواتييه · توقف الزحف الغربي</div><div class="ev-desc zh">穆斯林军队在法兰克王国的图尔（普瓦捷）被查理·马特击败，标志着伊斯兰向西欧扩张的终止</div><div class="ev-desc ar">هُزم المسلمون على يد شارل مارتل في بواتييه بفرنسا، فكان ذلك نهاية التوسع الإسلامي نحو أوروبا الغربية</div></div></li>
+          <li><span class="ev-year">750</span><div class="ev-content"><div class="ev-title zh">阿拔斯革命 · 倭马亚覆灭</div><div class="ev-title ar">الثورة العباسية · نهاية الأمويين</div><div class="ev-desc zh">阿拔斯王朝在呼罗珊起义，大败倭马亚军队于扎卜河，末代哈里发马尔万二世逃往埃及后遇害，王朝终结</div><div class="ev-desc ar">انتفض العباسيون من خراسان وهزموا الأمويين في معركة الزاب، ففرّ مروان الثاني إلى مصر حيث لقي حتفه</div></div></li>
+        </ul>
+        <div class="dyn-quote zh">倭马亚时期建造的岩石圆顶清真寺（688年）至今矗立于耶路撒冷，是伊斯兰建筑史上最早也最美丽的杰作之一，历经1300年风雨而不衰。</div>
+        <div class="dyn-quote ar">قبة الصخرة التي شيّدها الأمويون (688م) ما زالت شامخة في القدس، وهي من أقدم روائع العمارة الإسلامية وأجملها عبر ثلاثة عشر قرناً.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ ABBASID ══════════════════════════════ -->
+  <div class="dynasty-view" id="view-abbasid">
+    <div class="dynasty-hero">
+      <div class="dh-top" style="background:#1e3a7a;">
+        <div class="dh-eyebrow">ABBASID CALIPHATE · 阿拔斯哈里发国</div>
+        <div class="dh-name-zh zh">阿拔斯王朝</div>
+        <div class="dh-name-ar ar">الدولة العباسية</div>
+        <div class="dh-tagline zh">伊斯兰黄金时代 · 巴格达的辉煌文明</div>
+        <div class="dh-tagline ar">العصر الذهبي للإسلام · حضارة بغداد الزاهرة</div>
+        <div class="dh-stats">
+          <div class="dh-stat"><span class="dh-stat-label zh">时间</span><span class="dh-stat-label ar">الفترة</span><span class="dh-stat-value">750 – 1258 CE</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">时长</span><span class="dh-stat-label ar">المدة</span><span class="dh-stat-value zh">508年</span><span class="dh-stat-value ar">508 عاماً</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">首都</span><span class="dh-stat-label ar">العاصمة</span><span class="dh-stat-value zh">巴格达</span><span class="dh-stat-value ar">بغداد</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">哈里发数</span><span class="dh-stat-label ar">عدد الخلفاء</span><span class="dh-stat-value">37</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">历史地位</span><span class="dh-stat-label ar">المكانة</span><span class="dh-stat-value zh">伊斯兰黄金时代</span><span class="dh-stat-value ar">العصر الذهبي</span></div>
+        </div>
+      </div>
+      <div class="dynasty-body">
+        <div class="two-col">
+          <div>
+            <div class="section-label zh">历史概述</div>
+            <div class="section-label ar">نبذة تاريخية</div>
+            <p class="body-text zh">阿拔斯王朝是伊斯兰历史上持续时间最长的王朝，也是文明成就最辉煌的时代。首都巴格达在8至10世纪成为全世界最大的城市和知识中心，"智慧宫"汇聚了来自全世界的学者，将古希腊、波斯、印度的科学知识翻译为阿拉伯语并加以发展，为欧洲文艺复兴奠定了知识基础。</p>
+            <p class="body-text ar">الدولة العباسية أطول الخلافات الإسلامية عمراً وأزهرها حضارةً. كانت بغداد في القرنين الثامن والعاشر أكبر مدن العالم ومركز المعرفة الكونية؛ بيت الحكمة جمع علماء الأرض وترجم ونطوّر العلوم اليونانية والفارسية والهندية بالعربية، مما أرسى أسس النهضة الأوروبية.</p>
+          </div>
+          <div>
+            <div class="section-label zh">黄金时代成就</div>
+            <div class="section-label ar">إنجازات العصر الذهبي</div>
+            <div class="achievements">
+              <div class="ach-card">
+                <div class="ach-icon">🔬</div>
+                <div class="ach-title zh">科学革命</div><div class="ach-title ar">الثورة العلمية</div>
+                <div class="ach-desc zh">代数学、光学、医学、天文学——伊斯兰学者推动了人类科学进步</div>
+                <div class="ach-desc ar">الجبر والبصريات والطب والفلك — علماء الإسلام قادوا التقدم العلمي</div>
+              </div>
+              <div class="ach-card">
+                <div class="ach-icon">📚</div>
+                <div class="ach-title zh">智慧宫</div><div class="ach-title ar">بيت الحكمة</div>
+                <div class="ach-desc zh">830年建立，全世界最大的翻译与研究中心</div>
+                <div class="ach-desc ar">أُسّس 830م وكان أكبر مركز للترجمة والبحث في العالم</div>
+              </div>
+              <div class="ach-card">
+                <div class="ach-icon">🏙️</div>
+                <div class="ach-title zh">圆城巴格达</div><div class="ach-title ar">مدينة السلام</div>
+                <div class="ach-desc zh">762年建立的圆形规划城市，鼎盛时人口超百万</div>
+                <div class="ach-desc ar">بُنيت 762م بتصميم دائري، بلغ عدد سكانها مليوناً في ذروتها</div>
+              </div>
+              <div class="ach-card">
+                <div class="ach-icon">✈️</div>
+                <div class="ach-title zh">丝绸之路贸易</div><div class="ach-title ar">طريق الحرير</div>
+                <div class="ach-desc zh">连接东西方的贸易网络，阿拔斯商人远至中国和非洲</div>
+                <div class="ach-desc ar">شبكة تجارية تربط الشرق بالغرب وصلت للصين وأفريقيا</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="rulers-section">
+          <div class="section-label zh">主要哈里发</div>
+          <div class="section-label ar">أبرز الخلفاء</div>
+          <div class="rulers-grid">
+            <div class="ruler-card"><span class="ruler-num">I</span><div class="ruler-info"><div class="ruler-name zh">阿布·阿拔斯·萨法赫（创立者）</div><div class="ruler-name ar">أبو العباس السفاح</div><div class="ruler-years">750 – 754 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">II</span><div class="ruler-info"><div class="ruler-name zh">曼苏尔（建立巴格达）</div><div class="ruler-name ar">أبو جعفر المنصور</div><div class="ruler-years">754 – 775 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">V</span><div class="ruler-info"><div class="ruler-name zh">哈伦·拉希德（黄金时代）</div><div class="ruler-name ar">هارون الرشيد</div><div class="ruler-years">786 – 809 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">VII</span><div class="ruler-info"><div class="ruler-name zh">马蒙（智慧宫创立者）</div><div class="ruler-name ar">المأمون</div><div class="ruler-years">813 – 833 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">37</span><div class="ruler-info"><div class="ruler-name zh">穆斯塔辛（末代哈里发）</div><div class="ruler-name ar">المستعصم بالله</div><div class="ruler-years">1242 – 1258 CE</div></div></div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="section-label zh">重大历史事件</div>
+        <div class="section-label ar">أبرز الأحداث</div>
+        <ul class="events-list">
+          <li><span class="ev-year">762</span><div class="ev-content"><div class="ev-title zh">建立巴格达 · "和平之城"</div><div class="ev-title ar">تأسيس بغداد · مدينة السلام</div><div class="ev-desc zh">曼苏尔在底格里斯河畔建造了世界上第一座规划性圆形城市，迅速发展为世界最大城市，人口鼎盛期超过百万</div><div class="ev-desc ar">شيّد المنصور على ضفاف دجلة أول مدينة دائرية مخططة في العالم، نمت سريعاً لتصير أكبر مدن الأرض بأكثر من مليون نسمة</div></div></li>
+          <li><span class="ev-year">786–809</span><div class="ev-content"><div class="ev-title zh">哈伦·拉希德时代 · 《一千零一夜》的年代</div><div class="ev-title ar">عصر هارون الرشيد · زمن ألف ليلة وليلة</div><div class="ev-desc zh">阿拔斯王朝的黄金巅峰，巴格达富甲天下，文学艺术科学并进，哈伦·拉希德甚至与法兰克皇帝查理曼互赠礼物</div><div class="ev-desc ar">ذروة العصر العباسي الذهبي، بغداد فاقت ثروة العالم، وازدهرت الآداب والفنون والعلوم، وتبادل هارون الهدايا مع شارلمان</div></div></li>
+          <li><span class="ev-year">830</span><div class="ev-content"><div class="ev-title zh">智慧宫建立 · 翻译运动</div><div class="ev-title ar">بيت الحكمة · حركة الترجمة</div><div class="ev-desc zh">马蒙建立智慧宫，系统翻译希腊语、波斯语、梵文著作，花剌子米在此发展了代数学，伊本·海赛姆奠定了现代光学基础</div><div class="ev-desc ar">أسّس المأمون بيت الحكمة لترجمة مؤلفات اليونانية والفارسية والسنسكريتية؛ أسّس الخوارزمي الجبر وابن الهيثم البصريات الحديثة</div></div></li>
+          <li><span class="ev-year">1258</span><div class="ev-content"><div class="ev-title zh">蒙古入侵 · 巴格达陷落</div><div class="ev-title ar">الغزو المغولي · سقوط بغداد</div><div class="ev-desc zh">旭烈兀率蒙古军队攻陷巴格达，末代哈里发穆斯塔辛被处死，智慧宫的书籍被投入底格里斯河（据称河水变黑），伊斯兰黄金时代落幕</div><div class="ev-desc ar">اقتحم هولاكو بغداد وقتل المستعصم وأُلقيت كتب بيت الحكمة في دجلة حتى اسودّت مياهه وفق الروايات، مسدلاً الستار على العصر الذهبي</div></div></li>
+        </ul>
+        <div class="dyn-quote zh">花剌子米（al-Khwarizmi）、伊本·西那（阿维森纳）、伊本·海赛姆——这些阿拔斯时代的学者，为人类留下了代数学、现代医学和光学的基础。没有他们，欧洲文艺复兴或许根本不会发生。</div>
+        <div class="dyn-quote ar">الخوارزمي وابن سينا وابن الهيثم — علماء العصر العباسي أرسوا أسس الجبر والطب الحديث والبصريات. لولاهم لما قامت النهضة الأوروبية على الأرجح.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ OTTOMAN ══════════════════════════════ -->
+  <div class="dynasty-view" id="view-ottoman">
+    <div class="dynasty-hero">
+      <div class="dh-top" style="background:#5c1a1a;">
+        <div class="dh-eyebrow">OTTOMAN EMPIRE · 奥斯曼帝国</div>
+        <div class="dh-name-zh zh">奥斯曼帝国</div>
+        <div class="dh-name-ar ar">الدولة العثمانية</div>
+        <div class="dh-tagline zh">伊斯兰历史上最后一个大帝国 · 横跨三大洲六百年</div>
+        <div class="dh-tagline ar">آخر الإمبراطوريات الإسلامية الكبرى · ستة قرون عبر ثلاث قارات</div>
+        <div class="dh-stats">
+          <div class="dh-stat"><span class="dh-stat-label zh">时间</span><span class="dh-stat-label ar">الفترة</span><span class="dh-stat-value">1299 – 1924 CE</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">时长</span><span class="dh-stat-label ar">المدة</span><span class="dh-stat-value zh">625年</span><span class="dh-stat-value ar">625 عاماً</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">首都</span><span class="dh-stat-label ar">العاصمة</span><span class="dh-stat-value zh">伊斯坦布尔（콘斯坦丁堡）</span><span class="dh-stat-value ar">القسطنطينية (إسطنبول)</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">苏丹数</span><span class="dh-stat-label ar">عدد السلاطين</span><span class="dh-stat-value">36</span></div>
+          <div class="dh-stat"><span class="dh-stat-label zh">最大版图</span><span class="dh-stat-label ar">أقصى امتداد</span><span class="dh-stat-value zh">1700万平方公里</span><span class="dh-stat-value ar">17 مليون كم²</span></div>
+        </div>
+      </div>
+      <div class="dynasty-body">
+        <div class="two-col">
+          <div>
+            <div class="section-label zh">历史概述</div>
+            <div class="section-label ar">نبذة تاريخية</div>
+            <p class="body-text zh">奥斯曼帝国由奥斯曼一世建立于安纳托利亚，历经625年成为伊斯兰历史上最长寿的帝国。1453年穆罕默德二世征服君士坦丁堡，标志着拜占庭帝国终结与奥斯曼黄金时代的开始。帝国鼎盛时版图横跨欧洲、亚洲、非洲，包括今日的土耳其、埃及、伊拉克、叙利亚、希腊、保加利亚、匈牙利等数十个国家的领土。1517年征服埃及后，奥斯曼苏丹开始兼任哈里发之职，成为全球穆斯林名义上的精神领袖。</p>
+            <p class="body-text ar">أسّس عثمان الأول دولته في الأناضول لتصير عبر 625 عاماً أطول إمبراطورية إسلامية عمراً. فتح محمد الفاتح القسطنطينية 1453م مؤذناً بنهاية بيزنطة وبداية الذروة العثمانية. امتدت الدولة في أوجها عبر أوروبا وآسيا وأفريقيا شاملةً ما يعادل عشرات الدول الحديثة. بعد فتح مصر 1517م تلقّب السلاطين العثمانيون بالخلافة فصاروا القادة الروحيين للمسلمين.</p>
+          </div>
+          <div>
+            <div class="section-label zh">帝国成就</div>
+            <div class="section-label ar">إنجازات الإمبراطورية</div>
+            <div class="achievements">
+              <div class="ach-card">
+                <div class="ach-icon">🏰</div>
+                <div class="ach-title zh">征服君士坦丁堡</div><div class="ach-title ar">فتح القسطنطينية</div>
+                <div class="ach-desc zh">1453年，穆罕默德二世终结千年拜占庭帝国，改名伊斯坦布尔</div>
+                <div class="ach-desc ar">1453م أنهى محمد الثاني الإمبراطورية البيزنطية وسمّى المدينة إسطنبول</div>
+              </div>
+              <div class="ach-card">
+                <div class="ach-icon">🕌</div>
+                <div class="ach-title zh">苏莱曼尼耶清真寺</div><div class="ach-title ar">جامع السليمانية</div>
+                <div class="ach-desc zh">建筑师锡南的杰作，奥斯曼建筑艺术的最高峰</div>
+                <div class="ach-desc ar">تحفة المعماري سنان وذروة الفن المعماري العثماني</div>
+              </div>
+              <div class="ach-card">
+                <div class="ach-icon">⚖️</div>
+                <div class="ach-title zh">法律体系（卡农）</div><div class="ach-title ar">القانون العثماني</div>
+                <div class="ach-desc zh">苏莱曼一世制定了完整的帝国法典，人称"立法者"</div>
+                <div class="ach-desc ar">سنّ سليمان القانوني قانوناً إمبراطورياً شاملاً</div>
+              </div>
+              <div class="ach-card">
+                <div class="ach-icon">🌐</div>
+                <div class="ach-title zh">多元文化治理</div><div class="ach-title ar">الحوكمة التعددية</div>
+                <div class="ach-desc zh">"米利特"制度允许基督徒、犹太人和穆斯林在帝国内自治</div>
+                <div class="ach-desc ar">نظام الملل أتاح للمسيحيين واليهود والمسلمين حكماً ذاتياً</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="rulers-section">
+          <div class="section-label zh">主要苏丹</div>
+          <div class="section-label ar">أبرز السلاطين</div>
+          <div class="rulers-grid">
+            <div class="ruler-card"><span class="ruler-num">I</span><div class="ruler-info"><div class="ruler-name zh">奥斯曼一世（奠基者）</div><div class="ruler-name ar">عثمان الأول</div><div class="ruler-years">1299 – 1326 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">VII</span><div class="ruler-info"><div class="ruler-name zh">穆罕默德二世（征服者）</div><div class="ruler-name ar">محمد الفاتح</div><div class="ruler-years">1451 – 1481 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">X</span><div class="ruler-info"><div class="ruler-name zh">苏莱曼一世（立法者）</div><div class="ruler-name ar">سليمان القانوني</div><div class="ruler-years">1520 – 1566 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">XIX</span><div class="ruler-info"><div class="ruler-name zh">穆斯塔法三世</div><div class="ruler-name ar">مصطفى الثالث</div><div class="ruler-years">1757 – 1774 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">XXXIV</span><div class="ruler-info"><div class="ruler-name zh">阿卜杜勒哈米德二世</div><div class="ruler-name ar">عبد الحميد الثاني</div><div class="ruler-years">1876 – 1909 CE</div></div></div>
+            <div class="ruler-card"><span class="ruler-num">XXXVI</span><div class="ruler-info"><div class="ruler-name zh">穆罕默德六世（末代苏丹）</div><div class="ruler-name ar">محمد السادس</div><div class="ruler-years">1918 – 1922 CE</div></div></div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="section-label zh">重大历史事件</div>
+        <div class="section-label ar">أبرز الأحداث</div>
+        <ul class="events-list">
+          <li><span class="ev-year">1453</span><div class="ev-content"><div class="ev-title zh">征服君士坦丁堡 · 历史转折</div><div class="ev-title ar">فتح القسطنطينية · منعطف التاريخ</div><div class="ev-desc zh">21岁的穆罕默德二世率军攻克千年古城，拜占庭帝国终结，东罗马文化遗产融入伊斯兰文明，这一日期也标志着欧洲中世纪的结束</div><div class="ev-desc ar">قاد محمد الثاني (21 عاماً) الحصار وأسقط المدينة العريقة منهياً الإمبراطورية البيزنطية ومدمجاً إرثها الثقافي في الحضارة الإسلامية، وهو التاريخ الذي يؤرخ به نهاية العصور الوسطى الأوروبية</div></div></li>
+          <li><span class="ev-year">1520–1566</span><div class="ev-content"><div class="ev-title zh">苏莱曼大帝时代 · 帝国顶峰</div><div class="ev-title ar">عصر سليمان القانوني · ذروة الإمبراطورية</div><div class="ev-desc zh">奥斯曼帝国的全盛时期，版图涵盖北非、中东、东欧，建筑艺术（苏莱曼尼耶清真寺）、法律体系和海军力量均达到顶峰，一度兵临维也纳城下</div><div class="ev-desc ar">أوج الدولة العثمانية شملت المغرب والمشرق وأوروبا الشرقية، وبلغت الهندسة المعمارية والقانون والقوة البحرية ذروتها، وحوصرت فيينا مرتين</div></div></li>
+          <li><span class="ev-year">1683</span><div class="ev-content"><div class="ev-title zh">维也纳之围失败 · 帝国开始收缩</div><div class="ev-title ar">فشل حصار فيينا · بداية الانحسار</div><div class="ev-desc zh">奥斯曼军队第二次围攻维也纳失败，被波兰-神圣罗马帝国联军击退，此后帝国版图开始持续收缩</div><div class="ev-desc ar">أخفق العثمانيون في حصارهم الثاني لفيينا وهُزموا أمام التحالف البولندي-النمساوي، فبدأ الانحسار التدريجي للإمبراطورية</div></div></li>
+          <li><span class="ev-year">1914–1918</span><div class="ev-content"><div class="ev-title zh">第一次世界大战 · 帝国瓦解</div><div class="ev-title ar">الحرب العالمية الأولى · تفكك الإمبراطورية</div><div class="ev-desc zh">奥斯曼帝国加入德国一侧参战，战败后领土被协约国瓜分。阿拉伯民族在英国支持下起义，中东现代国家边界由此奠定（赛克斯-皮科协定）</div><div class="ev-desc ar">انضم العثمانيون لألمانيا فخسروا وقُسّمت أراضيهم بين الحلفاء. ثار العرب بدعم بريطاني ورُسمت حدود الشرق الأوسط الحديثة (اتفاقية سايكس-بيكو)</div></div></li>
+          <li><span class="ev-year">1924</span><div class="ev-content"><div class="ev-title zh">哈里发制度终结 · 现代土耳其建立</div><div class="ev-title ar">إلغاء الخلافة · تأسيس تركيا الحديثة</div><div class="ev-desc zh">凯末尔·阿塔图尔克领导土耳其革命，废除苏丹制（1922年）后进一步废除哈里发制度，伊斯兰政治史上延续1292年的哈里发制度正式终结</div><div class="ev-desc ar">قاد مصطفى كمال أتاتورك الثورة التركية وألغى السلطنة (1922م) ثم الخلافة، منهياً رسمياً نظام الخلافة الذي دام 1292 عاماً في التاريخ الإسلامي</div></div></li>
+        </ul>
+        <div class="dyn-quote zh">1453年5月29日，年仅21岁的穆罕默德二世骑马进入君士坦丁堡，在圣索菲亚大教堂宣读了礼拜词。他后来对着这座千年古城说道："我把这座城市交给你们好好保管。"——这一天，欧洲的中世纪宣告终结。</div>
+        <div class="dyn-quote ar">في 29 مايو 1453 دخل محمد الفاتح (21 عاماً) القسطنطينية فارساً وأقام الصلاة في آيا صوفيا. قال لاحقاً وهو يتأمل المدينة: "أودعتكم هذه المدينة لتحفظوها". في ذلك اليوم أُسدل الستار على العصور الوسطى الأوروبية.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">نور التاريخ</div>
+  <div class="footer-links">
+    <a href="index.html"><span class="zh inline">首页</span><span class="ar inline">الرئيسية</span></a>
+    <a href="figures.html"><span class="zh inline">人物</span><span class="ar inline">الشخصيات</span></a>
+    <a href="battles.html"><span class="zh inline">战役</span><span class="ar inline">المعارك</span></a>
+    <a href="family-tree.html"><span class="zh inline">家谱</span><span class="ar inline">شجرة النسب</span></a>
+    <a href="dynasties.html"><span class="zh inline">王朝</span><span class="ar inline">الأسرات</span></a>
+    <a href="muhammad.html"><span class="zh inline">先知</span><span class="ar inline">النبي</span></a>
+  </div>
+  <div class="footer-copy">FOR EDUCATIONAL PURPOSES · 仅供学习参考</div>
+</footer>
+
+<script>
+function setLang(lang,e){
+  document.body.setAttribute('data-lang',lang);
+  document.documentElement.setAttribute('lang',lang);
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+}
+function switchDynasty(id){
+  document.querySelectorAll('.dynasty-view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.dynasty-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelector('.main').scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>

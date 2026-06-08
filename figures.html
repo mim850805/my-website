@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人物百科 · موسوعة الشخصيات — 历史之光</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #0F5132;
+  --green-mid: #1a6b3c;
+  --green-light: #e8f2ec;
+  --green-pale: #f0f7f2;
+  --gold: #D4AF37;
+  --gold-light: #f7f0d4;
+  --gold-dark: #a07c10;
+  --cream: #F8F5EE;
+  --cream-dark: #ede8dc;
+  --text: #1c2b20;
+  --text-mid: #3a5242;
+  --text-soft: #6b826e;
+  --white: #ffffff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Noto Serif SC', Georgia, serif; background: var(--cream); color: var(--text); }
+
+[data-lang="ar"] .zh { display: none !important; }
+[data-lang="ar"] .ar { display: block !important; }
+[data-lang="zh"] .ar { display: none !important; }
+[data-lang="zh"] .zh { display: block !important; }
+.ar.inline,[data-lang="zh"] .ar.inline { display: none !important; }
+[data-lang="ar"] .ar.inline { display: inline !important; }
+[data-lang="zh"] .zh.inline { display: inline !important; }
+[data-lang="ar"] .zh.inline { display: none !important; }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--green);
+  border-bottom: 2px solid var(--gold);
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px;
+}
+.nav-logo { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold); letter-spacing: 2px; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.nav-logo .ar-logo { font-family: 'Noto Naskh Arabic', serif; font-size: 1.2rem; color: var(--gold); }
+.nav-links { display: flex; gap: 0; list-style: none; }
+.nav-links a { display: block; padding: 0 1rem; height: 60px; line-height: 60px; color: rgba(255,255,255,0.82); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; font-family: 'Noto Serif SC', serif; }
+.nav-links a:hover, .nav-links a.active { color: var(--gold); }
+.lang-switcher { display: flex; gap: 4px; }
+.lang-btn { padding: 4px 10px; border-radius: 4px; font-size: 0.78rem; cursor: pointer; border: 1px solid rgba(212,175,55,0.5); background: transparent; color: rgba(255,255,255,0.7); transition: all 0.2s; font-family: 'Noto Serif SC', serif; }
+.lang-btn.active { background: var(--gold); color: var(--green); border-color: var(--gold); font-weight: 600; }
+.lang-btn:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
+
+/* PAGE HEADER */
+.page-header {
+  background: var(--green);
+  padding: 3.5rem 2rem 3rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.page-header::before {
+  content: '';
+  position: absolute; inset: 0;
+  opacity: 0.05;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(212,175,55,1) 39px, rgba(212,175,55,1) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(212,175,55,1) 39px, rgba(212,175,55,1) 40px);
+}
+.page-header-eyebrow { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase; color: rgba(212,175,55,0.65); margin-bottom: 8px; position: relative; }
+.page-header h1 { font-size: 2.2rem; color: white; font-weight: 600; margin-bottom: 6px; position: relative; }
+.page-header h1.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; font-size: 2rem; }
+.page-header-sub { color: rgba(255,255,255,0.5); font-size: 0.9rem; position: relative; }
+.page-header-sub.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; }
+
+/* FILTER BAR */
+.filter-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--cream-dark);
+  padding: 1rem 2rem;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  position: sticky; top: 60px; z-index: 90;
+}
+.filter-label { font-size: 0.78rem; color: var(--text-soft); font-family: 'Cinzel', serif; letter-spacing: 1px; white-space: nowrap; }
+.filter-btn {
+  padding: 5px 14px; border-radius: 20px;
+  font-size: 0.78rem; cursor: pointer;
+  border: 1px solid var(--cream-dark);
+  background: var(--cream); color: var(--text-mid);
+  transition: all 0.2s; font-family: 'Noto Serif SC', serif;
+  white-space: nowrap;
+}
+.filter-btn:hover { border-color: var(--green); color: var(--green); }
+.filter-btn.active { background: var(--green); color: white; border-color: var(--green); }
+.filter-btn.ar { font-family: 'Noto Naskh Arabic', serif; font-size: 0.9rem; }
+
+/* MAIN */
+.main { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; }
+
+/* CATEGORY SECTION */
+.cat-section { margin-bottom: 4rem; }
+.cat-title {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--green-light);
+}
+.cat-title h2 { font-size: 1.1rem; font-weight: 600; color: var(--green); }
+.cat-title h2.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; }
+.cat-pill {
+  padding: 3px 12px; border-radius: 20px;
+  background: var(--green-light); color: var(--green-mid);
+  font-size: 0.7rem; font-family: 'Cinzel', serif; letter-spacing: 1px;
+}
+
+/* FIGURE CARDS */
+.figures-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.figure-card {
+  background: var(--white);
+  border: 1px solid var(--cream-dark);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.figure-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(15,81,50,0.1); }
+.figure-card-top {
+  background: var(--green);
+  padding: 1.25rem 1.5rem;
+  display: flex; align-items: center; gap: 14px;
+  position: relative;
+}
+.figure-avatar {
+  width: 54px; height: 54px; border-radius: 50%;
+  background: rgba(212,175,55,0.2);
+  border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 1.3rem; color: var(--gold); font-weight: 600;
+  flex-shrink: 0;
+}
+.figure-header-text { flex: 1; }
+.figure-name-zh { font-size: 1rem; font-weight: 600; color: white; margin-bottom: 2px; }
+.figure-name-ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; font-size: 0.95rem; color: rgba(212,175,55,0.85); }
+.figure-role-tag {
+  position: absolute; top: 10px; right: 12px;
+  padding: 2px 8px; border-radius: 4px;
+  font-size: 0.65rem; font-family: 'Cinzel', serif; letter-spacing: 0.5px;
+  background: rgba(212,175,55,0.18); color: var(--gold);
+  border: 1px solid rgba(212,175,55,0.3);
+}
+.figure-card-body { padding: 1.25rem 1.5rem; }
+.figure-meta {
+  display: flex; gap: 16px; margin-bottom: 0.85rem; flex-wrap: wrap;
+}
+.figure-meta-item { }
+.figure-meta-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-soft); font-family: 'Cinzel', serif; display: block; margin-bottom: 2px; }
+.figure-meta-value { font-size: 0.82rem; color: var(--text); font-weight: 500; }
+.figure-desc { font-size: 0.83rem; color: var(--text-mid); line-height: 1.75; margin-bottom: 1rem; }
+.figure-desc.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; font-size: 0.9rem; line-height: 1.9; }
+.figure-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.figure-tag {
+  padding: 2px 10px; border-radius: 20px;
+  font-size: 0.68rem; background: var(--green-light); color: var(--green-mid);
+  border: 1px solid rgba(15,81,50,0.15);
+}
+.figure-tag.ar { font-family: 'Noto Naskh Arabic', serif; font-size: 0.8rem; }
+
+/* DETAIL PANEL */
+.detail-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.55);
+  align-items: flex-start; justify-content: flex-end;
+}
+.detail-overlay.open { display: flex; }
+.detail-panel {
+  width: min(560px, 100vw);
+  height: 100vh;
+  background: var(--cream);
+  overflow-y: auto;
+  box-shadow: -8px 0 40px rgba(0,0,0,0.2);
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.detail-hero { background: var(--green); padding: 2rem; position: relative; }
+.detail-close {
+  position: absolute; top: 1rem; right: 1rem;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,0.12); border: none;
+  color: white; font-size: 1.1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.detail-close:hover { background: rgba(255,255,255,0.22); }
+.detail-avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: rgba(212,175,55,0.2); border: 3px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Naskh Arabic', serif; font-size: 1.8rem;
+  color: var(--gold); font-weight: 700; margin-bottom: 1rem;
+}
+.detail-name-zh { font-size: 1.5rem; color: white; font-weight: 600; margin-bottom: 4px; }
+.detail-name-ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; font-size: 1.2rem; color: rgba(212,175,55,0.85); margin-bottom: 8px; }
+.detail-role { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 2px; color: rgba(212,175,55,0.65); }
+.detail-body { padding: 2rem; }
+.detail-section { margin-bottom: 1.75rem; }
+.detail-section-title {
+  font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold-dark); border-left: 3px solid var(--green); padding-left: 8px;
+  margin-bottom: 0.75rem;
+}
+.detail-section-title.ar { font-family: 'Noto Naskh Arabic', serif; border-left: none; border-right: 3px solid var(--green); padding-left: 0; padding-right: 8px; direction: rtl; font-size: 0.85rem; letter-spacing: 0; }
+.detail-text { font-size: 0.88rem; color: var(--text); line-height: 1.85; }
+.detail-text.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; font-size: 0.95rem; line-height: 2; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+.detail-stat { background: var(--white); border: 1px solid var(--cream-dark); border-radius: 8px; padding: 0.75rem 1rem; }
+.detail-stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-soft); font-family: 'Cinzel', serif; display: block; margin-bottom: 3px; }
+.detail-stat-value { font-size: 0.85rem; color: var(--text); font-weight: 500; }
+.detail-events { list-style: none; }
+.detail-events li { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+.detail-event-year { font-family: 'Cinzel', serif; font-size: 0.7rem; color: var(--gold-dark); white-space: nowrap; padding-top: 2px; min-width: 48px; }
+.detail-event-desc { font-size: 0.83rem; color: var(--text-mid); line-height: 1.6; }
+.detail-event-desc.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; font-size: 0.9rem; }
+.detail-quote { border-left: 3px solid var(--green); background: var(--green-light); padding: 0.85rem 1.1rem; border-radius: 0 8px 8px 0; font-style: italic; font-size: 0.83rem; color: var(--green-mid); line-height: 1.75; }
+.detail-quote.ar { font-family: 'Noto Naskh Arabic', serif; direction: rtl; border-left: none; border-right: 3px solid var(--green); border-radius: 8px 0 0 8px; font-size: 0.9rem; }
+
+/* FOOTER */
+footer { background: var(--green); border-top: 2px solid var(--gold); padding: 2.5rem 2rem; text-align: center; }
+.footer-logo { font-family: 'Noto Naskh Arabic', serif; font-size: 1.8rem; color: var(--gold); margin-bottom: 4px; }
+.footer-links { display: flex; justify-content: center; gap: 1.5rem; margin: 1rem 0; flex-wrap: wrap; }
+.footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+.footer-copy { font-size: 0.7rem; color: rgba(255,255,255,0.22); font-family: 'Cinzel', serif; letter-spacing: 1px; }
+</style>
+</head>
+<body data-lang="zh">
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span class="ar-logo">نور</span>
+    <span style="color:rgba(255,255,255,0.4);">|</span>
+    <span>历史之光</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#timeline"><span class="zh inline">时间轴</span><span class="ar inline">الجدول</span></a></li>
+    <li><a href="figures.html" class="active"><span class="zh inline">人物</span><span class="ar inline">الشخصيات</span></a></li>
+    <li><a href="battles.html"><span class="zh inline">战役</span><span class="ar inline">المعارك</span></a></li>
+    <li><a href="muhammad.html"><span class="zh inline">穆罕默德</span><span class="ar inline">محمد ﷺ</span></a></li>
+  </ul>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('zh', event)">中文</button>
+    <button class="lang-btn" onclick="setLang('ar', event)">العربية</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-eyebrow">Key Figures · الشخصيات البارزة</div>
+  <h1 class="zh">人物百科</h1>
+  <h1 class="ar">موسوعة الشخصيات</h1>
+  <p class="page-header-sub zh">圣门弟子、哈里发与伊斯兰历史上的关键人物</p>
+  <p class="page-header-sub ar">الصحابة الكرام والخلفاء وشخصيات التاريخ الإسلامي</p>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label zh">筛选：</span>
+  <span class="filter-label ar" style="font-family:'Noto Naskh Arabic',serif;direction:rtl;">تصفية:</span>
+  <button class="filter-btn active" onclick="filterFigs('all', this)"><span class="zh inline">全部</span><span class="ar inline">الكل</span></button>
+  <button class="filter-btn" onclick="filterFigs('prophet', this)"><span class="zh inline">先知家族</span><span class="ar inline">آل النبي</span></button>
+  <button class="filter-btn" onclick="filterFigs('caliph', this)"><span class="zh inline">四大哈里发</span><span class="ar inline">الخلفاء الراشدون</span></button>
+  <button class="filter-btn" onclick="filterFigs('companion', this)"><span class="zh inline">圣门弟子</span><span class="ar inline">الصحابة</span></button>
+  <button class="filter-btn" onclick="filterFigs('female', this)"><span class="zh inline">女性人物</span><span class="ar inline">الصحابيات</span></button>
+</div>
+
+<div class="main">
+
+  <!-- PROPHET & FAMILY -->
+  <div class="cat-section" data-cat="prophet">
+    <div class="cat-title">
+      <h2 class="zh">先知穆罕默德 ﷺ 与家族</h2>
+      <h2 class="ar">النبي محمد ﷺ وآله الكرام</h2>
+      <span class="cat-pill">PROPHET & FAMILY</span>
+    </div>
+    <div class="figures-grid">
+
+      <div class="figure-card" data-cat="prophet" onclick="openDetail('muhammad')">
+        <div class="figure-card-top">
+          <div class="figure-avatar">م</div>
+          <div class="figure-header-text">
+            <div class="figure-name-zh">穆罕默德 ﷺ</div>
+            <div class="figure-name-ar">محمد بن عبدالله ﷺ</div>
+          </div>
+          <div class="figure-role-tag">PROPHET</div>
+        </div>
+        <div class="figure-card-body">
+          <div class="figure-meta">
+            <div class="figure-meta-item"><span class="figure-meta-label">生卒</span><span class="figure-meta-value">570 – 632 CE</span></div>
+            <div class="figure-meta-item"><span class="figure-meta-label">出生地</span><span class="figure-meta-value">麦加</span></div>
+          </div>
+          <p class="figure-desc zh">伊斯兰教创立者，被穆斯林尊为真主最后使者。40岁接受第一次启示，23年间传播伊斯兰信仰，统一阿拉伯半岛。</p>
+          <p class="figure-desc ar">مؤسس الإسلام ورسول الله الخاتم. تلقى الوحي في الأربعين من عمره ونشر الإسلام على مدى ثلاثة وعشرين عاماً.</p>
+          <div class="figure-tags">
+            <span class="figure-tag zh">先知</span><span class="figure-tag ar">نبي</span>
+            <span class="figure-tag zh">政治家</span><span class="figure-tag ar">قائد</span>
+            <span class="figure-tag zh">麦地那</span><span class="figure-tag ar">المدينة</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="figure-card" data-cat="prophet female" onclick="openDetail('khadijah')">
+        <div class="figure-card-top">
+          <div class="figure-avatar">خ</div>
+          <div class="figure-header-text">
+            <div class="figure-name-zh">赫蒂彻</div>
+            <div class="figure-name-ar">خديجة بنت خويلد</div>
+          </div>
+          <div class="figure-role-tag">WIFE</div>
+        </div>
+        <div class="figure-card-body">
+          <div class="figure-meta">
+            <div class="figure-meta-item"><span class="figure-meta-label">生卒</span><span class="figure-meta-value">555 – 619 CE</span></div>
+            <div class="figure-meta-item"><span class="figure-meta-label">称号</span><span class="figure-meta-value">信众之母</span></div>
+          </div>
+          <p class="figure-desc zh">先知第一任妻子，首位皈依伊斯兰的人。麦加富商，给予先知最早的精神与财物支持，在最艰难时期从未动摇。</p>
+          <p class="figure-desc ar">أول زوجات النبي ﷺ وأولى من آمن به. تاجرة ثرية من مكة قدمت له الدعم المعنوي والمادي في أصعب المراحل.</p>
+          <div class="figure-tags">
+            <span class="figure-tag zh">首位穆斯林</span><span class="figure-tag ar">أول المسلمين</span>
+            <span class="figure-tag zh">女商人</span><span class="figure-tag ar">تاجرة</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="figure-card" data-cat="prophet female" onclick="openDetail('fatimah')">
+        <div class="figure-card-top">
+          <div class="figure-avatar">ف</div>
+          <div class="figure-header-text">
+            <div class="figure-name-zh">法蒂玛</div>
+            <div class="figure-name-ar">فاطمة الزهراء</div>
+          </div>
+          <div class="figure-role-tag">DAUGHTER</div>
+        </div>
+        <div class="figure-card-body">
+          <div class="figure-meta">
+            <div class="figure-meta-item"><span class="figure-meta-label">生卒</span><span class="figure-meta-value">605 – 632 CE</span></div>
+            <div class="figure-meta-item"><span class="figure-meta-label">丈夫</span><span class="figure-meta-value">阿里</span></div>
+          </div>
+          <p class="figure-desc zh">先知最小的女儿，嫁给第四任哈里发阿里，是先知血脉的延续者。在什叶派与逊尼派中均享有极高敬重。</p>
+          <p class="figure-desc ar">صغرى بنات النبي ﷺ، زوجة الإمام علي وأم الحسن والحسين. تحظى بمكانة رفيعة عند السنة والشيعة.</p>
+          <div class="figure-tags">
+            <span class="figure-tag zh">先知之女</span><span class="figure-tag ar">بنت النبي</span>
+            <span class="figure-tag zh">光辉者</span><span class="figure-tag ar">الزهراء</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOUR CALIPHS -->
+  <div class="cat-section" data-cat="caliph">
+    <div class="cat-title">
+      <h2 class="zh">四大正统哈里发</h2>
+      <h2 class="ar">الخلفاء الراشدون الأربعة</h2>
+      <span class="cat-pill">RIGHTLY-GUIDED CALIPHS</span>
+    </div>
+    <div class="figures-grid">
+
+      <div class="figure-card" data-cat="caliph companion" onclick="openDetail('abubakr')">
+        <div class="figure-card-top">
+          <div class="figure-avatar">أ</div>
+          <div class="figure-header-text">
+            <div class="figure-name-zh">阿布·伯克尔·西迪克</div>
+            <div class="figure-name-ar">أبو بكر الصديق</div>
+          </div>
+          <div class="figure-role-tag">1ST CALIPH</div>
+        </div>
+        <div class="figure-card-body">
+          <div class="figure-meta">
+            <div class="figure-meta-item"><span class="figure-meta-label">生卒</span><span class="figure-meta-value">573 – 634 CE</span></div>
+            <div class="figure-meta-item"><span class="figure-meta-label">执政</span><span class="figure-meta-value">632 – 634 CE</span></div>
+          </div>
+          <p class="figure-desc zh">先知最亲密的挚友，第一任哈里发。先知去世后稳定伊斯兰共同体，平定叛乱，开启伊斯兰帝国扩张。"西迪克"意为"诚实者"。</p>
+          <p class="figure-desc ar">أوثق أصحاب النبي ﷺ وأول خلفائه. وحّد المسلمين بعد وفاة النبي وأطلق موجة الفتوحات الإسلامية. لقبه الصديق.</p>
+          <div class="figure-tags">
+            <span class="figure-tag zh">西迪克</span><span class="figure-tag ar">الصديق</span>
+            <span class="figure-tag zh">先知挚友</span><span class="figure-tag ar">صاحب النبي</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="figure-card" data-cat="caliph companion" onclick="openDetail('umar')">
+        <div class="figure-card-top">
+          <div class="figure-avatar">ع</div>
+          <div class="figure-header-text">
+            <div class="figure-name-zh">欧麦尔·本·赫塔卜</div>
+            <div class="figure-name-ar">عمر بن الخطاب الفاروق</div>
+          </div>
+          <div class="figure-role-tag">2ND CALIPH</div>
+        </div>
+        <div class="figure-card-body">
+          <div class="figure-meta">
+            <div class="figure-meta-item"><span class="figure-meta-label">生卒</span><span class="figure-meta-value">584 – 644 CE</span></div>
+            <div class="figure-meta-item"><span class="figure-meta-label">执政</span><span class="figure-meta-value">634 – 644 CE</span></div>
+          </div>
+          <p class="figure-desc zh">伊斯兰帝国真正的奠基者，在位期间征服波斯、叙利亚、埃及。以公正严明著称，"法鲁克"（辨别真伪者）之称流传至今。</p>
+          <p class="figure-desc ar">المؤسس الحقيقي للدولة الإسلامية، فتح فارس والشام ومصر في عهده. عُرف بالعدل والحزم، ولقبه الفاروق.</p>
+          <div class="figure-tags">
+            <span class="figure-tag zh">法鲁克</span><span class="figure-tag ar">الفاروق</span>
+            <span class="figure-tag zh">帝国奠基</span><span class="figure-tag ar">باني الدولة</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="figure-card" data-cat="caliph companion" onclick="openDetail('uthman')">
+        <div class="figure-card-top">
+          <div class="figure-avatar">ع</div>
+          <div class="figure-header-text">
+            <div class="figure-name-zh">奥斯曼·本·阿凡</div>
+            <div class="figure-name-ar">عثمان بن عفان</div>
+          </div>
+          <div class="figure-role-tag">3RD CALIPH</div>
+        </div>
+        <div class="figure-card-body">
+          <div class="figure-meta">
+            <div class="figure-meta-item"><span class="figure-meta-label">生卒</span><span class="figure-meta-value">579 – 656 CE</span></div>
+            <div class="figure-meta-item"><span class="figure-meta-label">执政</span><span class="figure-meta-value">644 – 656 CE</span></div>
+          </div>
+          <p class="figure-desc zh">主持编订了标准版《古兰经》，是其最重要的历史功绩。曾两度娶先知之女为妻，被称为"两光之主"。执政后期引发内部矛盾，遇刺身亡。</p>
+          <p class="figure-desc ar">أشرف على تدوين المصحف العثماني الجامع للقرآن الكريم. تزوج ابنتَي النبي ﷺ فلقب بذي النورين. اغتيل في أواخر خلافته.</p>
+          <div class="figure-tags">
+            <span class="figure-tag zh">两光之主</span><span class="figure-tag ar">ذو النورين</span>
+            <span class="figure-tag zh">古兰经编订</span><span class="figure-tag ar">جامع القرآن</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="figure-card" data-cat="caliph companion prophet" onclick="openDetail('ali')">
+        <div class="figure-card-top">
+          <div class="figure-avatar">ع</div>
+          <div class="figure-header-text">
+            <div class="figure-name-zh">阿里·本·阿比·塔利卜</div>
+            <div class="figure-name-ar">علي بن أبي طالب</div>
+          </div>
+          <div class="figure-role-tag">4TH CALIPH</div>
+        </div>
+        <div class="figure-card-body">
+          <div class="figure-meta">
+            <div class="figure-meta-item"><span class="figure-meta-label">生卒</span><span class="figure-meta-value">601 – 661 CE</span></div>
+            <div class="figure-meta-item"><span class="figure-meta-label">执政</span><span class="figure-meta-value">656 – 661 CE</span></div>
+          </div>
+          <p class="figure-desc zh">先知堂弟与女婿，第四任哈里发，什叶派视其为第一任伊玛目。以学识、英勇与口才著称。执政期间经历伊斯兰第一次内战，遇刺于库法。</p>
+          <p class="figure-desc ar">ابن عم النبي ﷺ وصهره، رابع الخلفاء وأول أئمة الشيعة. اشتُهر بعلمه وشجاعته وفصاحته، واستُشهد في الكوفة.</p>
+          <div class="figure-tags">
+            <span class="figure-tag zh">先知堂弟</span><span class="figure-tag ar">ابن عم النبي</span>
+            <span class="figure-tag zh">什叶派伊玛目</span><span class="figure-tag ar">إمام الشيعة</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OTHER COMPANIONS -->
+  <div class="cat-section" data-cat="companion">
+    <div class="cat-title">
+      <h2 class="zh">其他重要圣门弟子</h2>
+      <h2 class="ar">بقية الصحابة الكرام</h2>
+      <span class="cat-pill">COMPANIONS</span>
+    </div>
+    <div class="figures-grid">
+
+      <div class="figure-card" data-cat="companion" onclick="openDetail('bilal')">
+        <div class="figure-card-top">
+          <div class="figure-avatar">ب</div>
+          <div class="figure-header-text">
+            <div class="figure-name-zh">比拉勒·本·拉巴赫</div>
+            <div class="figure-name-ar">بلال بن رباح الحبشي</div>
+          </div>
+          <div class="figure-role-tag">COMPANION</div>
+        </div>
+        <div class="figure-card-body">
+          <div class="figure-meta">
+            <div class="figure-meta-item"><span class="figure-meta-label">生卒</span><span class="figure-meta-value">约 580 – 640 CE</span></div>
+            <div class="figure-meta-item"><span class="figure-meta-label">出身</span><span class="figure-meta-value">埃塞俄比亚</span></div>
+          </div>
+          <p class="figure-desc zh">伊斯兰历史上第一位宣礼员（穆安津），原为奴隶，因坚持信仰而被阿布·伯克尔赎身。他的故事成为伊斯兰平等精神的象征。</p>
+          <p class="figure-desc ar">أول مؤذن في الإسلام، كان عبداً فاشتراه أبو بكر وأعتقه. قصته رمز لمبدأ المساواة في الإسلام.</p>
+          <div class="figure-tags">
+            <span class="figure-tag zh">首位宣礼员</span><span class="figure-tag ar">أول مؤذن</span>
+            <span class="figure-tag zh">平等象征</span><span class="figure-tag ar">رمز المساواة</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="figure-card" data-cat="companion" onclick="openDetail('salman')">
+        <div class="figure-card-top">
+          <div class="figure-avatar">س</div>
+          <div class="figure-header-text">
+            <div class="figure-name-zh">萨尔曼·法里斯</div>
+            <div class="figure-name-ar">سلمان الفارسي</div>
+          </div>
+          <div class="figure-role-tag">COMPANION</div>
+        </div>
+        <div class="figure-card-body">
+          <div class="figure-meta">
+            <div class="figure-meta-item"><span class="figure-meta-label">生卒</span><span class="figure-meta-value">约 568 – 656 CE</span></div>
+            <div class="figure-meta-item"><span class="figure-meta-label">出身</span><span class="figure-meta-value">波斯</span></div>
+          </div>
+          <p class="figure-desc zh">波斯人，在壕沟之战中建议挖掘壕沟抵御进攻，此策略改变了战争结果。先知曾说："萨尔曼是我们家族的一员。"</p>
+          <p class="figure-desc ar">فارسي الأصل، اقترح حفر الخندق في غزوة الأحزاب مما غيّر مسار المعركة. قال عنه النبي ﷺ: "سلمان منا آل البيت".</p>
+          <div class="figure-tags">
+            <span class="figure-tag zh">壕沟策略</span><span class="figure-tag ar">مقترح الخندق</span>
+            <span class="figure-tag zh">波斯圣贤</span><span class="figure-tag ar">الفارسي</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="figure-card" data-cat="companion female" onclick="openDetail('aisha')">
+        <div class="figure-card-top">
+          <div class="figure-avatar">ع</div>
+          <div class="figure-header-text">
+            <div class="figure-name-zh">阿伊莎</div>
+            <div class="figure-name-ar">عائشة بنت أبي بكر</div>
+          </div>
+          <div class="figure-role-tag">WIFE · SCHOLAR</div>
+        </div>
+        <div class="figure-card-body">
+          <div class="figure-meta">
+            <div class="figure-meta-item"><span class="figure-meta-label">生卒</span><span class="figure-meta-value">614 – 678 CE</span></div>
+            <div class="figure-meta-item"><span class="figure-meta-label">称号</span><span class="figure-meta-value">信众之母</span></div>
+          </div>
+          <p class="figure-desc zh">先知妻子之一，阿布·伯克尔之女。伊斯兰历史上最重要的女性学者，传述了大量圣训，对伊斯兰法学有深远影响。</p>
+          <p class="figure-desc ar">زوجة النبي ﷺ وابنة أبي بكر. من أعظم علماء الإسلام نساءً، روت آلاف الأحاديث النبوية وكان لها أثر بالغ في الفقه الإسلامي.</p>
+          <div class="figure-tags">
+            <span class="figure-tag zh">女性学者</span><span class="figure-tag ar">عالمة</span>
+            <span class="figure-tag zh">圣训传述者</span><span class="figure-tag ar">محدّثة</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetailOutside(event)">
+  <div class="detail-panel" id="detailPanel">
+    <div class="detail-hero">
+      <button class="detail-close" onclick="closeDetail()">✕</button>
+      <div class="detail-avatar" id="dAvatar"></div>
+      <div class="detail-name-zh" id="dNameZh"></div>
+      <div class="detail-name-ar" id="dNameAr"></div>
+      <div class="detail-role" id="dRole"></div>
+    </div>
+    <div class="detail-body" id="detailBody"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">نور التاريخ</div>
+  <div class="footer-links">
+    <a href="index.html"><span class="zh inline">首页</span><span class="ar inline">الرئيسية</span></a>
+    <a href="figures.html"><span class="zh inline">人物</span><span class="ar inline">الشخصيات</span></a>
+    <a href="battles.html"><span class="zh inline">战役</span><span class="ar inline">المعارك</span></a>
+    <a href="muhammad.html"><span class="zh inline">先知</span><span class="ar inline">النبي</span></a>
+  </div>
+  <div class="footer-copy">FOR EDUCATIONAL PURPOSES · 仅供学习参考</div>
+</footer>
+
+<script>
+const LANG = { current: 'zh' };
+
+function setLang(lang, e) {
+  LANG.current = lang;
+  document.body.setAttribute('data-lang', lang);
+  document.documentElement.setAttribute('lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+}
+
+function filterFigs(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.figure-card').forEach(card => {
+    if (cat === 'all') { card.style.display = ''; return; }
+    const cats = card.getAttribute('data-cat') || '';
+    card.style.display = cats.includes(cat) ? '' : 'none';
+  });
+  document.querySelectorAll('.cat-section').forEach(sec => {
+    if (cat === 'all') { sec.style.display = ''; return; }
+    const visible = sec.querySelectorAll(`.figure-card[style=""]`).length ||
+      [...sec.querySelectorAll('.figure-card')].some(c => c.style.display !== 'none');
+    sec.style.display = visible ? '' : 'none';
+  });
+}
+
+const DATA = {
+  muhammad: {
+    avatar: 'م', nameZh: '穆罕默德 ﷺ', nameAr: 'محمد بن عبدالله ﷺ', role: 'PROPHET OF ISLAM · 伊斯兰先知',
+    statsZh: [['出生','约 570 CE，麦加'],['逝世','632 CE，麦地那'],['部落','古莱氏族，哈希姆家族'],['享年','63岁']],
+    statsAr: [['الميلاد','570م، مكة المكرمة'],['الوفاة','632م، المدينة المنورة'],['القبيلة','قريش، بنو هاشم'],['العمر','63 عاماً']],
+    descZh: '穆罕默德是伊斯兰教的先知，被穆斯林视为真主派遣人类的最后一位使者。他出生于麦加古莱氏部落哈希姆家族，幼年丧父，由祖父及叔父阿布·塔利布抚养成人。以诚实慷慨著称，人称"艾敏"（忠实者）。40岁在希拉山洞接受第一次启示后，用23年时间传播伊斯兰，最终统一了阿拉伯半岛。',
+    descAr: 'محمد ﷺ نبي الإسلام الخاتم، ولد في مكة من قريش من بني هاشم، فقد أباه صغيراً وتربى عند جده ثم عمه أبي طالب. عُرف بالصدق والأمانة حتى لُقّب بالأمين. في الأربعين تلقى أول وحي في غار حراء، وأمضى ثلاثة وعشرين عاماً يدعو إلى الإسلام حتى وحّد الجزيرة العربية.',
+    eventsZh: [['570','诞生于麦加，父亲阿卜杜拉早逝'],['576','母亲阿米纳去世，由祖父抚养'],['595','与赫蒂彻结婚，商人生涯'],['610','接受第一次启示，伊斯兰传播开始'],['622','希吉拉，迁徙至麦地那'],['630','和平征服麦加'],['632','辞别朝觐，在麦地那归真']],
+    eventsAr: [['570','ولادته في مكة، وفاة أبيه قبل ولادته'],['576','وفاة أمه آمنة، كفالة جده'],['595','زواجه من خديجة'],['610','أول وحي في غار حراء'],['622','الهجرة إلى المدينة المنورة'],['630','فتح مكة المكرمة'],['632','حجة الوداع والوفاة']],
+    quoteZh: '穆罕默德以真主使者的名义，传授一部诵读的经典，使阿拉伯人从部落走向民族和国家，把伊斯兰教传播到世界各地。',
+    quoteAr: 'بلّغ محمد ﷺ رسالة ربه بكل أمانة، وأخرج العرب من التشتت القبلي إلى الوحدة الإسلامية، ونشر الإسلام في أرجاء العالم.'
+  },
+  khadijah: {
+    avatar: 'خ', nameZh: '赫蒂彻', nameAr: 'خديجة بنت خويلد', role: 'WIFE OF THE PROPHET · 先知妻子',
+    statsZh: [['生卒','555 – 619 CE'],['出身','麦加，古莱氏族'],['地位','首位穆斯林'],['子女','六位']],
+    statsAr: [['الحياة','555 – 619م'],['الأصل','مكة، قريش'],['المكانة','أول المسلمين'],['الأبناء','ستة']],
+    descZh: '赫蒂彻是麦加著名的女商人，成功管理大型商业队伍。她在穆罕默德25岁时主动提出婚约，两人相差15岁。先知接受第一次启示后，赫蒂彻是第一个相信他、支持他的人。她将全部财富奉献给伊斯兰事业，在她在世期间，先知未曾再娶。她的去世是先知"悲伤之年"的开始。',
+    descAr: 'خديجة سيدة أعمال بارزة في مكة، تقدمت هي لخطبة محمد ﷺ حين كان في الخامسة والعشرين. كانت أول من آمن به بعد نزول الوحي وأول من أسلم. أنفقت ثروتها كلها في سبيل الإسلام، ولم يتزوج النبي ﷺ عليها طوال حياتها. وفاتها كانت بداية "عام الحزن".',
+    eventsZh: [['595','与穆罕默德结婚'],['610','第一个相信先知的启示'],['615','将财富献给伊斯兰事业'],['619','辞世，先知称此年为"悲伤之年"']],
+    eventsAr: [['595','زواجها من النبي ﷺ'],['610','أول من آمن بالوحي'],['615','إنفاق ثروتها في سبيل الإسلام'],['619','وفاتها، سمّى النبي ﷺ ذلك العام عام الحزن']],
+    quoteZh: '先知曾说："我爱赫蒂彻，因为真主使我爱她。"她是他最坚定的支持者，在最黑暗的时刻给了他最大的力量。',
+    quoteAr: 'قال النبي ﷺ: "رُزقت حبها". كانت أعظم سند له في أشد الأوقات ظلاماً وأكثرها ابتلاءً.'
+  },
+  fatimah: {
+    avatar: 'ف', nameZh: '法蒂玛·扎赫拉', nameAr: 'فاطمة الزهراء', role: 'DAUGHTER OF THE PROPHET · 先知之女',
+    statsZh: [['生卒','605 – 632 CE'],['丈夫','阿里·本·阿比·塔利卜'],['子女','哈桑、侯赛因、宰纳卜、乌姆·库勒苏姆'],['称号','光辉者（扎赫拉）']],
+    statsAr: [['الحياة','605 – 632م'],['الزوج','علي بن أبي طالب'],['الأبناء','الحسن والحسين وزينب وأم كلثوم'],['اللقب','الزهراء']],
+    descZh: '法蒂玛是先知与赫蒂彻最小的女儿，也是先知血脉的延续者。嫁给堂弟阿里后，她过着朴素的生活。先知极为疼爱她，称她为"天堂妇女之首"。她在先知归真后仅六个月便辞世，年仅27岁。在什叶派和逊尼派中均享有崇高地位。',
+    descAr: 'فاطمة صغرى بنات النبي ﷺ من خديجة، امتداد نسبه الشريف. تزوجت علي بن أبي طالب وعاشت حياة زاهدة. أحبها النبي ﷺ محبة عظيمة وقال فيها: "سيدة نساء أهل الجنة". توفيت بعد أبيها بستة أشهر فقط وعمرها 27 عاماً.',
+    eventsZh: [['605','约出生于麦加'],['622','随家人迁徙麦地那'],['624','嫁给阿里·本·阿比·塔利卜'],['625–629','育有哈桑、侯赛因、宰纳卜、乌姆·库勒苏姆'],['632','先知归真后六个月辞世']],
+    eventsAr: [['605','ولادتها في مكة المكرمة'],['622','هجرتها مع أبيها إلى المدينة'],['624','زواجها من علي بن أبي طالب'],['625-629','إنجاب أبنائها الأربعة'],['632','وفاتها بعد ستة أشهر من وفاة أبيها']],
+    quoteZh: '先知曾说："法蒂玛是我的一部分，令她快乐者令我快乐，令她痛苦者令我痛苦。"',
+    quoteAr: 'قال النبي ﷺ: "فاطمة بضعة مني، يريبني ما رابها ويؤذيني ما آذاها".'
+  },
+  abubakr: {
+    avatar: 'أ', nameZh: '阿布·伯克尔·西迪克', nameAr: 'أبو بكر الصديق', role: '1ST CALIPH · 第一任哈里发',
+    statsZh: [['生卒','573 – 634 CE'],['执政','632 – 634 CE（2年）'],['出身','麦加，古莱氏族'],['称号','西迪克（诚实者）']],
+    statsAr: [['الحياة','573 – 634م'],['الخلافة','632 – 634م (سنتان)'],['الأصل','مكة، قريش'],['اللقب','الصديق']],
+    descZh: '阿布·伯克尔是先知最亲密的朋友，也是最早皈依伊斯兰的成年男性之一。在希吉拉迁徙中陪伴先知一同前往麦地那。先知去世后，他被选为第一任哈里发，平定了各地的叛乱（里达战争），维护了伊斯兰共同体的统一，并开始了伊斯兰帝国的扩张事业。',
+    descAr: 'أبو بكر أوثق أصحاب النبي ﷺ وأحد أوائل المسلمين من الرجال البالغين. رافق النبي في هجرته إلى المدينة. بعد وفاة النبي انتُخب أول خليفة، فأخمد حروب الردة وحافظ على وحدة الأمة وأطلق شرارة الفتوحات الإسلامية.',
+    eventsZh: [['573','出生于麦加'],['610','早期皈依伊斯兰，成为先知第一批追随者'],['622','陪伴先知完成希吉拉迁徙'],['632','被选为第一任哈里发'],['632–633','里达战争，平定叛乱'],['634','在麦地那去世']],
+    eventsAr: [['573','ولادته في مكة'],['610','إسلامه مبكراً من أوائل المسلمين'],['622','مرافقة النبي في الهجرة'],['632','انتخابه أول خليفة'],['632-633','حروب الردة وتوحيد الجزيرة'],['634','وفاته في المدينة المنورة']],
+    quoteZh: '先知曾说："若我要在世上选一位挚友，我会选阿布·伯克尔。但伊斯兰情谊已将我们相连。"',
+    quoteAr: 'قال النبي ﷺ: "لو كنت متخذاً خليلاً لاتخذت أبا بكر خليلاً، ولكن أخوة الإسلام أفضل".'
+  },
+  umar: {
+    avatar: 'ع', nameZh: '欧麦尔·本·赫塔卜', nameAr: 'عمر بن الخطاب', role: '2ND CALIPH · 第二任哈里发',
+    statsZh: [['生卒','584 – 644 CE'],['执政','634 – 644 CE（10年）'],['出身','麦加，古莱氏族'],['称号','法鲁克（辨别真伪者）']],
+    statsAr: [['الحياة','584 – 644م'],['الخلافة','634 – 644م (10 سنوات)'],['الأصل','مكة، قريش'],['اللقب','الفاروق']],
+    descZh: '欧麦尔最初是伊斯兰教的激烈反对者，后来戏剧性地皈依，成为伊斯兰最重要的人物之一。在位10年间，伊斯兰帝国版图大幅扩张，征服了波斯萨珊王朝、拜占庭控制的叙利亚和埃及。他建立了行政体系、军事营地城市（米斯尔），制定了许多影响深远的法律制度。',
+    descAr: 'كان عمر في البداية من ألدّ أعداء الإسلام ثم أسلم إسلاماً مدوياً صار به من أعظم شخصياته. في عشر سنوات من خلافته اتسعت الدولة لتشمل فارس وبلاد الشام ومصر. أرسى نظاماً إدارياً وأسس أمصاراً عسكرية وشرع قوانين رسخت في التاريخ.',
+    eventsZh: [['617','皈依伊斯兰，伊斯兰力量大增'],['634','继阿布·伯克尔之后成为哈里发'],['636','卡迪西亚战役，征服波斯'],['637','征服耶路撒冷，以宽容政策对待各宗教'],['641','征服埃及'],['644','在麦地那礼拜时遭刺杀']],
+    eventsAr: [['617','إسلامه فأعزّ الله به الإسلام'],['634','توليه الخلافة بعد أبي بكر'],['636','معركة القادسية وفتح فارس'],['637','فتح القدس بميثاق العهدة العمرية'],['641','فتح مصر'],['644','اغتياله في المدينة أثناء الصلاة']],
+    quoteZh: '欧麦尔在进入耶路撒冷后发布的"欧麦尔约章"，保证了城内所有基督徒的生命财产与宗教自由，被视为宗教宽容的历史典范。',
+    quoteAr: 'العهدة العمرية التي منحها لأهل القدس ضمنت أرواحهم وأموالهم وكنائسهم، وتُعدّ نموذجاً تاريخياً للتسامح الديني.'
+  },
+  uthman: {
+    avatar: 'ع', nameZh: '奥斯曼·本·阿凡', nameAr: 'عثمان بن عفان', role: '3RD CALIPH · 第三任哈里发',
+    statsZh: [['生卒','579 – 656 CE'],['执政','644 – 656 CE（12年）'],['出身','麦加，倭马亚家族'],['称号','两光之主（娶两位先知女儿）']],
+    statsAr: [['الحياة','579 – 656م'],['الخلافة','644 – 656م (12 عاماً)'],['الأصل','مكة، بنو أمية'],['اللقب','ذو النورين']],
+    descZh: '奥斯曼最重要的历史贡献是主持编订了标准版《古兰经》，统一了各地流传的不同版本，并将标准版分发至各地，其他版本予以销毁。他曾两度娶先知的女儿为妻，故称"两光之主"。执政后期，因任用亲属引发不满，最终在麦地那家中遭到叛军围攻而殉难，成为第一位被杀的哈里发。',
+    descAr: 'أعظم إنجازات عثمان جمع القرآن الكريم في مصحف موحد وإرساله إلى الأمصار وحرق النسخ المختلفة. تزوج ابنتَي النبي ﷺ فلُقّب بذي النورين. في أواخر خلافته استاء الناس من تولية أقاربه، فحاصره الثوار في بيته بالمدينة وقتلوه، فكان أول الخلفاء اغتيالاً.',
+    eventsZh: [['579','出生于麦加，倭马亚家族'],['611','早期皈依伊斯兰，娶先知之女鲁盖叶'],['624','鲁盖叶去世后娶先知之女乌姆·库勒苏姆'],['644','成为第三任哈里发'],['650','主持编订标准版《古兰经》'],['656','在麦地那家中被刺杀']],
+    eventsAr: [['579','ولادته في مكة من بني أمية'],['611','إسلامه مبكراً وزواجه من رقية بنت النبي'],['624','زواجه من أم كلثوم بعد وفاة رقية'],['644','توليه الخلافة'],['650','إصدار المصحف العثماني الجامع'],['656','استشهاده في بيته بالمدينة']],
+    quoteZh: '据传奥斯曼常通宵读完整本《古兰经》。他是把《古兰经》以书面形式统一传承给后世的关键人物。',
+    quoteAr: 'كان عثمان يختم القرآن في ركعة واحدة في قيام الليل. دوره في توحيد المصحف جعله حارساً للوحي الإلهي.'
+  },
+  ali: {
+    avatar: 'ع', nameZh: '阿里·本·阿比·塔利卜', nameAr: 'علي بن أبي طالب', role: '4TH CALIPH · 第四任哈里发',
+    statsZh: [['生卒','601 – 661 CE'],['执政','656 – 661 CE（5年）'],['出身','麦加，哈希姆家族'],['称号','信仰之门（巴布·伊勒姆）']],
+    statsAr: [['الحياة','601 – 661م'],['الخلافة','656 – 661م (5 سنوات)'],['الأصل','مكة، بنو هاشم'],['اللقب','باب مدينة العلم']],
+    descZh: '阿里是先知堂弟，也是最早皈依伊斯兰的人之一（幼时即在先知家中成长）。他嫁给先知之女法蒂玛，两人之子哈桑和侯赛因是先知血脉的延续。什叶派视其为第一任伊玛目，认为哈里发之位本应传给他。他以学识、口才和武勇著称，其言论集结为著名的《修辞之道》。',
+    descAr: 'علي ابن عم النبي ﷺ وأحد أوائل المسلمين نشأ في كنف النبي. تزوج فاطمة الزهراء وأنجب الحسن والحسين. يعتبره الشيعة أول إمام والأحق بالخلافة. اشتُهر بالعلم والفصاحة والشجاعة، وجُمعت أقواله وخطبه في نهج البلاغة.',
+    eventsZh: [['601','出生于麦加天房内（据传）'],['约610','幼年即跟随先知，最早皈依者之一'],['624','与法蒂玛成婚'],['625','生子哈桑，627年生子侯赛因'],['656','成为第四任哈里发'],['656–661','历经骆驼之战、锡芬战役等内战'],['661','在库法清真寺被毒剑刺杀']],
+    eventsAr: [['601','ولادته داخل الكعبة المشرفة وفق الروايات'],['610','إسلامه مبكراً في كنف النبي ﷺ'],['624','زواجه من فاطمة الزهراء'],['625-627','إنجاب الحسن والحسين'],['656','توليه الخلافة بعد مقتل عثمان'],['656-661','معارك الجمل وصفين والفتنة الكبرى'],['661','اغتياله في مسجد الكوفة']],
+    quoteZh: '先知曾说："我是知识之城，阿里是其门。"阿里的言论集《修辞之道》至今被视为阿拉伯语言与智慧文学的最高成就之一。',
+    quoteAr: 'قال النبي ﷺ: "أنا مدينة العلم وعلي بابها". ويُعدّ كتاب نهج البلاغة الذي يجمع خطب علي وحكمه من أرقى ما أنتجته اللغة العربية.'
+  },
+  bilal: {
+    avatar: 'ب', nameZh: '比拉勒·本·拉巴赫', nameAr: 'بلال بن رباح الحبشي', role: 'COMPANION · FIRST MUEZZIN · 首位宣礼员',
+    statsZh: [['生卒','约 580 – 640 CE'],['出身','埃塞俄比亚（阿比西尼亚）'],['身份','前奴隶，被阿布·伯克尔赎身'],['职务','伊斯兰第一位宣礼员']],
+    statsAr: [['الحياة','580 – 640م تقريباً'],['الأصل','الحبشة (إثيوبيا)'],['الوضع','عبد سابق أعتقه أبو بكر'],['المهمة','أول مؤذن في الإسلام']],
+    descZh: '比拉勒出生于埃塞俄比亚，是麦加贵族乌麦叶·本·赫拉夫的奴隶。他皈依伊斯兰后遭受了残酷迫害——被铁链捆绑，置于烈日下，压以重石，但他始终高呼"唯一！唯一！"（أحد، أحد）。阿布·伯克尔花重金将他赎出。他后来成为伊斯兰第一位宣礼员，以洪亮的声音召唤穆斯林礼拜。',
+    descAr: 'بلال عبد حبشي لأمية بن خلف القرشي. بعد إسلامه عُذّب تعذيباً شديداً إذ كانوا يضعون الصخور على صدره تحت الشمس المحرقة وهو يردد: "أحد، أحد". اشتراه أبو بكر بثمن باهظ وأعتقه. صار بعدها أول مؤذن في الإسلام بصوته الجهوري.',
+    eventsZh: [['约610','皈依伊斯兰，遭奴隶主迫害'],['610–613','在烈日下受折磨，坚守信仰'],['613','被阿布·伯克尔赎身获自由'],['622','随先知迁徙至麦地那'],['624','在麦斯吉德·纳巴维完成第一次宣礼'],['630','在征服麦加后登上卡巴天房宣礼']],
+    eventsAr: [['610','إسلامه وبدء تعذيبه من سيده'],['610-613','الصبر على العذاب وترديد "أحد أحد"'],['613','عتقه على يد أبي بكر الصديق'],['622','هجرته مع النبي ﷺ إلى المدينة'],['624','أول أذان في المسجد النبوي'],['630','أذانه فوق الكعبة يوم فتح مكة']],
+    quoteZh: '在征服麦加后，先知命令比拉勒登上卡巴天房顶部宣礼。那个曾被铁链锁住、被重石压迫的人，如今站在伊斯兰最神圣的地方高声宣礼。那是伊斯兰平等精神最震撼的时刻。',
+    quoteAr: 'يوم فتح مكة أمر النبي ﷺ بلالاً بالأذان فوق الكعبة. ذلك العبد الذي كان يُعذَّب تحت الشمس وقف فوق أقدس بقعة يُنادي بحي على الصلاة. كانت أعلى لحظات المساواة في الإسلام.'
+  },
+  salman: {
+    avatar: 'س', nameZh: '萨尔曼·法里斯', nameAr: 'سلمان الفارسي', role: 'COMPANION · 圣门弟子',
+    statsZh: [['生卒','约 568 – 656 CE'],['出身','波斯（今伊朗）'],['称号','法里斯（波斯人）'],['贡献','壕沟之战策略者']],
+    statsAr: [['الحياة','568 – 656م تقريباً'],['الأصل','فارس (إيران حالياً)'],['اللقب','الفارسي'],['الإسهام','مقترح حفر الخندق']],
+    descZh: '萨尔曼出生于波斯一个祆教家庭，后来辗转经过基督教、游历多地寻找真理，最终在麦地那找到先知穆罕默德而皈依伊斯兰。他在壕沟之战中提出挖掘壕沟防御的策略，这一源自波斯的军事战术帮助穆斯林成功抵御了来自麦加的一万大军的进攻。先知称他为"家族的一员"。',
+    descAr: 'وُلد سلمان في فارس لأسرة مجوسية، ثم تنقّل باحثاً عن الحق عبر المسيحية ومناطق شتى حتى وصل المدينة فأسلم على يد النبي ﷺ. في غزوة الأحزاب اقترح حفر الخندق المستوحى من الحروب الفارسية، وأنقذ هذا التكتيك المدينة من جيش بلغ عشرة آلاف مقاتل. قال عنه النبي ﷺ: "سلمان منا آل البيت".',
+    eventsZh: [['约568','出生于波斯，信奉祆教'],['约590–610','辗转寻找真理，从祆教到基督教'],['622年后','在麦地那找到先知，皈依伊斯兰'],['627','壕沟之战：提出挖壕沟的策略，成为伊斯兰最重要的军事决策之一'],['637','参与征服波斯'],['656','在麦地那去世']],
+    eventsAr: [['568','ولادته في فارس، تديّنه بالمجوسية'],['590-610','رحلة البحث عن الحق'],['بعد 622','إسلامه في المدينة المنورة'],['627','غزوة الخندق: اقتراحه حفر الخندق وإنقاذ المدينة'],['637','مشاركته في فتح فارس'],['656','وفاته في المدينة']],
+    quoteZh: '萨尔曼的故事说明：伊斯兰不是阿拉伯人专属的宗教，而是向全人类开放的信仰。先知称他为家族一员，打破了当时部落社会的所有界限。',
+    quoteAr: 'قصة سلمان دليل على أن الإسلام ليس ديناً عربياً خالصاً، بل رسالة إلى البشرية كلها. قول النبي ﷺ "سلمان منا" كسر كل الحواجز القبلية.'
+  },
+  aisha: {
+    avatar: 'ع', nameZh: '阿伊莎·本特·阿布·伯克尔', nameAr: 'عائشة بنت أبي بكر', role: 'WIFE · SCHOLAR · 学者',
+    statsZh: [['生卒','614 – 678 CE'],['父亲','阿布·伯克尔（第一任哈里发）'],['称号','信众之母'],['圣训','传述约2210段']],
+    statsAr: [['الحياة','614 – 678م'],['الأب','أبو بكر الصديق'],['اللقب','أم المؤمنين'],['الأحاديث','روت نحو 2210 حديث']],
+    descZh: '阿伊莎是阿布·伯克尔之女，先知妻子中学识最渊博者。她是伊斯兰历史上传述圣训最多的人之一，许多关于先知私生活、礼拜、斋戒和家庭事务的圣训都出自她的记述。她也是伊斯兰早期历史中少数亲自参与政治的女性，曾在第一次内战（骆驼之战）中站出来反对阿里。',
+    descAr: 'عائشة بنت أبي بكر من أعلم نساء الصحابة وأكثرهن رواية للحديث. كانت الحجة في شؤون النبي ﷺ الخاصة والعبادات والأحكام. وهي من القلة التي شاركت في السياسة إذ قادت موقفاً ضد علي في معركة الجمل إبان الفتنة الكبرى.',
+    eventsZh: [['614','出生于麦加，阿布·伯克尔之女'],['632','先知归真，阿伊莎时年约18岁，开始传述圣训'],['632–678','成为伊斯兰法学与圣训的重要来源'],['656','骆驼之战，反对阿里·本·阿比·塔利卜'],['678','在麦地那辞世，葬于白齐尔公墓']],
+    eventsAr: [['614','ولادتها في مكة'],['632','وفاة النبي ﷺ وعمرها نحو 18 عاماً، بدأت رواية الحديث'],['632-678','مرجعية علمية كبرى في الحديث والفقه'],['656','معركة الجمل ومعارضتها لعلي'],['678','وفاتها في المدينة ودفنها في البقيع']],
+    quoteZh: '据传有弟子问她关于先知的礼拜习惯，她说："你读过《古兰经》吗？他的品格就是《古兰经》。"——阿伊莎是先知日常生活最重要的见证者和传述者。',
+    quoteAr: 'سُئلت عن خلق النبي ﷺ فقالت: "كان خلقه القرآن". عائشة كانت أهم شاهد ومحدّث على حياة النبي ﷺ اليومية.'
+  }
+};
+
+function openDetail(id) {
+  const d = DATA[id]; if (!d) return;
+  const lang = LANG.current;
+  document.getElementById('dAvatar').textContent = d.avatar;
+  document.getElementById('dNameZh').textContent = d.nameZh;
+  document.getElementById('dNameAr').textContent = d.nameAr;
+  document.getElementById('dRole').textContent = d.role;
+  const stats = lang === 'ar' ? d.statsAr : d.statsZh;
+  const desc = lang === 'ar' ? d.descAr : d.descZh;
+  const events = lang === 'ar' ? d.eventsAr : d.eventsZh;
+  const quote = lang === 'ar' ? d.quoteAr : d.quoteZh;
+  const isAr = lang === 'ar';
+  const ar = isAr ? ' ar' : '';
+  let html = `
+    <div class="detail-section">
+      <div class="detail-section-title${ar}">${isAr ? 'نبذة' : 'Biography · 人物简介'}</div>
+      <div class="detail-grid">
+        ${stats.map(([l,v]) => `<div class="detail-stat"><span class="detail-stat-label">${l}</span><span class="detail-stat-value">${v}</span></div>`).join('')}
+      </div>
+      <p class="detail-text${ar}">${desc}</p>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title${ar}">${isAr ? 'أبرز الأحداث' : 'Key Events · 生平大事'}</div>
+      <ul class="detail-events">
+        ${events.map(([y,e]) => `<li><span class="detail-event-year">${y}</span><span class="detail-event-desc${ar}">${e}</span></li>`).join('')}
+      </ul>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title${ar}">${isAr ? 'ملاحظة تاريخية' : 'Historical Note · 历史评价'}</div>
+      <div class="detail-quote${ar}">${quote}</div>
+    </div>`;
+  document.getElementById('detailBody').innerHTML = html;
+  document.getElementById('detailOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDetail() {
+  document.getElementById('detailOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeDetailOutside(e) {
+  if (e.target === document.getElementById('detailOverlay')) closeDetail();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+</script>
+</body>
+</html>
